@@ -14,6 +14,7 @@
 **recipes**
 
 - GET /api/recipes (get all recipes)
+- GET /api/recipes/:courseId/:dietId (get recipes of specific course and diet)
 - GET /api/recipes/:id (get individual recipe)
 - POST /api/recipes/:id/likes (like a recipe)
 - DELETE /api/recipe/:id/likes (dislike a recipe)
@@ -21,5 +22,5 @@
 - PUT /api/recipes/:id/comments (edit a comment on a recipe)
 - POST /api/recipes/:id/comments/likes (like a comment on a recipe)
 - DELETE /api/recipes/:id/comments/likes (remove a like from a comment on a recipe)
-- POST /api/users/:userId/recipes (save a recipe)
-- DELETE /api/users/:userId/recipes (delete a recipe)
+- POST /api/users/:userId/recipes/:recipeId (save a recipe)
+- DELETE /api/users/:userId/recipes/:recipeId (delete a recipe)
