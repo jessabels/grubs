@@ -1,34 +1,30 @@
-'use strict';
-module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
-    email: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validates: {
-        isEmail: true,
-        len: [3, 255],
-      }
-    },
-    username: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validates: {
-        len: [1, 255],
-      },
-    },
-    hashedPassword: {
-      allowNull: false,
-      type: DataTypes.STRING.BINARY,
-      validates: {
-        len: [60, 60],
-      },
-    },
-    tokenId: {
-      type: DataTypes.STRING
-    }
-  }, {});
+const bcrypt = require("bcryptjs");
 
-  User.associate = function(models) {
+("use strict");
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define(
+    "User",
+    {
+      firstName: DataTypes.STRING,
+      lastName: DataTypes.STRING,
+      email: DataTypes.STRING,
+      hashedPassword: DataTypes.STRING.BINARY,
+    },
+    {}
+  );
+  User.associate = function (models) {
+    const columnMapping = {
+      through: "UserRecipe",
+      otherKey: "recipeId",
+      foreignKey: "userId",
+    };
+    User.belongsToMany(models.Recipe, columnMapping);
+    User.hasMany(models.Tip, { foreignKey: "userId" });
+    User.hasMany(models.Like, { foreignKey: "userId" });
+  };
+
+  User.prototype.validatePassword = function (password) {
+    return bcrypt.compareSync(password, this.hashedPassword.toString());
   };
 
   return User;
