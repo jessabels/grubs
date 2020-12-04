@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 
 const db = require("../../db/models");
 const { User } = db;
-const { check } = require("express-validator");
 const {
   asyncHandler,
   handleValidationErrors,
@@ -33,7 +32,12 @@ router.post(
 
     const token = getUserToken(user);
     res.status(201).json({
-      user: { id: user.id, firstName: user.firstName, lastName: user.lastName },
+      user: {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      },
       token,
     });
   })

@@ -11,19 +11,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { login } from "../store/actions/user";
 import { useSelector, useDispatch } from "react-redux";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
@@ -72,6 +59,7 @@ const Login = () => {
 
     dispatch(login(email, password));
   };
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />

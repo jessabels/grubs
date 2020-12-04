@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route, NavLink } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
-function App() {
+import Homepage from "./components/Homepage";
+import Logout from "./components/auth/Logout";
+import { ProtectedRoute, PrivateRoute } from "./util/route-util";
+import { useSelector, useDispatch } from "react-redux";
+import { loadToken } from "./components/store/actions/session";
+
+function App({ needLogin, loadToken }) {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+    loadToken();
+  }, []);
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <>
+      {!needLogin ? <Logout /> : null}
       {/* <Login />
       <Signup /> */}
       <BrowserRouter>
@@ -28,26 +46,35 @@ function App() {
           </ul>
         </nav> */}
         <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/signup">
-            <Signup />
-          </Route>
+          <ProtectedRoute
+            path="/login"
+            exact={true}
+            needLogin={needLogin}
+            component={Login}
+          />
+          <ProtectedRoute
+            path="/signup"
+            exact={true}
+            needLogin={needLogin}
+            component={Signup}
+          />
 
-          <Route path="/">
-            <h1>My Home Page</h1>
-          </Route>
+          <PrivateRoute
+            path="/"
+            exact={true}
+            needLogin={needLogin}
+            component={Homepage}
+          />
         </Switch>
       </BrowserRouter>
     </>
   );
 }
 
-// const AppContainer = () => {
-//   const needLogin = useSelector((state) => !state.user.token);
-//   const dispatch = useDispatch();
-//   return <App needLogin={needLogin} loadToken={() => dispatch(loadToken())} />;
-// };
+const AppContainer = () => {
+  const needLogin = useSelector((state) => !state.sessions.currentToken);
+  const dispatch = useDispatch();
+  return <App needLogin={needLogin} loadToken={() => dispatch(loadToken())} />;
+};
 
-export default App;
+export default AppContainer;

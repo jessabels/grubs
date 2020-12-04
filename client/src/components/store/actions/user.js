@@ -1,10 +1,7 @@
-import { loginErrors } from "./loginErrors";
-import { signupErrors } from "./signupErrors";
-import { currentUserId } from "./session";
+import { loginErrors, signupErrors } from "./errors";
+import { currentUserId, loadToken, removeToken } from "./session";
 
-export const SET_TOKEN = "SET_TOKEN";
 export const TOKEN_KEY = "TOKEN_KEY";
-export const REMOVE_TOKEN = "REMOVE_TOKEN";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -22,13 +19,13 @@ export const login = (email, password) => async (dispatch) => {
       dispatch(loginErrors([]));
       dispatch(currentUserId(data.userId));
       window.localStorage.setItem(TOKEN_KEY, data.token);
+      dispatch(loadToken(data.token));
     } else {
       throw response;
     }
   } catch (err) {
     const badRequest = await err.json();
     const errors = badRequest.error.errors;
-    console.log(errors);
     dispatch(loginErrors(errors));
   }
 };
@@ -59,8 +56,9 @@ export const signup = (
       const data = await response.json();
       console.log(data);
       dispatch(signupErrors([]));
-      dispatch(currentUserId(data.userId));
+      dispatch(currentUserId(data.user.id));
       window.localStorage.setItem(TOKEN_KEY, data.token);
+      dispatch(loadToken(data.token));
     } else {
       throw response;
     }
@@ -70,6 +68,11 @@ export const signup = (
     console.log(errors);
     dispatch(signupErrors(errors));
   }
+};
+
+export const logout = () => async (dispatch, getState) => {
+  window.localStorage.removeItem(TOKEN_KEY);
+  dispatch(removeToken());
 };
 
 export default function reducer(state = {}, action) {
