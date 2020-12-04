@@ -22,20 +22,21 @@
 
 **recipe likes**
 
+- GET /api/recipes/:id/likes (get likes on a recipe)
 - POST /api/recipes/:id/likes (like a recipe)
 - DELETE /api/recipe/:id/likes (dislike a recipe)
 
 **recipe tips**
 
-- GET /api/recipe/:id/commments (view tips on a recipe)
-- POST /api/recipes/:id/comments (post a tip on a recipe)
-- PUT /api/recipes/:id/comments (edit a tip on a recipe)
-- DELETE /api/recipes/:id/comments (remove a tip from a recipe)
+- GET /api/recipe/:id/tips (view tips on a recipe)
+- POST /api/recipes/:id/tips (post a tip on a recipe)
+- PUT /api/recipes/:id/tips (edit a tip on a recipe)
+- DELETE /api/recipes/:id/tips (remove a tip from a recipe)
 
 **marking recipe tips as useful**
 
-- POST /api/recipes/:id/comments/likes (mark a tip as useful on a recipe)
-- DELETE /api/recipes/:id/comments/likes (remove useful mark from a tip on a recipe)
+- POST /api/recipes/:id/tips/:tipId/likes (mark a tip as useful on a recipe)
+- DELETE /api/recipes/:id/tips/:tipId/likes (remove useful mark from a tip on a recipe)
 
 **saving/deleting recipes**
 

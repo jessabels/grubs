@@ -16,13 +16,13 @@ entities: {
       cookTime,
       imageUrl,
       courseId,
-      comments: [commentId],
+      tips: [tipId],
       likes: [likeId]
     }
   },
 
-  comments: {
-    commentId: {
+  tips: {
+    tipId: {
       text,
       recipeId,
       userId,
@@ -30,16 +30,16 @@ entities: {
     }
   },
 
-  likes: {
-    likeId: {
+  recipeLikes: {
+    recipeLikeId: {
       recipeId,
       userId
     }
   },
 
-  commentLikes: {
-    commentLikeId: {
-      commentId,
+  tipLikes: {
+    tipLikeId: {
+      tipId,
       userId
     }
    }
