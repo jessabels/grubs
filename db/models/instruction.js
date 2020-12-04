@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Instruction = sequelize.define(
     "Instruction",
     {
-      specification: DataTypes.STRING,
+      specification: DataTypes.STRING(500),
       listOrder: DataTypes.INTEGER,
       recipeId: DataTypes.INTEGER,
     },

@@ -23,6 +23,78 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          recipeId: 2,
+          dietId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 2,
+          dietId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 3,
+          dietId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 3,
+          dietId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 3,
+          dietId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 4,
+          dietId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 4,
+          dietId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 4,
+          dietId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 4,
+          dietId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 5,
+          dietId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 5,
+          dietId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 5,
+          dietId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

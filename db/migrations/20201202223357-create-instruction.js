@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       specification: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(500),
         allowNull: false,
       },
       listOrder: {
