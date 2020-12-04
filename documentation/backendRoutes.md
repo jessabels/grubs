@@ -8,6 +8,7 @@
 
 **users**
 
+- GET /api/users (get all users)
 - GET /api/users/:userId (get user info)
 - PUT /api/users/:userId (edit user info)
 

@@ -21,7 +21,19 @@ router.get(
       },
     });
 
-    res.json({ recipes });
+    const recipeData = recipes.map((recipe) => {
+      return {
+        recipeId: recipe.recipeId,
+        dietId: recipe.dietId,
+        title: recipe.Recipe.title,
+        description: recipe.Recipe.description,
+        cookTime: recipe.Recipe.cookTime,
+        imageUrl: recipe.Recipe.imageUrl,
+        course: recipe.Recipe.course,
+      };
+    });
+
+    res.json(recipeData);
   })
 );
 

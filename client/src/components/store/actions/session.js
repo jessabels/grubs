@@ -29,6 +29,7 @@ export const currentUserId = (id) => {
 
 export default function reducer(state = {}, action) {
   Object.freeze(state);
+
   let newState = Object.assign({}, state);
   switch (action.type) {
     case CURRENT_USER_ID:

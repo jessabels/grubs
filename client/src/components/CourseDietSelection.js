@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { getRecipes } from "./store/actions/recipes";
+import { getRecipes } from "./store/actions/entities";
 import { useSelector, useDispatch } from "react-redux";
 
 const CourseSelection = () => {
