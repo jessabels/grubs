@@ -7,6 +7,7 @@ import Logout from "./components/auth/Logout";
 import { ProtectedRoute, PrivateRoute } from "./util/route-util";
 import { useSelector, useDispatch } from "react-redux";
 import { loadToken } from "./components/store/actions/session";
+import CourseDietSelection from "./components/CourseDietSelection";
 
 function App({ needLogin, loadToken }) {
   const [loaded, setLoaded] = useState(false);
@@ -60,10 +61,16 @@ function App({ needLogin, loadToken }) {
           />
 
           <PrivateRoute
-            path="/"
+            path="/home"
             exact={true}
             needLogin={needLogin}
             component={Homepage}
+          />
+          <PrivateRoute
+            path="/"
+            exact={true}
+            needLogin={needLogin}
+            component={CourseDietSelection}
           />
         </Switch>
       </BrowserRouter>

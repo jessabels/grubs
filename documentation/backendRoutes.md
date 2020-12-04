@@ -13,7 +13,7 @@
 
 **recipes**
 
-- GET /api/recipes (get all recipes)
+- GET /api/recipes/course/:dietId (get recipes based on course and diet)
 - GET /api/recipes/:id (get individual recipe)
 
 **recipes saved by users**

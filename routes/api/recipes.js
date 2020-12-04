@@ -7,33 +7,21 @@ const { RecipeDiet, Recipe, Like } = db;
 const { asyncHandler } = require("../../utils");
 
 router.get(
-  "/",
+  "/:course/:dietId",
   asyncHandler(async (req, res) => {
-    const veganLunchRecipes = await RecipeDiet.findAll({
+    const recipes = await RecipeDiet.findAll({
       where: {
-        dietId: 2,
+        dietId: req.params.dietId,
       },
       include: {
         model: Recipe,
         where: {
-          course: "Lunch",
+          course: req.params.course,
         },
       },
     });
 
-    const vegetarianDinners = await RecipeDiet.findAll({
-      where: {
-        dietId: 3,
-      },
-      include: {
-        model: Recipe,
-        where: {
-          course: "Dinner",
-        },
-      },
-    });
-
-    res.json({ veganLunchRecipes, vegetarianDinners });
+    res.json({ recipes });
   })
 );
 
