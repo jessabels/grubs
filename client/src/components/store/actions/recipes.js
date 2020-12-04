@@ -35,6 +35,7 @@ export default function reducer(state = {}, action) {
       const recipes = action.list.map((recipe) => ({
         [recipe.id]: recipe,
       }));
+      console.log(recipes);
       return merge({}, state, ...recipes);
     default:
       return state;

@@ -142,11 +142,12 @@ export default function reducer(state = {}, action) {
       }));
       return merge({}, state, ...users);
     case GET_RECIPES:
-      console.log(action);
-      newState["Recipes"] = action.list.map((recipe) => ({
+      const recipes = action.list.map((recipe) => ({
         [recipe.recipeId]: recipe,
       }));
-      return newState;
+      console.log("new state", newState);
+      return merge({}, state, ...recipes);
+    // return (newState["recipes"] = recipes);
 
     default:
       return state;

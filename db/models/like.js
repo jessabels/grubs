@@ -45,6 +45,8 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  const uppercaseFirst = (str) => `${str[0].toUpperCase()}${str.substr(1)}`;
+
   Like.prototype.getLikeable = function (options) {
     if (!this.likeableType) return Promise.resolve(null);
     const mixinMethodName = `get${uppercaseFirst(this.likeableType)}`;
