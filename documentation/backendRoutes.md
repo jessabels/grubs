@@ -25,7 +25,7 @@
 
 - GET /api/recipes/:id/likes (get likes on a recipe)
 - POST /api/recipes/:id/likes (like a recipe)
-- DELETE /api/recipe/:id/likes (dislike a recipe)
+- DELETE /api/recipe/:id/likes (unlike a recipe)
 
 **recipe tips**
 

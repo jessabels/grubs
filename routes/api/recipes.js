@@ -6,26 +6,7 @@ const { RecipeDiet, Recipe, Like, Tip, Instruction, Ingredient } = db;
 const { asyncHandler } = require("../../utils");
 
 router.get(
-  "/:id/likes",
-  asyncHandler(async (req, res) => {
-    // res.json({ message: "test" });
-
-    const likes = await Like.findAll({
-      where: {
-        likeableType: "Recipe",
-        likeableId: req.params.id,
-      },
-    });
-    // for (const like of likes) {
-    //   const message = `Found like #${like.id} with ${like.likeableType} likeable:`;
-    //   console.log(message, like.likeableType);
-    // }
-    res.json({ likes });
-  })
-);
-
-router.get(
-  "/:course/:dietId",
+  "/:course/:dietId(\\d+)",
   asyncHandler(async (req, res) => {
     const recipes = await RecipeDiet.findAll({
       where: {
@@ -144,6 +125,84 @@ router.get(
 //   "/:id/likes",
 //   asyncHandler(async (req, res) => {
 //     res.json({ message: "test" });
+//   })
+// );
+
+router.get(
+  "/:id/likes",
+  asyncHandler(async (req, res) => {
+    // res.json({ message: "test" });
+
+    const likes = await Like.findAll({
+      where: {
+        likeableType: "Recipe",
+        likeableId: req.params.id,
+      },
+    });
+    // for (const like of likes) {
+    //   const message = `Found like #${like.id} with ${like.likeableType} likeable:`;
+    //   console.log(message, like.likeableType);
+    // }
+    res.json({ likes });
+  })
+);
+
+//like a recipe
+router.post(
+  "/:id/likes",
+  asyncHandler(async (req, res) => {
+    const like = await Like.create({
+      userId: req.user.id,
+      likeableId: req.params.recipeId,
+      likeableType: "Recipe",
+    });
+
+    res.json({ like });
+  })
+);
+
+//remove a like from a post
+router.delete(
+  "/:id/likes",
+  asyncHandler(async (req, res) => {
+    const like = await Like.findOne({
+      where: {
+        userId: req.user.id,
+        likeableId: req.params.recipeId,
+        likeableType: "Recipe",
+      },
+    });
+    like.destroy();
+    const likes = await Like.findAll();
+    res.json({ likes });
+  })
+);
+
+router.get(
+  "/:id/tips",
+  asyncHandler(async (req, res) => {
+    const tips = await Tip.findAll({
+      where: {
+        recipeId: req.params.id,
+      },
+    });
+
+    res.json({ tips });
+  })
+);
+
+//post a tip
+// router.post(
+//   "/:id/tips",
+//   asyncHandler(async (req, res) => {
+//      const tip = await Tip.create({
+//        text: req.body.text,
+//        userId: req.user.id,
+//        likeableId: req.params.recipeId,
+//        likeableType: "Recipe",
+//      });
+
+//      res.json({ like });
 //   })
 // );
 

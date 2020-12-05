@@ -15,7 +15,16 @@ router.get(
   "/",
   asyncHandler(async function (req, res) {
     const users = await User.findAll();
-    res.json({ users });
+
+    const userData = users.map((user) => {
+      return {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      };
+    });
+    res.json(userData);
   })
 );
 

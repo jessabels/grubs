@@ -142,11 +142,44 @@ export default function reducer(state = {}, action) {
       }));
       return merge({}, state, ...users);
     case GET_RECIPES:
+      newState["recipes"] = {};
       const recipes = action.list.map((recipe) => ({
-        [recipe.recipeId]: recipe,
+        recipeId: recipe.recipeId,
+        dietId: recipe.dietId,
+        title: recipe.title,
+        description: recipe.description,
+        cookTime: recipe.cookTime,
+        imageUrl: recipe.imageUrl,
+        course: recipe.course,
+        likes: recipe.likes,
+        tips: recipe.tips,
       }));
-      console.log("new state", newState);
-      return merge({}, state, ...recipes);
+
+      recipes.forEach((recipe) => {
+        console.log(recipe);
+        newState.recipes[recipe.recipeId] = { ...recipe };
+      });
+      // for (const recipe in action.list) {
+      //   const recipes = {
+      //     [recipe.recipeId]: {
+      //       recipeId: recipe.recipeId,
+      //       dietId: recipe.dietId,
+      //       title: recipe.title,
+      //       description: recipe.description,
+      //       cookTime: recipe.cookTime,
+      //       imageUrl: recipe.imageUrl,
+      //       course: recipe.course,
+      //       likes: recipe.likes,
+      //       tips: recipe.tips,
+      //     },
+      //   };
+      //   newState["recipes"] = recipes;
+      // }
+
+      return newState;
+
+    // console.log("new state", newState);
+    // return merge({}, state, ...recipes);
     // return (newState["recipes"] = recipes);
 
     default:
