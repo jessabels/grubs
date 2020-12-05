@@ -4,6 +4,7 @@ import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import Homepage from "./components/Homepage";
 import Logout from "./components/auth/Logout";
+import Navbar from "./components/Navbar";
 import { ProtectedRoute, PrivateRoute } from "./util/route-util";
 import { useSelector, useDispatch } from "react-redux";
 import { loadToken } from "./components/store/actions/session";
@@ -23,7 +24,8 @@ function App({ needLogin, loadToken }) {
 
   return (
     <>
-      {!needLogin ? <Logout /> : null}
+      <Navbar needLogin={needLogin} />
+
       {/* <Login />
       <Signup /> */}
       <BrowserRouter>

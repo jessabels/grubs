@@ -3,26 +3,69 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { getRecipes } from "./store/actions/entities";
+import { currentRecipeId } from "./store/actions/session";
 import { useSelector, useDispatch } from "react-redux";
-import { Slide } from "react-slideshow-image";
-import "react-slideshow-image/dist/styles.css";
+import Carousel from "react-bootstrap/Carousel";
+
+import {
+  Button,
+  Dialog,
+  ListItemText,
+  ListItem,
+  List,
+  Divider,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Slide,
+  GridItem,
+} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+import Like from "./RecipeLike";
+
+const useStyles = makeStyles((theme) => ({
+  appBar: {
+    position: "relative",
+  },
+  title: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
+}));
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const CourseSelection = () => {
-  const recipes = useSelector((state) => state.entities.Recipes);
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+
+  const handleSave = () => {
+    setOpen(false);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const recipes = useSelector((state) => state.entities.recipes);
+  const selectedRecipeId = useSelector((state) =>
+    recipes ? state.sessions.currentRecipeId : null
+  );
+
+  console.log(selectedRecipeId);
+  const currentRecipe = recipes ? recipes[selectedRecipeId] : null;
+
+  // const currentRecipe = recipes ? recipes[currentRecipeId] : null;
+  console.log("Current", currentRecipe);
   const dispatch = useDispatch();
 
-  console.log("recipes", recipes);
   const [course, setCourse] = useState("");
   const [dietId, setDietId] = useState("");
   const [errors, setErrors] = useState("");
   const [hiddenOptions, setHiddenOptions] = useState(false);
 
-  console.log(recipes);
-  const slideImages = [
-    "images/slide_2.jpg",
-    "images/slide_3.jpg",
-    "images/slide_4.jpg",
-  ];
   const chooseCourse = (selectedCourse) => {
     setCourse(selectedCourse);
     console.log(selectedCourse);
@@ -43,6 +86,19 @@ const CourseSelection = () => {
     }
   };
 
+  const openRecipePage = (recipeId) => {
+    console.log("recipe id", recipeId);
+    // open a modal with recipe details
+    const recipe = recipes[recipeId];
+    console.log(recipe);
+    setOpen(true);
+    //set current recipe
+    dispatch(currentRecipeId(recipeId));
+  };
+
+  const handleChangeSelection = () => {
+    setHiddenOptions(false);
+  };
   return !hiddenOptions ? (
     <div>
       <h1>Choose a course </h1>
@@ -76,25 +132,105 @@ const CourseSelection = () => {
       <button onClick={handleSubmitChoices}>Done</button>
     </div>
   ) : (
-    <div className="slide-container">
-      {/* {console.log(recipes)}
-      {recipes
-        ? Object.values(recipes).map(
-            (recipe) => (
-              console.log(recipe),
-              (
-                <Slide>
-                  <div className="each-slide">
-                    <div style={{ backgroundImage: `url(${recipe.imageUrl})` }}>
-                      <span>Slide 1</span>
-                    </div>
-                  </div>
-                </Slide>
-              )
-            )
-          )
-        : null} */}
-    </div>
+    <>
+      <button onClick={handleChangeSelection}>Change Selection</button>
+      <div style={{ width: "70%", display: "block", margin: "0 auto" }}>
+        <Carousel>
+          {recipes
+            ? Object.values(recipes).map((recipe) => (
+                <Carousel.Item>
+                  <img
+                    style={{ height: "650px" }}
+                    className="d-block w-100"
+                    key={recipe.title}
+                    onClick={() => openRecipePage(recipe.recipeId)}
+                    src={recipe.imageUrl}
+                  />
+                  <Carousel.Caption>
+                    <h3>{recipe.title}</h3>
+                    <p>{recipe.description}</p>
+                  </Carousel.Caption>
+                </Carousel.Item>
+              ))
+            : null}
+        </Carousel>
+        <Dialog
+          fullScreen
+          open={open}
+          onClose={handleClose}
+          TransitionComponent={Transition}
+        >
+          <AppBar className={classes.appBar}>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={handleClose}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h6" className={classes.title}>
+                {currentRecipe ? currentRecipe.title : null}
+              </Typography>
+              <Button autoFocus color="inherit" onClick={handleSave}>
+                save
+              </Button>
+            </Toolbar>
+          </AppBar>
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
+              <Paper>
+                <img
+                  style={{ width: "100%" }}
+                  src={currentRecipe ? currentRecipe.imageUrl : null}
+                />
+                <Like
+                  likes={currentRecipe ? currentRecipe.likes : null}
+                  recipeId={currentRecipe ? currentRecipe.recipeId : null}
+                />
+                <h5>
+                  Cook Time:
+                  {currentRecipe ? `${currentRecipe.cookTime} min` : null}
+                </h5>
+                <h5>Course: {currentRecipe ? currentRecipe.course : null}</h5>
+              </Paper>
+            </Grid>
+            <Grid item xs={3}>
+              <Paper className={classes.paper}>
+                <h3>Ingredients</h3>
+                <List>
+                  {currentRecipe
+                    ? currentRecipe.ingredients.map((ingredient) => (
+                        <ListItem>{ingredient} </ListItem>
+                      ))
+                    : null}
+                </List>
+              </Paper>
+            </Grid>
+            <Grid item xs={3}>
+              <Paper className={classes.paper}>
+                <h3>Instructions</h3>
+                <List>
+                  {currentRecipe
+                    ? currentRecipe.instructions.map((instruction, i) => (
+                        <ListItem>
+                          {i + 1}. {instruction}{" "}
+                        </ListItem>
+                      ))
+                    : null}
+                </List>
+              </Paper>
+            </Grid>
+          </Grid>
+          <Grid>
+            <Grid item xs={3}>
+              Tips
+            </Grid>
+          </Grid>
+        </Dialog>
+      </div>
+    </>
   );
 };
 

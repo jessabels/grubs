@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     Recipe.belongsToMany(models.Diet, columnMapping2);
     Recipe.hasMany(models.Ingredient, { foreignKey: "recipeId" });
     Recipe.hasMany(models.Instruction, { foreignKey: "recipeId" });
-
+    Recipe.hasMany(models.Tip, { foreignKey: "recipeId" });
     Recipe.hasMany(models.Like, {
       foreignKey: "likeableId",
       constraints: false,

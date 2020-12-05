@@ -32,7 +32,6 @@ export const login = (email, password) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       dispatch(loginErrors([]));
       dispatch(currentUserId(data.userId));
       window.localStorage.setItem(TOKEN_KEY, data.token);
@@ -71,7 +70,6 @@ export const signup = (
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       dispatch(signupErrors([]));
       dispatch(currentUserId(data.user.id));
       window.localStorage.setItem(TOKEN_KEY, data.token);
@@ -102,7 +100,6 @@ export const getRecipes = (course, dietId) => async (dispatch) => {
 
     if (response.ok) {
       const list = await response.json();
-      console.log(list);
       dispatch(loadRecipes(list));
     } else {
       throw response;
@@ -122,7 +119,6 @@ export const getUsers = () => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
     } else {
       throw response;
     }
@@ -153,10 +149,11 @@ export default function reducer(state = {}, action) {
         course: recipe.course,
         likes: recipe.likes,
         tips: recipe.tips,
+        instructions: recipe.instructions,
+        ingredients: recipe.ingredients,
       }));
 
       recipes.forEach((recipe) => {
-        console.log(recipe);
         newState.recipes[recipe.recipeId] = { ...recipe };
       });
 

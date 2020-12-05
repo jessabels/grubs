@@ -28,7 +28,23 @@ router.get(
 
     const recipeTips = await Tip.findAll();
 
+    const recipeInstructions = await Instruction.findAll();
+
+    const recipeIngredients = await Ingredient.findAll();
+
     const recipeData = recipes.map((recipe) => {
+      const instructions = recipeInstructions
+        .filter((instruction) => {
+          return instruction.recipeId === recipe.recipeId;
+        })
+        .map((instruction) => instruction.specification);
+
+      const ingredients = recipeIngredients
+        .filter((ingredient) => {
+          return ingredient.recipeId === recipe.recipeId;
+        })
+        .map((ingredient) => `${ingredient.amount} ${ingredient.product}`);
+
       const likes = recipeLikes
         .filter((like) => {
           return like.likeableId == recipe.recipeId;
@@ -51,6 +67,8 @@ router.get(
         course: recipe.Recipe.course,
         likes,
         tips,
+        instructions,
+        ingredients,
       };
     });
 
