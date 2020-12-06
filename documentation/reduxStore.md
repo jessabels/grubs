@@ -21,7 +21,7 @@ entities: {
     }
   },
 
-  tips: {
+  recipeTips: {
     tipId: {
       text,
       recipeId,

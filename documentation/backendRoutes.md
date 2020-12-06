@@ -23,13 +23,13 @@
 
 **recipe likes**
 
-- GET /api/recipes/:id/likes (get likes on a recipe)
+- GET /api/recipes/likes (get all recipe likes)
 - POST /api/recipes/:id/likes (like a recipe)
 - DELETE /api/recipe/:id/likes (unlike a recipe)
 
 **recipe tips**
 
-- GET /api/recipe/:id/tips (view tips on a recipe)
+- GET /api/recipe/tips (get all recipe tips)
 - POST /api/recipes/:id/tips (post a tip on a recipe)
 - PUT /api/recipes/:id/tips (edit a tip on a recipe)
 - DELETE /api/recipes/:id/tips (remove a tip from a recipe)

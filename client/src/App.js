@@ -8,6 +8,8 @@ import Navbar from "./components/Navbar";
 import { ProtectedRoute, PrivateRoute } from "./util/route-util";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserId, loadToken } from "./components/store/actions/session";
+import { getUsers } from "./components/store/actions/entities";
+
 import CourseDietSelection from "./components/CourseDietSelection";
 
 function App({ needLogin, loadToken }) {
@@ -22,7 +24,6 @@ function App({ needLogin, loadToken }) {
 
   useEffect(() => {
     if (token) {
-      console.log("theres a token");
       dispatch(getUserId());
     }
   }, [token]);

@@ -4,6 +4,7 @@ import { currentUserId, loadToken, removeToken } from "./session";
 
 export const GET_RECIPES = "GET_RECIPES";
 export const GET_RECIPE_LIKES = "GET_RECIPE_LIKES";
+export const GET_RECIPE_TIPS = "GET_RECIPE_TIPS";
 export const GET_USERS = "GET_USERS";
 export const TOKEN_KEY = "TOKEN_KEY";
 export const USER_ID = "USER_ID";
@@ -21,10 +22,17 @@ export const loadRecipeLikes = (list) => {
   };
 };
 
-export const loadUsers = (users) => {
+export const loadRecipeTips = (list) => {
+  return {
+    type: GET_RECIPE_TIPS,
+    list,
+  };
+};
+
+export const loadUsers = (list) => {
   return {
     type: GET_USERS,
-    users,
+    list,
   };
 };
 
@@ -131,8 +139,27 @@ export const getRecipeLikes = () => async (dispatch) => {
 
     if (response.ok) {
       const list = await response.json();
-      console.log("list", list);
       dispatch(loadRecipeLikes(list));
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getRecipeTips = () => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/recipes/tips`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const list = await response.json();
+      console.log("LIST", list);
+      dispatch(loadRecipeTips(list));
     } else {
       throw response;
     }
@@ -151,6 +178,7 @@ export const getUsers = () => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
+      dispatch(loadUsers(data));
     } else {
       throw response;
     }
@@ -165,10 +193,22 @@ export default function reducer(state = {}, action) {
 
   switch (action.type) {
     case GET_USERS:
+      // const users = action.list.map((user) => ({
+      //   [user.id]: user,
+      // }));
+      // return merge({}, state, ...users);
+      newState["users"] = {};
+
       const users = action.list.map((user) => ({
-        [user.id]: user,
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
       }));
-      return merge({}, state, ...users);
+
+      users.forEach((user) => {
+        newState.users[user.id] = { ...user };
+      });
+      return newState;
     case GET_RECIPES:
       newState["recipes"] = {};
       const recipes = action.list.map((recipe) => ({
@@ -192,7 +232,6 @@ export default function reducer(state = {}, action) {
       return newState;
 
     case GET_RECIPE_LIKES:
-      console.log(action.list);
       newState["recipeLikes"] = {};
       const likes = action.list.likes.map((like) => ({
         id: like.id,
@@ -203,7 +242,22 @@ export default function reducer(state = {}, action) {
       likes.forEach((like) => {
         newState.recipeLikes[like.id] = { ...like };
       });
-      console.log(("new state", newState));
+      return newState;
+
+    case GET_RECIPE_TIPS:
+      newState["recipeTips"] = {};
+
+      const tips = action.list.map((tip) => ({
+        id: tip.id,
+        text: tip.text,
+        userId: tip.userId,
+        recipeId: tip.likeableId,
+        likes: tip.likes,
+      }));
+
+      tips.forEach((tip) => {
+        newState.recipeTips[tip.id] = { ...tip };
+      });
       return newState;
 
     default:

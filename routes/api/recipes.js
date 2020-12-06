@@ -159,6 +159,35 @@ router.get(
 );
 
 router.get(
+  "/tips",
+  asyncHandler(async (req, res) => {
+    const tips = await Tip.findAll();
+    const tipLikes = await Like.findAll({
+      where: {
+        likeableType: "Tip",
+      },
+    });
+
+    const tipData = tips.map((tip) => {
+      const likes = tipLikes
+        .filter((tipLike) => {
+          return tipLike.likeableId == tip.id;
+        })
+        .map((tip) => tip.id);
+      return {
+        id: tip.id,
+        text: tip.text,
+        recipeId: tip.recipeId,
+        userId: tip.userId,
+        likes,
+      };
+    });
+
+    res.json(tipData);
+  })
+);
+
+router.get(
   "/:id/likes",
   asyncHandler(async (req, res) => {
     // res.json({ message: "test" });

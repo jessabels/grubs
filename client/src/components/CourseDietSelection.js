@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { getRecipeLikes, getRecipes } from "./store/actions/entities";
+import {
+  getRecipeLikes,
+  getRecipes,
+  getRecipeTips,
+  getUsers,
+} from "./store/actions/entities";
 import { currentRecipeId } from "./store/actions/session";
 import { useSelector, useDispatch } from "react-redux";
 import Carousel from "react-bootstrap/Carousel";
-
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import {
   Button,
   Dialog,
@@ -50,15 +55,14 @@ const CourseSelection = () => {
   };
 
   const recipes = useSelector((state) => state.entities.recipes);
+  const recipeTips = useSelector((state) => state.entities.recipeTips);
   const selectedRecipeId = useSelector((state) =>
     recipes ? state.sessions.currentRecipeId : null
   );
 
-  console.log(selectedRecipeId);
   const currentRecipe = recipes ? recipes[selectedRecipeId] : null;
+  const users = useSelector((state) => state.entities.users);
 
-  // const currentRecipe = recipes ? recipes[currentRecipeId] : null;
-  console.log("Current", currentRecipe);
   const dispatch = useDispatch();
 
   const [course, setCourse] = useState("");
@@ -81,6 +85,8 @@ const CourseSelection = () => {
       setErrors("");
       dispatch(getRecipes(course, dietId));
       dispatch(getRecipeLikes());
+      dispatch(getRecipeTips());
+      dispatch(getUsers());
       setHiddenOptions(true);
     } else {
       setErrors("Please choose both a course & a diet.");
@@ -88,18 +94,30 @@ const CourseSelection = () => {
   };
 
   const openRecipePage = (recipeId) => {
-    console.log("recipe id", recipeId);
-    // open a modal with recipe details
-    const recipe = recipes[recipeId];
-    console.log(recipe);
     setOpen(true);
-    //set current recipe
     dispatch(currentRecipeId(recipeId));
   };
 
   const handleChangeSelection = () => {
     setHiddenOptions(false);
   };
+
+  const getTipsForRecipe = () => {
+    const tips = Object.values(recipeTips).filter((recipeTip) => {
+      return currentRecipe.tips.includes(recipeTip.id);
+    });
+    return tips.map((tip) => {
+      return (
+        <ListItem>
+          {`${tip.text} posted by ${users[tip.userId].firstName} ${
+            users[tip.userId].lastName
+          }`}
+          <ThumbUpIcon /> Useful(0)
+        </ListItem>
+      );
+    });
+  };
+
   return !hiddenOptions ? (
     <div>
       <h1>Choose a course </h1>
@@ -216,7 +234,7 @@ const CourseSelection = () => {
                   {currentRecipe
                     ? currentRecipe.instructions.map((instruction, i) => (
                         <ListItem>
-                          {i + 1}. {instruction}{" "}
+                          {i + 1}. {instruction}
                         </ListItem>
                       ))
                     : null}
@@ -227,6 +245,7 @@ const CourseSelection = () => {
           <Grid>
             <Grid item xs={3}>
               Tips
+              <List>{currentRecipe ? getTipsForRecipe() : null} </List>
             </Grid>
           </Grid>
         </Dialog>
