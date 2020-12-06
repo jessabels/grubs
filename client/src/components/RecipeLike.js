@@ -1,19 +1,19 @@
 import React from "react";
-
 import { useSelector, useDispatch } from "react-redux";
-
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { currentRecipeId } from "./store/actions/session";
+import { likeRecipe, unlikeRecipe } from "./store/actions/entities";
 
 const RecipeLike = (props) => {
-  const likes = props ? props.likes : null;
+  const recipes = useSelector((state) => state.entities.recipes);
   const recipeLikes = useSelector((state) => state.entities.recipeLikes);
   const currentUserId = useSelector((state) => state.sessions.currentUserId);
 
   const currentRecipeId = useSelector(
     (state) => state.sessions.currentRecipeId
   );
+
+  const currentRecipe = recipes ? recipes[currentRecipeId] : null;
 
   const userLiked = recipeLikes
     ? Object.values(recipeLikes).some((recipeLike) => {
@@ -24,21 +24,17 @@ const RecipeLike = (props) => {
       })
     : null;
 
-  console.log("user liked", userLiked);
   const dispatch = useDispatch();
 
   const handleLike = (recipeId) => {
-    // if (!likes.includes(props.recipeId)) {
-    //   //   dispatch(likePost(props.postId));
-    //   console.log("liked");
-    // } else {
-    //   //   dispatch(unlikePost(props.postId));
-    //   console.log("unliked");
-    // }
+    const currentRecipeCourse = currentRecipe.course;
+    const currentRecipeDietId = currentRecipe.dietId;
     if (userLiked) {
-      console.log("user already liked");
+      dispatch(
+        unlikeRecipe(recipeId, currentRecipeCourse, currentRecipeDietId)
+      );
     } else {
-      console.log("user hasn't liked yet");
+      dispatch(likeRecipe(recipeId, currentRecipeCourse, currentRecipeDietId));
     }
   };
   return (

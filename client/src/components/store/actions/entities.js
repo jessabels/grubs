@@ -16,6 +16,7 @@ export const loadRecipes = (list) => {
     list,
   };
 };
+
 export const loadRecipeLikes = (list) => {
   return {
     type: GET_RECIPE_LIKES,
@@ -214,16 +215,48 @@ export const getUsers = () => async (dispatch) => {
   }
 };
 
+export const likeRecipe = (recipeId, course, dietId) => async (dispatch) => {
+  const token = localStorage.getItem(TOKEN_KEY);
+  const userId = localStorage.getItem(USER_ID);
+  const response = await fetch(`/api/recipes/${recipeId}/likes`, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ userId, recipeId }),
+  });
+  if (response.ok) {
+    const likes = await response.json();
+    dispatch(getRecipes(course, dietId));
+    dispatch(getRecipeLikes());
+  }
+};
+
+export const unlikeRecipe = (recipeId, course, dietId) => async (dispatch) => {
+  const token = localStorage.getItem(TOKEN_KEY);
+  const userId = localStorage.getItem(USER_ID);
+  const response = await fetch(`/api/recipes/${recipeId}/likes`, {
+    method: "delete",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ userId, recipeId }),
+  });
+  if (response.ok) {
+    const likes = await response.json();
+    dispatch(getRecipes(course, dietId));
+    dispatch(getRecipeLikes());
+  }
+};
+
 export default function reducer(state = {}, action) {
   Object.freeze(state);
   let newState = Object.assign({}, state);
 
   switch (action.type) {
     case GET_USERS:
-      // const users = action.list.map((user) => ({
-      //   [user.id]: user,
-      // }));
-      // return merge({}, state, ...users);
       newState["users"] = {};
 
       const users = action.list.map((user) => ({

@@ -17,14 +17,7 @@ const TipLike = (props) => {
 
   console.log("USER LIKED TIP", userLiked);
 
-  const handleLike = (recipeId) => {
-    // if (!likes.includes(props.recipeId)) {
-    //   //   dispatch(likePost(props.postId));
-    //   console.log("liked");
-    // } else {
-    //   //   dispatch(unlikePost(props.postId));
-    //   console.log("unliked");
-    // }
+  const handleLike = (tipId) => {
     if (userLiked) {
       console.log("user already liked");
     } else {

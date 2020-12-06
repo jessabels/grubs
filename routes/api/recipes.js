@@ -4,7 +4,7 @@ const router = express.Router();
 const db = require("../../db/models");
 const { RecipeDiet, Recipe, Like, Tip, Instruction, Ingredient } = db;
 const { asyncHandler } = require("../../utils");
-
+const { requireAuth } = require("../../auth");
 router.get(
   "/:course/:dietId(\\d+)",
   asyncHandler(async (req, res) => {
@@ -139,13 +139,6 @@ router.get(
   })
 );
 
-// router.get(
-//   "/:id/likes",
-//   asyncHandler(async (req, res) => {
-//     res.json({ message: "test" });
-//   })
-// );
-
 router.get(
   "/likes",
   asyncHandler(async (req, res) => {
@@ -202,25 +195,20 @@ router.get(
 router.get(
   "/:id/likes",
   asyncHandler(async (req, res) => {
-    // res.json({ message: "test" });
-
     const likes = await Like.findAll({
       where: {
         likeableType: "Recipe",
         likeableId: req.params.id,
       },
     });
-    // for (const like of likes) {
-    //   const message = `Found like #${like.id} with ${like.likeableType} likeable:`;
-    //   console.log(message, like.likeableType);
-    // }
     res.json({ likes });
   })
 );
 
 //like a recipe
 router.post(
-  "/:id/likes",
+  "/:recipeId/likes",
+  requireAuth,
   asyncHandler(async (req, res) => {
     const like = await Like.create({
       userId: req.user.id,
@@ -234,7 +222,8 @@ router.post(
 
 //remove a like from a post
 router.delete(
-  "/:id/likes",
+  "/:recipeId/likes",
+  requireAuth,
   asyncHandler(async (req, res) => {
     const like = await Like.findOne({
       where: {
