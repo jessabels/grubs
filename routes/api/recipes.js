@@ -251,19 +251,36 @@ router.get(
   })
 );
 
-//post a tip
-// router.post(
-//   "/:id/tips",
-//   asyncHandler(async (req, res) => {
-//      const tip = await Tip.create({
-//        text: req.body.text,
-//        userId: req.user.id,
-//        likeableId: req.params.recipeId,
-//        likeableType: "Recipe",
-//      });
+// post a tip
+router.post(
+  "/:recipeId/tips",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const tip = await Tip.create({
+      text: req.body.text,
+      recipeId: req.params.recipeId,
+      userId: req.user.id,
+    });
 
-//      res.json({ like });
-//   })
-// );
+    res.json({ tip });
+  })
+);
+
+//delete a tip
+router.delete(
+  "/:recipeId/tips/:tipId",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const tip = await Tip.findOne({
+      where: {
+        id: req.params.tipId,
+        userId: req.user.id,
+      },
+    });
+    tip.destroy();
+    const tips = await Tip.findAll();
+    res.json({ tips });
+  })
+);
 
 module.exports = router;

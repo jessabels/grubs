@@ -25,11 +25,15 @@ import {
   IconButton,
   Typography,
   Slide,
-  GridItem,
+  TextareaAutosize,
+  TextField,
+  InputAdornment,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+
 import RecipeLike from "./RecipeLike";
 import TipLike from "./TipLike";
+import RecipeTips from "./RecipeTips";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -245,12 +249,10 @@ const CourseSelection = () => {
               </Paper>
             </Grid>
           </Grid>
-          <Grid>
-            <Grid item xs={3}>
-              Tips
-              <List>{currentRecipe ? getTipsForRecipe() : null} </List>
-            </Grid>
-          </Grid>
+          <RecipeTips
+            getTipsForRecipe={getTipsForRecipe}
+            currentRecipe={currentRecipe}
+          />
         </Dialog>
       </div>
     </>

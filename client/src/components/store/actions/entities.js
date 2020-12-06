@@ -251,6 +251,46 @@ export const unlikeRecipe = (recipeId, course, dietId) => async (dispatch) => {
   }
 };
 
+export const createRecipeTip = (text, recipeId, course, dietId) => async (
+  dispatch
+) => {
+  const token = localStorage.getItem(TOKEN_KEY);
+  const userId = localStorage.getItem(USER_ID);
+  const response = await fetch(`/api/recipes/${recipeId}/tips`, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ userId, recipeId, text }),
+  });
+  if (response.ok) {
+    const tips = await response.json();
+    dispatch(getRecipes(course, dietId));
+    dispatch(getRecipeTips());
+  }
+};
+
+export const removeRecipeTip = (tipId, recipeId, course, dietId) => async (
+  dispatch
+) => {
+  const token = localStorage.getItem(TOKEN_KEY);
+  const userId = localStorage.getItem(USER_ID);
+  const response = await fetch(`/api/recipes/${recipeId}/tips/${tipId}`, {
+    method: "delete",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ tipId, userId, recipeId }),
+  });
+  if (response.ok) {
+    const tips = await response.json();
+    dispatch(getRecipes(course, dietId));
+    dispatch(getRecipeTips());
+  }
+};
+
 export default function reducer(state = {}, action) {
   Object.freeze(state);
   let newState = Object.assign({}, state);
