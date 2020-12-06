@@ -220,7 +220,7 @@ router.post(
   })
 );
 
-//remove a like from a post
+//unlike a recipe
 router.delete(
   "/:recipeId/likes",
   requireAuth,
@@ -280,6 +280,39 @@ router.delete(
     tip.destroy();
     const tips = await Tip.findAll();
     res.json({ tips });
+  })
+);
+
+//like a recipe tip
+router.post(
+  "/:recipeId/tips/:tipId/likes",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const like = await Like.create({
+      userId: req.user.id,
+      likeableId: req.params.tipId,
+      likeableType: "Tip",
+    });
+
+    res.json({ like });
+  })
+);
+
+//unlike a recipe tip
+router.delete(
+  "/:recipeId/tips/:tipId/likes",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const like = await Like.findOne({
+      where: {
+        userId: req.user.id,
+        likeableId: req.params.tipId,
+        likeableType: "Tip",
+      },
+    });
+    like.destroy();
+    const likes = await Like.findAll();
+    res.json({ likes });
   })
 );
 

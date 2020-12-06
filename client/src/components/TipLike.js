@@ -14,19 +14,17 @@ const TipLike = (props) => {
     (state) => state.sessions.currentRecipeId
   );
   const currentRecipe = recipes ? recipes[currentRecipeId] : null;
-
   const currentUserId = useSelector((state) => state.sessions.currentUserId);
 
-  const userLiked = props.tips.some((tip) => {
-    return tip.likes.includes(parseInt(currentUserId));
-  });
-
+  const userLiked = props.tip.likes.includes(parseInt(currentUserId));
   const userPosted = props.tip.userId === parseInt(currentUserId);
 
   const handleLike = (tipId) => {
     if (userLiked) {
+      // unlike a tip
       console.log("user already liked");
     } else {
+      // like a tip
       console.log("user hasn't liked yet");
     }
   };
