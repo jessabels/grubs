@@ -173,7 +173,7 @@ router.get(
         .filter((tipLike) => {
           return tipLike.likeableId == tip.id;
         })
-        .map((tip) => tip.id);
+        .map((tipLike) => tipLike.userId);
       return {
         id: tip.id,
         text: tip.text,
@@ -184,6 +184,18 @@ router.get(
     });
 
     res.json(tipData);
+  })
+);
+
+router.get(
+  "/tips/likes",
+  asyncHandler(async (req, res) => {
+    const likes = await Like.findAll({
+      where: {
+        likeableType: "Tip",
+      },
+    });
+    res.json({ likes });
   })
 );
 

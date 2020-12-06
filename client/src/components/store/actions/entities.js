@@ -5,6 +5,7 @@ import { currentUserId, loadToken, removeToken } from "./session";
 export const GET_RECIPES = "GET_RECIPES";
 export const GET_RECIPE_LIKES = "GET_RECIPE_LIKES";
 export const GET_RECIPE_TIPS = "GET_RECIPE_TIPS";
+export const GET_TIP_LIKES = "GET_TIP_LIKES";
 export const GET_USERS = "GET_USERS";
 export const TOKEN_KEY = "TOKEN_KEY";
 export const USER_ID = "USER_ID";
@@ -25,6 +26,13 @@ export const loadRecipeLikes = (list) => {
 export const loadRecipeTips = (list) => {
   return {
     type: GET_RECIPE_TIPS,
+    list,
+  };
+};
+
+export const loadTipLikes = (list) => {
+  return {
+    type: GET_TIP_LIKES,
     list,
   };
 };
@@ -168,6 +176,25 @@ export const getRecipeTips = () => async (dispatch) => {
   }
 };
 
+export const getTipLikes = () => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/recipes/tips/likes`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const list = await response.json();
+      dispatch(loadTipLikes(list));
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getUsers = () => async (dispatch) => {
   try {
     const response = await fetch(`/api/users`, {
@@ -244,9 +271,21 @@ export default function reducer(state = {}, action) {
       });
       return newState;
 
+    case GET_TIP_LIKES:
+      newState["tipLikes"] = {};
+      console.log("ACTION LIST", action.list);
+      const tipLikes = action.list.likes.map((like) => ({
+        id: like.id,
+        userId: like.userId,
+        tipId: like.likeableId,
+      }));
+
+      tipLikes.forEach((like) => {
+        newState.tipLikes[like.id] = { ...like };
+      });
+      return newState;
     case GET_RECIPE_TIPS:
       newState["recipeTips"] = {};
-
       const tips = action.list.map((tip) => ({
         id: tip.id,
         text: tip.text,

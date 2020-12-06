@@ -6,6 +6,7 @@ import {
   getRecipeLikes,
   getRecipes,
   getRecipeTips,
+  getTipLikes,
   getUsers,
 } from "./store/actions/entities";
 import { currentRecipeId } from "./store/actions/session";
@@ -27,7 +28,8 @@ import {
   GridItem,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-import Like from "./RecipeLike";
+import RecipeLike from "./RecipeLike";
+import TipLike from "./TipLike";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -86,6 +88,7 @@ const CourseSelection = () => {
       dispatch(getRecipes(course, dietId));
       dispatch(getRecipeLikes());
       dispatch(getRecipeTips());
+      dispatch(getTipLikes());
       dispatch(getUsers());
       setHiddenOptions(true);
     } else {
@@ -112,7 +115,7 @@ const CourseSelection = () => {
           {`${tip.text} posted by ${users[tip.userId].firstName} ${
             users[tip.userId].lastName
           }`}
-          <ThumbUpIcon /> Useful(0)
+          <TipLike tips={tips} tip={tip} />
         </ListItem>
       );
     });
@@ -204,7 +207,7 @@ const CourseSelection = () => {
                   style={{ width: "100%" }}
                   src={currentRecipe ? currentRecipe.imageUrl : null}
                 />
-                <Like
+                <RecipeLike
                   likes={currentRecipe ? currentRecipe.likes : null}
                   recipeId={currentRecipe ? currentRecipe.recipeId : null}
                 />
