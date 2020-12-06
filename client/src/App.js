@@ -7,16 +7,25 @@ import Logout from "./components/auth/Logout";
 import Navbar from "./components/Navbar";
 import { ProtectedRoute, PrivateRoute } from "./util/route-util";
 import { useSelector, useDispatch } from "react-redux";
-import { loadToken } from "./components/store/actions/session";
+import { getUserId, loadToken } from "./components/store/actions/session";
 import CourseDietSelection from "./components/CourseDietSelection";
 
 function App({ needLogin, loadToken }) {
+  const token = useSelector((state) => state.sessions.currentToken);
   const [loaded, setLoaded] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setLoaded(true);
     loadToken();
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      console.log("theres a token");
+      dispatch(getUserId());
+    }
+  }, [token]);
 
   if (!loaded) {
     return null;

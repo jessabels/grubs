@@ -20,6 +20,12 @@ export const loadToken = () => async (dispatch) => {
 //     dispatch(setToken(token));
 //   }
 // };
+export const getUserId = () => async (dispatch) => {
+  const userId = window.localStorage.getItem("USER_ID");
+  if (userId) {
+    dispatch(currentUserId(userId));
+  }
+};
 
 export const currentUserId = (id) => {
   return {

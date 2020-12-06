@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { getRecipes } from "./store/actions/entities";
+import { getRecipeLikes, getRecipes } from "./store/actions/entities";
 import { currentRecipeId } from "./store/actions/session";
 import { useSelector, useDispatch } from "react-redux";
 import Carousel from "react-bootstrap/Carousel";
@@ -80,6 +80,7 @@ const CourseSelection = () => {
     if (course && dietId) {
       setErrors("");
       dispatch(getRecipes(course, dietId));
+      dispatch(getRecipeLikes());
       setHiddenOptions(true);
     } else {
       setErrors("Please choose both a course & a diet.");

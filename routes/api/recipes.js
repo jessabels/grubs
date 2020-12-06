@@ -77,7 +77,7 @@ router.get(
 );
 
 router.get(
-  "/:recipeId",
+  "/:recipeId(\\d+)",
   asyncHandler(async (req, res) => {
     const recipe = await Recipe.findByPk(req.params.recipeId, {});
     const recipeInstructions = await Instruction.findAll({
@@ -145,6 +145,18 @@ router.get(
 //     res.json({ message: "test" });
 //   })
 // );
+
+router.get(
+  "/likes",
+  asyncHandler(async (req, res) => {
+    const likes = await Like.findAll({
+      where: {
+        likeableType: "Recipe",
+      },
+    });
+    res.json({ likes });
+  })
+);
 
 router.get(
   "/:id/likes",
