@@ -5,6 +5,7 @@ const db = require("../../db/models");
 const { RecipeDiet, Recipe, Like, Tip, Instruction, Ingredient } = db;
 const { asyncHandler } = require("../../utils");
 const { requireAuth } = require("../../auth");
+
 router.get(
   "/:course/:dietId(\\d+)",
   asyncHandler(async (req, res) => {
