@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import {
+  createRecipeTip,
   getRecipeLikes,
   getRecipes,
   getRecipeTips,
@@ -38,6 +39,7 @@ const CourseSelection = () => {
   const [errors, setErrors] = useState("");
   const [hiddenOptions, setHiddenOptions] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [text, setText] = useState("");
 
   const handleSave = () => {
     dispatch(saveRecipe(selectedRecipeId));
@@ -79,6 +81,22 @@ const CourseSelection = () => {
   const handleChangeSelection = () => {
     setHiddenOptions(false);
   };
+
+  const handleTipSubmit = (e) => {
+    const currentRecipeCourse = currentRecipe.course;
+    const currentRecipeDietId = currentRecipe.dietId;
+    e.preventDefault();
+    dispatch(
+      createRecipeTip(
+        text,
+        currentRecipeId,
+        currentRecipeCourse,
+        currentRecipeDietId
+      )
+    );
+    setText("");
+  };
+
   return !hiddenOptions ? (
     <div>
       <h1>Choose a course </h1>
@@ -132,7 +150,7 @@ const CourseSelection = () => {
                   </Carousel.Caption>
                 </Carousel.Item>
               ))
-            : null}
+            : "No recipes"}
         </Carousel>
         <RecipeDetailModal
           open={open}
@@ -142,6 +160,9 @@ const CourseSelection = () => {
           handleSave={handleSave}
           recipeTips={recipeTips}
           users={users}
+          handleTipSubmit={handleTipSubmit}
+          text={text}
+          setText={setText}
         />
       </div>
     </>

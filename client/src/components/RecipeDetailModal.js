@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -18,6 +19,8 @@ import RecipeLike from "./RecipeLike";
 import TipLike from "./TipLike";
 import RecipeTips from "./RecipeTips";
 
+import { createRecipeTip } from "./store/actions/entities";
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
@@ -30,6 +33,14 @@ const useStyles = makeStyles((theme) => ({
 
 const RecipeDetailModal = (props) => {
   const classes = useStyles();
+
+  const recipes = useSelector((state) => state.entities.recipes);
+
+  const currentRecipeId = useSelector((state) =>
+    recipes ? state.sessions.currentRecipeId : null
+  );
+  const dispatch = useDispatch();
+
   const {
     open,
     handleClose,
@@ -38,6 +49,8 @@ const RecipeDetailModal = (props) => {
     handleSave,
     recipeTips,
     users,
+    text,
+    setText,
   } = props;
 
   const getTipsForRecipe = () => {
@@ -55,7 +68,20 @@ const RecipeDetailModal = (props) => {
       );
     });
   };
-
+  const handleTipSubmit = (e) => {
+    const currentRecipeCourse = currentRecipe.course;
+    const currentRecipeDietId = currentRecipe.dietId;
+    e.preventDefault();
+    dispatch(
+      createRecipeTip(
+        text,
+        currentRecipeId,
+        currentRecipeCourse,
+        currentRecipeDietId
+      )
+    );
+    setText("");
+  };
   return (
     <>
       <Dialog
@@ -130,6 +156,9 @@ const RecipeDetailModal = (props) => {
         <RecipeTips
           getTipsForRecipe={getTipsForRecipe}
           currentRecipe={currentRecipe}
+          handleTipSubmit={handleTipSubmit}
+          text={text}
+          setText={setText}
         />
       </Dialog>
       ;

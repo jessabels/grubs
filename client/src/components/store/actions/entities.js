@@ -295,7 +295,9 @@ export const likeRecipe = (recipeId, course, dietId) => async (dispatch) => {
   });
   if (response.ok) {
     const likes = await response.json();
-    dispatch(getRecipes(course, dietId));
+    course && dietId
+      ? dispatch(getRecipes(course, dietId))
+      : dispatch(getSavedRecipes());
     dispatch(getRecipeLikes());
   }
 };
@@ -313,7 +315,9 @@ export const unlikeRecipe = (recipeId, course, dietId) => async (dispatch) => {
   });
   if (response.ok) {
     const likes = await response.json();
-    dispatch(getRecipes(course, dietId));
+    course && dietId
+      ? dispatch(getRecipes(course, dietId))
+      : dispatch(getSavedRecipes());
     dispatch(getRecipeLikes());
   }
 };
@@ -333,7 +337,9 @@ export const createRecipeTip = (text, recipeId, course, dietId) => async (
   });
   if (response.ok) {
     const tips = await response.json();
-    dispatch(getRecipes(course, dietId));
+    course && dietId
+      ? dispatch(getRecipes(course, dietId))
+      : dispatch(getSavedRecipes());
     dispatch(getRecipeTips());
   }
 };
@@ -353,7 +359,9 @@ export const removeRecipeTip = (tipId, recipeId, course, dietId) => async (
   });
   if (response.ok) {
     const tips = await response.json();
-    dispatch(getRecipes(course, dietId));
+    course && dietId
+      ? dispatch(getRecipes(course, dietId))
+      : dispatch(getSavedRecipes());
     dispatch(getRecipeTips());
   }
 };
@@ -373,7 +381,9 @@ export const likeRecipeTip = (tipId, recipeId, course, dietId) => async (
   });
   if (response.ok) {
     const likes = await response.json();
-    dispatch(getRecipes(course, dietId));
+    course && dietId
+      ? dispatch(getRecipes(course, dietId))
+      : dispatch(getSavedRecipes());
     dispatch(getRecipeTips());
     dispatch(getTipLikes());
   }
@@ -394,7 +404,9 @@ export const unlikeRecipeTip = (tipId, recipeId, course, dietId) => async (
   });
   if (response.ok) {
     const likes = await response.json();
-    dispatch(getRecipes(course, dietId));
+    course && dietId
+      ? dispatch(getRecipes(course, dietId))
+      : dispatch(getSavedRecipes());
     dispatch(getRecipeTips());
     dispatch(getTipLikes());
   }

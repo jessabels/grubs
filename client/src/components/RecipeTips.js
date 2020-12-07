@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+
 import {
   Button,
   Grid,
@@ -9,32 +9,10 @@ import {
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 
-import { createRecipeTip } from "./store/actions/entities";
-
 const RecipeTips = (props) => {
-  const dispatch = useDispatch();
-  const recipes = useSelector((state) => state.entities.recipes);
-  const currentRecipeId = useSelector((state) =>
-    recipes ? state.sessions.currentRecipeId : null
-  );
-
   const { currentRecipe, getTipsForRecipe } = props;
-  const [text, setText] = useState("");
 
-  const handleTipSubmit = (e) => {
-    const currentRecipeCourse = currentRecipe.course;
-    const currentRecipeDietId = currentRecipe.dietId;
-    e.preventDefault();
-    dispatch(
-      createRecipeTip(
-        text,
-        currentRecipeId,
-        currentRecipeCourse,
-        currentRecipeDietId
-      )
-    );
-    setText("");
-  };
+  const { handleTipSubmit, text, setText } = props;
 
   return (
     <Grid>
