@@ -5,7 +5,11 @@ import { useSelector, useDispatch } from "react-redux";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { removeRecipeTip } from "./store/actions/entities";
+import {
+  likeRecipeTip,
+  unlikeRecipeTip,
+  removeRecipeTip,
+} from "./store/actions/entities";
 
 const TipLike = (props) => {
   const dispatch = useDispatch();
@@ -14,6 +18,8 @@ const TipLike = (props) => {
     (state) => state.sessions.currentRecipeId
   );
   const currentRecipe = recipes ? recipes[currentRecipeId] : null;
+  const currentRecipeCourse = currentRecipe.course;
+  const currentRecipeDietId = currentRecipe.dietId;
   const currentUserId = useSelector((state) => state.sessions.currentUserId);
 
   const userLiked = props.tip.likes.includes(parseInt(currentUserId));
@@ -22,16 +28,28 @@ const TipLike = (props) => {
   const handleLike = (tipId) => {
     if (userLiked) {
       // unlike a tip
-      console.log("user already liked");
+      dispatch(
+        unlikeRecipeTip(
+          tipId,
+          currentRecipeId,
+          currentRecipeCourse,
+          currentRecipeDietId
+        )
+      );
     } else {
       // like a tip
-      console.log("user hasn't liked yet");
+      dispatch(
+        likeRecipeTip(
+          tipId,
+          currentRecipeId,
+          currentRecipeCourse,
+          currentRecipeDietId
+        )
+      );
     }
   };
 
   const handleRemoveTip = (tipId) => {
-    const currentRecipeCourse = currentRecipe.course;
-    const currentRecipeDietId = currentRecipe.dietId;
     dispatch(
       removeRecipeTip(
         tipId,
@@ -45,9 +63,9 @@ const TipLike = (props) => {
   return (
     <>
       {!userPosted && userLiked ? (
-        <FavoriteIcon onClick={() => handleLike()} />
+        <FavoriteIcon onClick={() => handleLike(props.tip.id)} />
       ) : !userPosted && !userLiked ? (
-        <FavoriteBorderIcon onClick={() => handleLike()} />
+        <FavoriteBorderIcon onClick={() => handleLike(props.tip.id)} />
       ) : (
         <DeleteIcon onClick={() => handleRemoveTip(props.tip.id)} />
       )}
