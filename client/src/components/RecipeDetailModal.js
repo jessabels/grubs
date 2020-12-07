@@ -46,7 +46,7 @@ const RecipeDetailModal = (props) => {
     });
     return tips.map((tip) => {
       return (
-        <ListItem>
+        <ListItem key={tip.id}>
           {`${tip.text} posted by ${users[tip.userId].firstName} ${
             users[tip.userId].lastName
           }`}
@@ -106,7 +106,7 @@ const RecipeDetailModal = (props) => {
               <List>
                 {currentRecipe
                   ? currentRecipe.ingredients.map((ingredient) => (
-                      <ListItem>{ingredient} </ListItem>
+                      <ListItem key={ingredient.id}>{ingredient} </ListItem>
                     ))
                   : null}
               </List>
@@ -118,7 +118,7 @@ const RecipeDetailModal = (props) => {
               <List>
                 {currentRecipe
                   ? currentRecipe.instructions.map((instruction, i) => (
-                      <ListItem>
+                      <ListItem key={instruction}>
                         {i + 1}. {instruction}
                       </ListItem>
                     ))

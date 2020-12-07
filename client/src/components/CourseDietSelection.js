@@ -117,7 +117,7 @@ const CourseSelection = () => {
         <Carousel>
           {recipes
             ? Object.values(recipes).map((recipe) => (
-                <Carousel.Item>
+                <Carousel.Item key={recipe.id}>
                   <img
                     style={{ height: "650px" }}
                     className="d-block w-100"

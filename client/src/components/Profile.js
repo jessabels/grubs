@@ -2,18 +2,52 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getRecipeLikes,
-  getRecipes,
   getRecipeTips,
   getTipLikes,
   getUsers,
   getSavedRecipes,
 } from "./store/actions/entities";
 
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import { red } from "@material-ui/core/colors";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 0,
+    paddingTop: "56.25%", // 16:9
+  },
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: "rotate(180deg)",
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+}));
+
 const Profile = () => {
+  const recipes = useSelector((state) => state.entities.recipes);
+  const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSavedRecipes());
-    dispatch(getRecipes());
     dispatch(getRecipeLikes());
     dispatch(getRecipeTips());
     dispatch(getTipLikes());
@@ -22,6 +56,29 @@ const Profile = () => {
   return (
     <>
       <h1>Saved Recipes</h1>
+      {recipes
+        ? Object.values(recipes).map((recipe) => {
+            return (
+              <Card className={classes.root}>
+                <CardHeader title={recipe.title} />
+                <CardMedia
+                  className={classes.media}
+                  image={`${recipe.imageUrl}`}
+                  title={recipe.title}
+                />
+                <CardContent>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {recipe.description}
+                  </Typography>
+                </CardContent>
+              </Card>
+            );
+          })
+        : "No saved recipes!"}
     </>
   );
 };
