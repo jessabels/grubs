@@ -161,6 +161,50 @@ export const getSavedRecipes = () => async (dispatch) => {
   }
 };
 
+export const saveRecipe = (recipeId) => async (dispatch) => {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const userId = localStorage.getItem(USER_ID);
+    const response = await fetch(`/api/users/${userId}/recipes/${recipeId}`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      const list = await response.json();
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const deleteRecipe = (recipeId) => async (dispatch) => {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const userId = localStorage.getItem(USER_ID);
+    const response = await fetch(`/api/users/${userId}/recipes/${recipeId}`, {
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      dispatch(getSavedRecipes());
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getRecipeLikes = () => async (dispatch) => {
   try {
     const response = await fetch(`/api/recipes/likes`, {

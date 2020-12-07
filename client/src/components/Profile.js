@@ -6,6 +6,7 @@ import {
   getTipLikes,
   getUsers,
   getSavedRecipes,
+  deleteRecipe,
 } from "./store/actions/entities";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,6 +17,7 @@ import CardContent from "@material-ui/core/CardContent";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
 const Profile = () => {
   const recipes = useSelector((state) => state.entities.recipes);
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -53,6 +54,10 @@ const Profile = () => {
     dispatch(getTipLikes());
     dispatch(getUsers());
   }, []);
+
+  const handleDelete = (recipeId) => {
+    dispatch(deleteRecipe(recipeId));
+  };
   return (
     <>
       <h1>Saved Recipes</h1>
@@ -60,7 +65,16 @@ const Profile = () => {
         ? Object.values(recipes).map((recipe) => {
             return (
               <Card className={classes.root}>
-                <CardHeader title={recipe.title} />
+                <CardHeader
+                  action={
+                    <IconButton aria-label="delete">
+                      <DeleteIcon
+                        onClick={() => handleDelete(recipe.recipeId)}
+                      />
+                    </IconButton>
+                  }
+                  title={recipe.title}
+                />
                 <CardMedia
                   className={classes.media}
                   image={`${recipe.imageUrl}`}

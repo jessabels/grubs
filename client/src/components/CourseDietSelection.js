@@ -8,6 +8,7 @@ import {
   getRecipeTips,
   getTipLikes,
   getUsers,
+  saveRecipe,
 } from "./store/actions/entities";
 import { currentRecipeId } from "./store/actions/session";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,15 +22,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const CourseSelection = () => {
-  const [open, setOpen] = React.useState(false);
-
-  const handleSave = () => {
-    setOpen(false);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const recipes = useSelector((state) => state.entities.recipes);
   const recipeTips = useSelector((state) => state.entities.recipeTips);
   const selectedRecipeId = useSelector((state) =>
@@ -45,6 +37,15 @@ const CourseSelection = () => {
   const [dietId, setDietId] = useState("");
   const [errors, setErrors] = useState("");
   const [hiddenOptions, setHiddenOptions] = useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleSave = () => {
+    dispatch(saveRecipe(selectedRecipeId));
+    setOpen(false);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const chooseCourse = (selectedCourse) => {
     setCourse(selectedCourse);
@@ -138,7 +139,7 @@ const CourseSelection = () => {
           handleClose={handleClose}
           Transition={Transition}
           currentRecipe={currentRecipe}
-          handlesave={handleSave}
+          handleSave={handleSave}
           recipeTips={recipeTips}
           users={users}
         />
