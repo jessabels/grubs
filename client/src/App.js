@@ -3,7 +3,6 @@ import { BrowserRouter, Switch, Route, NavLink } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import Homepage from "./components/Homepage";
-import Logout from "./components/auth/Logout";
 import Navbar from "./components/Navbar";
 import { ProtectedRoute, PrivateRoute } from "./util/route-util";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,6 +10,7 @@ import { getUserId, loadToken } from "./components/store/actions/session";
 import { getUsers } from "./components/store/actions/entities";
 
 import CourseDietSelection from "./components/CourseDietSelection";
+import Profile from "./components/Profile";
 
 function App({ needLogin, loadToken }) {
   const token = useSelector((state) => state.sessions.currentToken);
@@ -34,30 +34,8 @@ function App({ needLogin, loadToken }) {
 
   return (
     <>
-      <Navbar needLogin={needLogin} />
-
-      {/* <Login />
-      <Signup /> */}
       <BrowserRouter>
-        {/* <nav>
-          <ul>
-            <li>
-              <NavLink to="/" activeClass="active">
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/login" activeClass="active">
-                Login
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/signup" activeClass="active">
-                Sign Up
-              </NavLink>
-            </li>
-          </ul>
-        </nav> */}
+        <Navbar needLogin={needLogin} />
         <Switch>
           <ProtectedRoute
             path="/login"
@@ -83,6 +61,12 @@ function App({ needLogin, loadToken }) {
             exact={true}
             needLogin={needLogin}
             component={CourseDietSelection}
+          />
+          <PrivateRoute
+            path="/profile"
+            exact={true}
+            needLogin={needLogin}
+            component={Profile}
           />
         </Switch>
       </BrowserRouter>

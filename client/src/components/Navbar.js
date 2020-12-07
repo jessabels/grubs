@@ -25,7 +25,9 @@ const Navbar = (props) => {
           <div className="logo-info"></div>
 
           <div className="user-info" style={{ display: "flex" }}>
-            <Avatar alt="user avatar"></Avatar>
+            <Link to="/profile">
+              <Avatar alt="user avatar"></Avatar>
+            </Link>
             {!props.needLogin ? <Logout /> : null}
           </div>
         </Toolbar>

@@ -12,45 +12,15 @@ import {
 import { currentRecipeId } from "./store/actions/session";
 import { useSelector, useDispatch } from "react-redux";
 import Carousel from "react-bootstrap/Carousel";
-import ThumbUpIcon from "@material-ui/icons/ThumbUp";
-import {
-  Button,
-  Dialog,
-  ListItemText,
-  ListItem,
-  List,
-  Divider,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Slide,
-  TextareaAutosize,
-  TextField,
-  InputAdornment,
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { Slide } from "@material-ui/core";
 
-import RecipeLike from "./RecipeLike";
-import TipLike from "./TipLike";
-import RecipeTips from "./RecipeTips";
-
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    position: "relative",
-  },
-  title: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-}));
+import RecipeDetailModal from "./RecipeDetailModal";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const CourseSelection = () => {
-  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
   const handleSave = () => {
@@ -108,23 +78,6 @@ const CourseSelection = () => {
   const handleChangeSelection = () => {
     setHiddenOptions(false);
   };
-
-  const getTipsForRecipe = () => {
-    const tips = Object.values(recipeTips).filter((recipeTip) => {
-      return currentRecipe.tips.includes(recipeTip.id);
-    });
-    return tips.map((tip) => {
-      return (
-        <ListItem>
-          {`${tip.text} posted by ${users[tip.userId].firstName} ${
-            users[tip.userId].lastName
-          }`}
-          <TipLike tips={tips} tip={tip} />
-        </ListItem>
-      );
-    });
-  };
-
   return !hiddenOptions ? (
     <div>
       <h1>Choose a course </h1>
@@ -180,80 +133,15 @@ const CourseSelection = () => {
               ))
             : null}
         </Carousel>
-        <Dialog
-          fullScreen
+        <RecipeDetailModal
           open={open}
-          onClose={handleClose}
-          TransitionComponent={Transition}
-        >
-          <AppBar className={classes.appBar}>
-            <Toolbar>
-              <IconButton
-                edge="start"
-                color="inherit"
-                onClick={handleClose}
-                aria-label="close"
-              >
-                <CloseIcon />
-              </IconButton>
-              <Typography variant="h6" className={classes.title}>
-                {currentRecipe ? currentRecipe.title : null}
-              </Typography>
-              <Button autoFocus color="inherit" onClick={handleSave}>
-                save
-              </Button>
-            </Toolbar>
-          </AppBar>
-          <Grid container spacing={3}>
-            <Grid item xs={6}>
-              <Paper>
-                <img
-                  style={{ width: "100%" }}
-                  src={currentRecipe ? currentRecipe.imageUrl : null}
-                />
-                <RecipeLike
-                  likes={currentRecipe ? currentRecipe.likes : null}
-                  recipeId={currentRecipe ? currentRecipe.recipeId : null}
-                />
-                <h5>
-                  Cook Time:
-                  {currentRecipe ? `${currentRecipe.cookTime} min` : null}
-                </h5>
-                <h5>Course: {currentRecipe ? currentRecipe.course : null}</h5>
-              </Paper>
-            </Grid>
-            <Grid item xs={3}>
-              <Paper className={classes.paper}>
-                <h3>Ingredients</h3>
-                <List>
-                  {currentRecipe
-                    ? currentRecipe.ingredients.map((ingredient) => (
-                        <ListItem>{ingredient} </ListItem>
-                      ))
-                    : null}
-                </List>
-              </Paper>
-            </Grid>
-            <Grid item xs={3}>
-              <Paper className={classes.paper}>
-                <h3>Instructions</h3>
-                <List>
-                  {currentRecipe
-                    ? currentRecipe.instructions.map((instruction, i) => (
-                        <ListItem>
-                          {i + 1}. {instruction}
-                        </ListItem>
-                      ))
-                    : null}
-                </List>
-              </Paper>
-            </Grid>
-          </Grid>
-          <RecipeTips
-            getTipsForRecipe={getTipsForRecipe}
-            currentRecipe={currentRecipe}
-          />
-        </Dialog>
+          handleClose={handleClose}
+          Transition={Transition}
+          currentRecipe={currentRecipe}
+          handlesave={handleSave}
+          recipeTips={recipeTips}
+          users={users}
+        />
       </div>
     </>
   );

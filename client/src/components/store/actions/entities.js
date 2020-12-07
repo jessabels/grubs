@@ -138,6 +138,29 @@ export const getRecipes = (course, dietId) => async (dispatch) => {
   }
 };
 
+export const getSavedRecipes = () => async (dispatch) => {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const userId = localStorage.getItem(USER_ID);
+    const response = await fetch(`/api/users/${userId}/recipes`, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      const list = await response.json();
+      dispatch(loadRecipes(list));
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getRecipeLikes = () => async (dispatch) => {
   try {
     const response = await fetch(`/api/recipes/likes`, {
