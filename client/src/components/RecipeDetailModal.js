@@ -14,12 +14,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-
 import RecipeLike from "./RecipeLike";
 import TipLike from "./TipLike";
 import RecipeTips from "./RecipeTips";
-
 import { createRecipeTip } from "./store/actions/entities";
+import "./RecipeDetailModal.css";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -28,6 +27,14 @@ const useStyles = makeStyles((theme) => ({
   title: {
     marginLeft: theme.spacing(2),
     flex: 1,
+  },
+
+  paper: {
+    margin: "30px",
+  },
+
+  listItem: {
+    borderTop: "1px solid #ececec",
   },
 }));
 
@@ -126,43 +133,49 @@ const RecipeDetailModal = (props) => {
             )}
           </Toolbar>
         </AppBar>
+        <div className="recipe-image">
+          <Paper className={classes.paper}>
+            <img
+              style={{ width: "100%" }}
+              src={currentRecipe ? currentRecipe.imageUrl : null}
+            />
+            <RecipeLike
+              likes={currentRecipe ? currentRecipe.likes : null}
+              recipeId={currentRecipe ? currentRecipe.recipeId : null}
+            />
+            <h5>{currentRecipe ? currentRecipe.description : null}</h5>
+            <h5>
+              Cook Time:
+              {currentRecipe ? `${currentRecipe.cookTime} min` : null}
+            </h5>
+            <h5>Course: {currentRecipe ? currentRecipe.course : null}</h5>
+          </Paper>
+        </div>
         <Grid container spacing={3}>
           <Grid item xs={6}>
-            <Paper>
-              <img
-                style={{ width: "100%" }}
-                src={currentRecipe ? currentRecipe.imageUrl : null}
-              />
-              <RecipeLike
-                likes={currentRecipe ? currentRecipe.likes : null}
-                recipeId={currentRecipe ? currentRecipe.recipeId : null}
-              />
-              <h5>
-                Cook Time:
-                {currentRecipe ? `${currentRecipe.cookTime} min` : null}
-              </h5>
-              <h5>Course: {currentRecipe ? currentRecipe.course : null}</h5>
-            </Paper>
-          </Grid>
-          <Grid item xs={3}>
             <Paper className={classes.paper}>
               <h3>Ingredients</h3>
               <List>
                 {currentRecipe
                   ? currentRecipe.ingredients.map((ingredient) => (
-                      <ListItem key={ingredient.id}>{ingredient} </ListItem>
+                      <ListItem
+                        className={classes.listItem}
+                        key={ingredient.id}
+                      >
+                        {ingredient}{" "}
+                      </ListItem>
                     ))
                   : null}
               </List>
             </Paper>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={6}>
             <Paper className={classes.paper}>
               <h3>Instructions</h3>
               <List>
                 {currentRecipe
                   ? currentRecipe.instructions.map((instruction, i) => (
-                      <ListItem key={instruction}>
+                      <ListItem className={classes.listItem} key={instruction}>
                         {i + 1}. {instruction}
                       </ListItem>
                     ))
@@ -171,6 +184,7 @@ const RecipeDetailModal = (props) => {
             </Paper>
           </Grid>
         </Grid>
+
         <RecipeTips
           getTipsForRecipe={getTipsForRecipe}
           currentRecipe={currentRecipe}

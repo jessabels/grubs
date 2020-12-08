@@ -62,7 +62,6 @@ const Profile = () => {
     recipes ? state.sessions.currentRecipeId : null
   );
 
-  console.log("recipes", recipes);
   const currentRecipe = recipes ? recipes[selectedRecipeId] : null;
   const classes = useStyles();
 

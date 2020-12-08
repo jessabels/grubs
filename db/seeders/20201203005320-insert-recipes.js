@@ -53,6 +53,37 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          title: "Whole-Wheat Vegan Waffles",
+          description:
+            "These dairy- and egg-free waffles are both crisp and tender-and so simple to make. Be sure to use refrigerated soy milk instead of the shelf-stable kind: There are fewer additives, which can greatly affect the final texture and taste of a recipe",
+          cookTime: 15,
+          imageUrl: "https://grubs.s3.amazonaws.com/vegan-waffles.jpeg",
+          course: "Breakfast",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          title: "Thai Coconut, Broccoli and Coriander Soup",
+          description:
+            "The perfect quick-fix dinner for chillier nights when you want something warming but don't have much time to cook—the combination of feel-good greens and creamy coconut is a real winner.",
+          cookTime: 10,
+          imageUrl:
+            "https://grubs.s3.amazonaws.com/thai-broccoli-coconut-soup.jpg",
+          course: "Dinner",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          title: "Green Goddess Sandwich",
+          description:
+            "This is the yummiest, meltiest, greenest vegan grilled cheese you'll ever eat! You'll feel like a green goddess (or god) when you treat yourself to one of them",
+          cookTime: 5,
+          imageUrl: "https://grubs.s3.amazonaws.com/green-goddess-sandwich.jpg",
+          course: "Lunch",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

@@ -44,6 +44,29 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          text:
+            "Delicious! I used a silicone waffle mould and baked them in the oven, it worked perfectly.",
+          recipeId: 6,
+          userId: 5,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          text:
+            "This is delicious. I am in quarantine and this has been the perfect dinner. I included some minced ginger before the curry. I also used frozen broccoli because that was all I had on hand. I serve with black rice for added texture",
+          recipeId: 7,
+          userId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          text: "I reccommend adding an extra slice of vegan cheese!",
+          recipeId: 8,
+          userId: 5,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
