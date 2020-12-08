@@ -1,5 +1,5 @@
 import merge from "lodash/merge";
-import { loginErrors, signupErrors } from "./errors";
+import { loginErrors, signupErrors, tipFormErrors } from "./errors";
 import { currentUserId, loadToken, removeToken } from "./session";
 
 export const GET_RECIPES = "GET_RECIPES";
@@ -334,20 +334,29 @@ export const createRecipeTip = (text, recipeId, course, dietId) => async (
 ) => {
   const token = localStorage.getItem(TOKEN_KEY);
   const userId = localStorage.getItem(USER_ID);
-  const response = await fetch(`/api/recipes/${recipeId}/tips`, {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ userId, recipeId, text }),
-  });
-  if (response.ok) {
-    const tips = await response.json();
-    course && dietId
-      ? dispatch(getRecipes(course, dietId))
-      : dispatch(getSavedRecipes());
-    dispatch(getRecipeTips());
+  try {
+    const response = await fetch(`/api/recipes/${recipeId}/tips`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ userId, recipeId, text }),
+    });
+    if (response.ok) {
+      const tips = await response.json();
+      course && dietId
+        ? dispatch(getRecipes(course, dietId))
+        : dispatch(getSavedRecipes());
+      dispatch(getRecipeTips());
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    const badRequest = await err.json();
+    console.log("bad request", badRequest);
+    const errors = badRequest.error.errors;
+    dispatch(tipFormErrors(errors));
   }
 };
 

@@ -11,6 +11,7 @@ module.exports = {
       text: {
         type: Sequelize.STRING,
         allowNull: false,
+        notEmpty: true,
       },
       recipeId: {
         type: Sequelize.INTEGER,

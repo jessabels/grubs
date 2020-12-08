@@ -3,7 +3,11 @@ const router = express.Router();
 
 const db = require("../../db/models");
 const { RecipeDiet, Recipe, Like, Tip, Instruction, Ingredient } = db;
-const { asyncHandler } = require("../../utils");
+const {
+  asyncHandler,
+  handleValidationErrors,
+  validateText,
+} = require("../../utils");
 const { requireAuth } = require("../../auth");
 
 router.get(
@@ -255,7 +259,7 @@ router.get(
 // post a tip
 router.post(
   "/:recipeId/tips",
-  requireAuth,
+  [requireAuth, validateText, handleValidationErrors],
   asyncHandler(async (req, res) => {
     const tip = await Tip.create({
       text: req.body.text,

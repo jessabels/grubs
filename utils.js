@@ -17,6 +17,12 @@ const handleValidationErrors = (req, res, next) => {
   next();
 };
 
+const validateText = [
+  check("text")
+    .exists({ checkFalsy: true })
+    .withMessage("Please provide a tip"),
+];
+
 const validateUserEmailAndPassword = [
   check("email")
     .exists({ checkFalsy: true })
@@ -78,4 +84,5 @@ module.exports = {
   handleValidationErrors,
   validateSignUpUser,
   validateUserEmailAndPassword,
+  validateText,
 };
