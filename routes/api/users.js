@@ -14,14 +14,18 @@ const { getUserToken, requireAuth } = require("../../auth");
 router.get(
   "/",
   asyncHandler(async function (req, res) {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      include: Recipe,
+    });
 
     const userData = users.map((user) => {
+      const savedRecipeIds = user.Recipes.map((recipe) => recipe.id);
       return {
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        savedRecipes: savedRecipeIds,
       };
     });
     res.json(userData);

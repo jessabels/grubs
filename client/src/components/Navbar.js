@@ -1,10 +1,10 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink, withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Avatar from "@material-ui/core/Avatar";
+import HomeIcon from "@material-ui/icons/Home";
 
 import "./Navbar.css";
 import Logout from "./auth/Logout";
@@ -22,7 +22,13 @@ const Navbar = (props) => {
     <div className="navbar-container">
       <AppBar className={classes.navbar} position="static">
         <Toolbar className={classes.navbar}>
-          <div className="logo-info"></div>
+          <div className="logo-info">
+            {props.location.pathname === "/profile" ? (
+              <NavLink to="/">
+                <HomeIcon />{" "}
+              </NavLink>
+            ) : null}
+          </div>
 
           <div className="user-info" style={{ display: "flex" }}>
             <Link to="/profile">
@@ -36,4 +42,4 @@ const Navbar = (props) => {
   );
 };
 
-export default Navbar;
+export default withRouter(Navbar);

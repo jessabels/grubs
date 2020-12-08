@@ -53,7 +53,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const Profile = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const recipes = useSelector((state) => state.entities.recipes);
   const recipeTips = useSelector((state) => state.entities.recipeTips);
@@ -62,10 +62,12 @@ const Profile = () => {
     recipes ? state.sessions.currentRecipeId : null
   );
 
+  console.log("recipes", recipes);
   const currentRecipe = recipes ? recipes[selectedRecipeId] : null;
   const classes = useStyles();
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getSavedRecipes());
     dispatch(getRecipeLikes());
@@ -83,7 +85,6 @@ const Profile = () => {
   };
 
   const handleRecipeCardClick = (recipeId) => {
-    console.log("recipe id", recipeId);
     setOpen(true);
     dispatch(currentRecipeId(recipeId));
   };
@@ -99,39 +100,35 @@ const Profile = () => {
   return (
     <>
       <h1>Saved Recipes</h1>
-      {recipes
-        ? Object.values(recipes).map((recipe) => {
-            return (
-              <Card key={recipe.id} className={classes.root}>
-                <CardHeader
-                  action={
-                    <IconButton aria-label="delete">
-                      <DeleteIcon
-                        onClick={() => handleDelete(recipe.recipeId)}
-                      />
-                    </IconButton>
-                  }
-                  title={recipe.title}
-                />
-                <CardMedia
-                  onClick={() => handleRecipeCardClick(recipe.recipeId)}
-                  className={classes.media}
-                  image={recipe.imageUrl}
-                  title={recipe.title}
-                />
-                <CardContent>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    {recipe.description}
-                  </Typography>
-                </CardContent>
-              </Card>
-            );
-          })
-        : "No saved recipes!"}
+      {recipes ? (
+        Object.values(recipes).map((recipe) => {
+          return (
+            <Card key={recipe.recipeId} className={classes.root}>
+              <CardHeader
+                title={recipe.title}
+                action={
+                  <IconButton onClick={() => handleDelete(recipe.recipeId)}>
+                    <DeleteIcon />
+                  </IconButton>
+                }
+              />
+              <CardMedia
+                onClick={() => handleRecipeCardClick(recipe.recipeId)}
+                className={classes.media}
+                image={recipe.imageUrl}
+                title={recipe.title}
+              />
+              <CardContent>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {recipe.description}
+                </Typography>
+              </CardContent>
+            </Card>
+          );
+        })
+      ) : (
+        <h3>No saved recipes!</h3>
+      )}
       <RecipeDetailModal
         open={open}
         handleClose={handleClose}

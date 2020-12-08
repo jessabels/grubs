@@ -7,22 +7,29 @@ import { Provider } from "react-redux";
 import configureStore from "./components/store/configureStore";
 
 const initialState = {
-  entities: {},
+  entities: {
+    recipes: {},
+    recipeLikes: {},
+    tipLikes: {},
+    recipeTips: {},
+    users: {
+      savedRecipes: [],
+    },
+  },
   errors: {
     loginErrors: [],
     signupErrors: [],
   },
   sessions: {
     currentRecipeId: null,
+    currentUserId: null,
   },
 };
 const store = configureStore(initialState);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <AppContainer />
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <AppContainer />
+  </Provider>,
   document.getElementById("root")
 );

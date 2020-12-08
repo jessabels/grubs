@@ -31,7 +31,6 @@ const CourseSelection = () => {
 
   const currentRecipe = recipes ? recipes[selectedRecipeId] : null;
   const users = useSelector((state) => state.entities.users);
-
   const dispatch = useDispatch();
 
   const [course, setCourse] = useState("");

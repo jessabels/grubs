@@ -32,15 +32,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RecipeDetailModal = (props) => {
-  const classes = useStyles();
-
-  const recipes = useSelector((state) => state.entities.recipes);
-
-  const currentRecipeId = useSelector((state) =>
-    recipes ? state.sessions.currentRecipeId : null
-  );
-  const dispatch = useDispatch();
-
   const {
     open,
     handleClose,
@@ -48,10 +39,26 @@ const RecipeDetailModal = (props) => {
     currentRecipe,
     handleSave,
     recipeTips,
-    users,
     text,
     setText,
+    users,
   } = props;
+
+  const classes = useStyles();
+
+  const recipes = useSelector((state) => state.entities.recipes);
+
+  const currentRecipeId = useSelector((state) =>
+    recipes ? state.sessions.currentRecipeId : null
+  );
+
+  const currentUserId = useSelector((state) =>
+    parseInt(state.sessions.currentUserId)
+  );
+
+  const currentUser = users ? users[currentUserId] : null;
+
+  const dispatch = useDispatch();
 
   const getTipsForRecipe = () => {
     const tips = Object.values(recipeTips).filter((recipeTip) => {
@@ -82,6 +89,11 @@ const RecipeDetailModal = (props) => {
     );
     setText("");
   };
+
+  const userAlreadySaved =
+    currentUser && currentUser.savedRecipes
+      ? currentUser.savedRecipes.includes(currentRecipeId)
+      : null;
   return (
     <>
       <Dialog
@@ -103,9 +115,15 @@ const RecipeDetailModal = (props) => {
             <Typography variant="h6" className={classes.title}>
               {currentRecipe ? currentRecipe.title : null}
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleSave}>
-              save
-            </Button>
+            {userAlreadySaved ? (
+              <Button variant="contained" disabled>
+                Saved
+              </Button>
+            ) : (
+              <Button autoFocus color="inherit" onClick={handleSave}>
+                Save
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
         <Grid container spacing={3}>

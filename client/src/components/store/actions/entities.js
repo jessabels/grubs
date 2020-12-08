@@ -6,6 +6,7 @@ export const GET_RECIPES = "GET_RECIPES";
 export const GET_RECIPE_LIKES = "GET_RECIPE_LIKES";
 export const GET_RECIPE_TIPS = "GET_RECIPE_TIPS";
 export const GET_TIP_LIKES = "GET_TIP_LIKES";
+export const DELETE_SAVED_RECIPE = "DELETE_SAVED_RECIPE";
 export const GET_USERS = "GET_USERS";
 export const TOKEN_KEY = "TOKEN_KEY";
 export const USER_ID = "USER_ID";
@@ -45,6 +46,13 @@ export const loadUsers = (list) => {
   };
 };
 
+export const remove = (id) => {
+  return {
+    type: DELETE_SAVED_RECIPE,
+    id,
+  };
+};
+
 export const login = (email, password) => async (dispatch) => {
   try {
     const response = await fetch(`/api/session`, {
@@ -57,7 +65,6 @@ export const login = (email, password) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log("data", data);
       dispatch(loginErrors([]));
       dispatch(currentUserId(data.userId));
       window.localStorage.setItem(USER_ID, data.userId);
@@ -196,7 +203,8 @@ export const deleteRecipe = (recipeId) => async (dispatch) => {
     });
 
     if (response.ok) {
-      dispatch(getSavedRecipes());
+      const recipe = await response.json();
+      dispatch(remove(recipe.deletedRecipe.recipeId));
     } else {
       throw response;
     }
@@ -234,7 +242,6 @@ export const getRecipeTips = () => async (dispatch) => {
 
     if (response.ok) {
       const list = await response.json();
-      console.log("LIST", list);
       dispatch(loadRecipeTips(list));
     } else {
       throw response;
@@ -413,7 +420,6 @@ export const unlikeRecipeTip = (tipId, recipeId, course, dietId) => async (
 };
 
 export default function reducer(state = {}, action) {
-  Object.freeze(state);
   let newState = Object.assign({}, state);
 
   switch (action.type) {
@@ -424,6 +430,7 @@ export default function reducer(state = {}, action) {
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
+        savedRecipes: user.savedRecipes,
       }));
 
       users.forEach((user) => {
@@ -467,7 +474,6 @@ export default function reducer(state = {}, action) {
 
     case GET_TIP_LIKES:
       newState["tipLikes"] = {};
-      console.log("ACTION LIST", action.list);
       const tipLikes = action.list.likes.map((like) => ({
         id: like.id,
         userId: like.userId,
@@ -493,6 +499,9 @@ export default function reducer(state = {}, action) {
       });
       return newState;
 
+    case DELETE_SAVED_RECIPE:
+      const { [action.id]: deleted, ...rest } = newState.recipes;
+      return { ...newState, recipes: { ...rest } };
     default:
       return state;
   }

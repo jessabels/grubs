@@ -18,10 +18,8 @@ const validateEmailAndPassword = [
 ];
 router.post(
   "/",
-  // validateEmailAndPassword,
+  validateEmailAndPassword,
   asyncHandler(async (req, res, next) => {
-    console.log("hi");
-    console.log(req.body);
     const { email, password } = req.body;
     const user = await User.findOne({
       where: {
