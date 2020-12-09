@@ -104,7 +104,6 @@ const RecipeDetailModal = (props) => {
   return (
     <>
       <Dialog
-        fullScreen
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}
@@ -143,25 +142,21 @@ const RecipeDetailModal = (props) => {
               likes={currentRecipe ? currentRecipe.likes : null}
               recipeId={currentRecipe ? currentRecipe.recipeId : null}
             />
-            <h5>{currentRecipe ? currentRecipe.description : null}</h5>
-            <h5>
+            <p>{currentRecipe ? currentRecipe.description : null}</p>
+            <p>
               Cook Time:
               {currentRecipe ? `${currentRecipe.cookTime} min` : null}
-            </h5>
-            <h5>Course: {currentRecipe ? currentRecipe.course : null}</h5>
+            </p>
           </Paper>
         </div>
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
               <h3>Ingredients</h3>
               <List>
                 {currentRecipe
                   ? currentRecipe.ingredients.map((ingredient) => (
-                      <ListItem
-                        className={classes.listItem}
-                        key={ingredient.id}
-                      >
+                      <ListItem className={classes.listItem} key={ingredient}>
                         {ingredient}{" "}
                       </ListItem>
                     ))
@@ -193,7 +188,6 @@ const RecipeDetailModal = (props) => {
           setText={setText}
         />
       </Dialog>
-      ;
     </>
   );
 };

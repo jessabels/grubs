@@ -12,13 +12,17 @@ import {
 } from "./store/actions/entities";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import { red } from "@material-ui/core/colors";
+import {
+  Card,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  IconButton,
+  Typography,
+  colors,
+  Grid,
+} from "@material-ui/core";
+
 import DeleteIcon from "@material-ui/icons/Delete";
 import RecipeDetailModal from "./RecipeDetailModal";
 import { Slide } from "@material-ui/core";
@@ -28,6 +32,7 @@ import { currentRecipeId } from "./store/actions/session";
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
+    marginBottom: "50px",
   },
   media: {
     height: 0,
@@ -42,9 +47,6 @@ const useStyles = makeStyles((theme) => ({
   },
   expandOpen: {
     transform: "rotate(180deg)",
-  },
-  avatar: {
-    backgroundColor: red[500],
   },
 }));
 
@@ -99,47 +101,55 @@ const Profile = () => {
   return (
     <>
       <h1>Saved Recipes</h1>
-      {recipes ? (
-        Object.values(recipes).map((recipe) => {
-          return (
-            <Card key={recipe.recipeId} className={classes.root}>
-              <CardHeader
-                title={recipe.title}
-                action={
-                  <IconButton onClick={() => handleDelete(recipe.recipeId)}>
-                    <DeleteIcon />
-                  </IconButton>
-                }
-              />
-              <CardMedia
-                onClick={() => handleRecipeCardClick(recipe.recipeId)}
-                className={classes.media}
-                image={recipe.imageUrl}
-                title={recipe.title}
-              />
-              <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {recipe.description}
-                </Typography>
-              </CardContent>
-            </Card>
-          );
-        })
-      ) : (
-        <h3>No saved recipes!</h3>
-      )}
-      <RecipeDetailModal
-        open={open}
-        handleClose={handleClose}
-        Transition={Transition}
-        currentRecipe={currentRecipe}
-        handleSave={handleSave}
-        recipeTips={recipeTips}
-        users={users}
-        text={text}
-        setText={setText}
-        handleTipSubmit={handleTipSubmit}
-      />
+      <Grid container>
+        {recipes ? (
+          Object.values(recipes).map((recipe) => {
+            return (
+              <Grid key={recipe.recipeId} item xs={6} sm={4}>
+                <Card className={classes.root}>
+                  <CardHeader
+                    title={recipe.title}
+                    action={
+                      <IconButton onClick={() => handleDelete(recipe.recipeId)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    }
+                  />
+                  <CardMedia
+                    onClick={() => handleRecipeCardClick(recipe.recipeId)}
+                    className={classes.media}
+                    image={recipe.imageUrl}
+                    title={recipe.title}
+                  />
+                  <CardContent>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      {recipe.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            );
+          })
+        ) : (
+          <h3>No saved recipes!</h3>
+        )}
+        <RecipeDetailModal
+          open={open}
+          handleClose={handleClose}
+          Transition={Transition}
+          currentRecipe={currentRecipe}
+          handleSave={handleSave}
+          recipeTips={recipeTips}
+          users={users}
+          text={text}
+          setText={setText}
+          handleTipSubmit={handleTipSubmit}
+        />
+      </Grid>
     </>
   );
 };

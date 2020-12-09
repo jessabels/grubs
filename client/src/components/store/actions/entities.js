@@ -345,6 +345,7 @@ export const createRecipeTip = (text, recipeId, course, dietId) => async (
     });
     if (response.ok) {
       const tips = await response.json();
+      dispatch(tipFormErrors([]));
       course && dietId
         ? dispatch(getRecipes(course, dietId))
         : dispatch(getSavedRecipes());
@@ -354,7 +355,6 @@ export const createRecipeTip = (text, recipeId, course, dietId) => async (
     }
   } catch (err) {
     const badRequest = await err.json();
-    console.log("bad request", badRequest);
     const errors = badRequest.error.errors;
     dispatch(tipFormErrors(errors));
   }

@@ -1,11 +1,6 @@
 .recipe-image {
-  width: 50%;
   display: block;
   margin: 5px auto;
-}
-
-.tips-container {
-  width: 50%;
 }
 
 .tips-container form {

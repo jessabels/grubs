@@ -102,13 +102,22 @@ const CourseSelection = () => {
       <div>{errors}</div>
       <Grid container spacing={3}>
         <Grid item xs>
-          <Paper onClick={() => chooseCourse("Breakfast")}>Breakfast</Paper>
+          <img
+            onClick={() => chooseCourse("Breakfast")}
+            src="https://grubs.s3.amazonaws.com/breakfast-icon.png"
+          />
         </Grid>
         <Grid item xs>
-          <Paper onClick={() => chooseCourse("Lunch")}>Lunch</Paper>
+          <img
+            onClick={() => chooseCourse("Lunch")}
+            src="https://grubs.s3.amazonaws.com/lunch-icon.png"
+          />
         </Grid>
         <Grid item xs>
-          <Paper onClick={() => chooseCourse("Dinner")}>Dinner</Paper>
+          <img
+            onClick={() => chooseCourse("Dinner")}
+            src="https://grubs.s3.amazonaws.com/dinner-icon.png"
+          />
         </Grid>
       </Grid>
       <h1>Choose a diet</h1>
@@ -135,7 +144,7 @@ const CourseSelection = () => {
         <Carousel>
           {recipes
             ? Object.values(recipes).map((recipe) => (
-                <Carousel.Item key={recipe.id}>
+                <Carousel.Item key={recipe.recipeId}>
                   <img
                     style={{ height: "650px" }}
                     className="d-block w-100"

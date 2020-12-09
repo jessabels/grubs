@@ -4,6 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp as outlinedThumbsUp } from "@fortawesome/free-regular-svg-icons";
+import { faThumbsUp as solidThumbsUp } from "@fortawesome/free-solid-svg-icons";
+
 import DeleteIcon from "@material-ui/icons/Delete";
 import {
   likeRecipeTip,
@@ -63,9 +68,15 @@ const TipLike = (props) => {
   return (
     <>
       {!userPosted && userLiked ? (
-        <FavoriteIcon onClick={() => handleLike(props.tip.id)} />
+        <FontAwesomeIcon
+          icon={solidThumbsUp}
+          onClick={() => handleLike(props.tip.id)}
+        />
       ) : !userPosted && !userLiked ? (
-        <FavoriteBorderIcon onClick={() => handleLike(props.tip.id)} />
+        <FontAwesomeIcon
+          icon={outlinedThumbsUp}
+          onClick={() => handleLike(props.tip.id)}
+        />
       ) : (
         <DeleteIcon onClick={() => handleRemoveTip(props.tip.id)} />
       )}
