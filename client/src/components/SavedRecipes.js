@@ -64,7 +64,9 @@ const SavedRecipes = () => {
     recipes ? state.sessions.currentRecipeId : null
   );
 
-  const currentRecipe = recipes ? recipes[selectedRecipeId] : null;
+  const currentRecipe = Object.values(recipes).length
+    ? recipes[selectedRecipeId]
+    : null;
   const classes = useStyles();
 
   const dispatch = useDispatch();

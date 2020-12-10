@@ -9,22 +9,13 @@ import {
   InputAdornment,
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-
-const RecipeTips = (props) => {
+const RecipeTipForm = (props) => {
   const formErrors = useSelector((state) => state.errors.tipFormErrors);
 
-  const {
-    currentRecipe,
-    getTipsForRecipe,
-    handleTipSubmit,
-    text,
-    setText,
-  } = props;
+  const { handleTipSubmit, text, setText } = props;
 
   return (
-    <div className="tips-container">
-      Tips
-      <List>{currentRecipe ? getTipsForRecipe() : null} </List>
+    <>
       <div>{formErrors ? formErrors[0] : null}</div>
       <form noValidate autoComplete="off">
         <TextField
@@ -50,8 +41,8 @@ const RecipeTips = (props) => {
           Submit
         </Button>
       </form>
-    </div>
+    </>
   );
 };
 
-export default RecipeTips;
+export default RecipeTipForm;

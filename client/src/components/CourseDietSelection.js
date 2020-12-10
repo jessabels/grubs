@@ -50,12 +50,10 @@ const CourseSelection = () => {
 
   const chooseCourse = (selectedCourse) => {
     setCourse(selectedCourse);
-    console.log(selectedCourse);
   };
 
   const chooseDiet = (selectedDiet) => {
     setDietId(selectedDiet);
-    console.log(selectedDiet);
   };
 
   const handleSubmitChoices = () => {

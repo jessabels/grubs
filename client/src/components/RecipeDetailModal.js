@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -12,12 +12,11 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  TextField,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import RecipeLike from "./RecipeLike";
-import TipLike from "./TipLike";
-import RecipeTips from "./RecipeTips";
+import RecipeTip from "./RecipeTip";
+import RecipeTipForm from "./RecipeTipForm";
 import { createRecipeTip } from "./store/actions/entities";
 import "./RecipeDetailModal.css";
 
@@ -54,6 +53,7 @@ const RecipeDetailModal = (props) => {
 
   const [inputVisible, setInputVisible] = useState(false);
   const [editText, setEditText] = useState("");
+  const [tips, setTips] = useState(null);
   const classes = useStyles();
 
   const recipes = useSelector((state) => state.entities.recipes);
@@ -70,53 +70,15 @@ const RecipeDetailModal = (props) => {
 
   const dispatch = useDispatch();
 
-  const getTipsForRecipe = () => {
-    const tips = Object.values(recipeTips).filter((recipeTip) => {
-      return currentRecipe.tips.includes(recipeTip.id);
-    });
-    return tips.map((tip) => {
-      const userPosted = tip.userId === currentUserId;
-      return (
-        <>
-          {inputVisible && userPosted ? (
-            <ListItem key={tip.id}>
-              <TextField
-                fullWidth
-                variant="outlined"
-                value={editText}
-                onChange={(e) => {
-                  setEditText(e.target.value);
-                }}
-              />
-
-              <TipLike
-                tips={tips}
-                tip={tip}
-                setInputVisible={setInputVisible}
-                inputVisible={inputVisible}
-                editText={editText}
-                setEditText={setEditText}
-              />
-            </ListItem>
-          ) : (
-            <ListItem key={tip.id}>
-              {`${tip.text} posted by ${users[tip.userId].firstName} ${
-                users[tip.userId].lastName
-              }`}
-              <TipLike
-                tips={tips}
-                tip={tip}
-                setInputVisible={setInputVisible}
-                inputVisible={inputVisible}
-                editText={editText}
-                setEditText={setEditText}
-              />
-            </ListItem>
-          )}
-        </>
+  useEffect(() => {
+    if (currentRecipe) {
+      setTips(
+        Object.values(recipeTips).filter((recipeTip) => {
+          return currentRecipe.tips.includes(recipeTip.id);
+        })
       );
-    });
-  };
+    }
+  }, [currentRecipe]);
 
   const handleTipSubmit = (e) => {
     const currentRecipeCourse = currentRecipe.course;
@@ -137,6 +99,7 @@ const RecipeDetailModal = (props) => {
     currentUser && currentUser.savedRecipes
       ? currentUser.savedRecipes.includes(currentRecipeId)
       : null;
+
   return (
     <>
       <Dialog
@@ -216,9 +179,17 @@ const RecipeDetailModal = (props) => {
           </Grid>
         </Grid>
 
-        <RecipeTips
-          getTipsForRecipe={getTipsForRecipe}
-          currentRecipe={currentRecipe}
+        {tips &&
+          tips.map((tip) => (
+            <RecipeTip
+              tip={tip}
+              tips={tips}
+              users={users}
+              currentUserId={currentUserId}
+              currentRecipe={currentRecipe}
+            />
+          ))}
+        <RecipeTipForm
           handleTipSubmit={handleTipSubmit}
           text={text}
           setText={setText}
