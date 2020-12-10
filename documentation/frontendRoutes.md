@@ -3,6 +3,4 @@
 - /login
 - /signup
 - /
-- /home
-- /recipes/:recipeId
-- /profile
+- /savedRecipes

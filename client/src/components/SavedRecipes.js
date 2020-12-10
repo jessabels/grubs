@@ -54,7 +54,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Profile = () => {
+const SavedRecipes = () => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const recipes = useSelector((state) => state.entities.recipes);
@@ -98,6 +98,7 @@ const Profile = () => {
     dispatch(createRecipeTip(text, currentRecipeId));
     setText("");
   };
+
   return (
     <>
       <h1>Saved Recipes</h1>
@@ -154,4 +155,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default SavedRecipes;

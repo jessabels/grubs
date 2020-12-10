@@ -271,6 +271,19 @@ router.post(
   })
 );
 
+//edit a tip
+router.put(
+  "/:recipeId/tips/:tipId",
+  [requireAuth, validateText, handleValidationErrors],
+  asyncHandler(async (req, res) => {
+    const tip = await Tip.findByPk(req.params.tipId);
+    await tip.update({
+      text: req.body.text,
+    });
+    res.json({ tip });
+  })
+);
+
 //delete a tip
 router.delete(
   "/:recipeId/tips/:tipId",

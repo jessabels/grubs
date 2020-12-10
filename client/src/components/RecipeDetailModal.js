@@ -12,6 +12,7 @@ import {
   Toolbar,
   IconButton,
   Typography,
+  TextField,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import RecipeLike from "./RecipeLike";
@@ -51,6 +52,8 @@ const RecipeDetailModal = (props) => {
     users,
   } = props;
 
+  const [inputVisible, setInputVisible] = useState(false);
+  const [editText, setEditText] = useState("");
   const classes = useStyles();
 
   const recipes = useSelector((state) => state.entities.recipes);
@@ -72,16 +75,49 @@ const RecipeDetailModal = (props) => {
       return currentRecipe.tips.includes(recipeTip.id);
     });
     return tips.map((tip) => {
+      const userPosted = tip.userId === currentUserId;
       return (
-        <ListItem key={tip.id}>
-          {`${tip.text} posted by ${users[tip.userId].firstName} ${
-            users[tip.userId].lastName
-          }`}
-          <TipLike tips={tips} tip={tip} />
-        </ListItem>
+        <>
+          {inputVisible && userPosted ? (
+            <ListItem key={tip.id}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                value={editText}
+                onChange={(e) => {
+                  setEditText(e.target.value);
+                }}
+              />
+
+              <TipLike
+                tips={tips}
+                tip={tip}
+                setInputVisible={setInputVisible}
+                inputVisible={inputVisible}
+                editText={editText}
+                setEditText={setEditText}
+              />
+            </ListItem>
+          ) : (
+            <ListItem key={tip.id}>
+              {`${tip.text} posted by ${users[tip.userId].firstName} ${
+                users[tip.userId].lastName
+              }`}
+              <TipLike
+                tips={tips}
+                tip={tip}
+                setInputVisible={setInputVisible}
+                inputVisible={inputVisible}
+                editText={editText}
+                setEditText={setEditText}
+              />
+            </ListItem>
+          )}
+        </>
       );
     });
   };
+
   const handleTipSubmit = (e) => {
     const currentRecipeCourse = currentRecipe.course;
     const currentRecipeDietId = currentRecipe.dietId;

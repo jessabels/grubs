@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Switch, Route, NavLink } from "react-router-dom";
+import { BrowserRouter, Switch } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import Homepage from "./components/Homepage";
@@ -7,10 +7,9 @@ import Navbar from "./components/Navbar";
 import { ProtectedRoute, PrivateRoute } from "./util/route-util";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserId, loadToken } from "./components/store/actions/session";
-import { getUsers } from "./components/store/actions/entities";
 
 import CourseDietSelection from "./components/CourseDietSelection";
-import Profile from "./components/Profile";
+import SavedRecipes from "./components/SavedRecipes";
 
 function App({ needLogin, loadToken }) {
   const token = useSelector((state) => state.sessions.currentToken);
@@ -63,10 +62,10 @@ function App({ needLogin, loadToken }) {
             component={CourseDietSelection}
           />
           <PrivateRoute
-            path="/profile"
+            path="/savedRecipes"
             exact={true}
             needLogin={needLogin}
-            component={Profile}
+            component={SavedRecipes}
           />
         </Switch>
       </BrowserRouter>

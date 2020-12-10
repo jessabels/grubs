@@ -2,9 +2,9 @@ import React from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-
+import CreateIcon from "@material-ui/icons/Create";
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp as outlinedThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { faThumbsUp as solidThumbsUp } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +14,7 @@ import {
   likeRecipeTip,
   unlikeRecipeTip,
   removeRecipeTip,
+  updateRecipeTip,
 } from "./store/actions/entities";
 
 const TipLike = (props) => {
@@ -65,6 +66,20 @@ const TipLike = (props) => {
     );
   };
 
+  const handleUpdateTip = (tipId) => {
+    props.setInputVisible(false);
+
+    dispatch(
+      updateRecipeTip(
+        props.editText,
+        tipId,
+        currentRecipeId,
+        currentRecipeCourse,
+        currentRecipeDietId
+      )
+    );
+  };
+
   return (
     <>
       {!userPosted && userLiked ? (
@@ -78,7 +93,24 @@ const TipLike = (props) => {
           onClick={() => handleLike(props.tip.id)}
         />
       ) : (
-        <DeleteIcon onClick={() => handleRemoveTip(props.tip.id)} />
+        <>
+          {!props.inputVisible ? (
+            <>
+              <CreateIcon
+                onClick={() => {
+                  props.setInputVisible(true);
+                  props.setEditText(props.tip.text);
+                }}
+              />
+              <DeleteIcon onClick={() => handleRemoveTip(props.tip.id)} />
+            </>
+          ) : (
+            <>
+              <CheckIcon onClick={() => handleUpdateTip(props.tip.id)} />
+              <ClearIcon onClick={() => props.setInputVisible(false)} />
+            </>
+          )}
+        </>
       )}
 
       <span style={{ fontSize: ".5em", marginRight: "5px" }}>

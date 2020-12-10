@@ -15,7 +15,7 @@ import { currentRecipeId } from "./store/actions/session";
 import { useSelector, useDispatch } from "react-redux";
 import Carousel from "react-bootstrap/Carousel";
 import { Slide } from "@material-ui/core";
-
+import "./CourseDietSelection.css";
 import RecipeDetailModal from "./RecipeDetailModal";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -98,43 +98,59 @@ const CourseSelection = () => {
 
   return !hiddenOptions ? (
     <div>
-      <h1>Choose a course </h1>
       <div>{errors}</div>
-      <Grid container spacing={3}>
-        <Grid item xs>
-          <img
-            onClick={() => chooseCourse("Breakfast")}
-            src="https://grubs.s3.amazonaws.com/breakfast-icon.png"
-          />
+      <div className="courses-div">
+        <h1 className="title">Choose a course </h1>
+        <Grid container spacing={3}>
+          <Grid item xs>
+            <img
+              src="https://grubs.s3.amazonaws.com/icons/breakfast.png"
+              onClick={() => chooseCourse("Breakfast")}
+            />
+          </Grid>
+          <Grid item xs>
+            <img
+              src="https://grubs.s3.amazonaws.com/icons/lunch.png"
+              onClick={() => chooseCourse("Lunch")}
+            />
+          </Grid>
+          <Grid item xs>
+            <img
+              src="https://grubs.s3.amazonaws.com/icons/dinner.png"
+              onClick={() => chooseCourse("Dinner")}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs>
-          <img
-            onClick={() => chooseCourse("Lunch")}
-            src="https://grubs.s3.amazonaws.com/lunch-icon.png"
-          />
+      </div>
+      <div className="diets-div">
+        <h1 className="title">Choose a diet</h1>
+        <Grid container spacing={3}>
+          <Grid item xs>
+            <img
+              src="https://grubs.s3.amazonaws.com/icons/omnivore.png"
+              onClick={() => chooseDiet(1)}
+            />
+          </Grid>
+          <Grid item xs>
+            <img
+              src="https://grubs.s3.amazonaws.com/icons/vegan.png"
+              onClick={() => chooseDiet(2)}
+            />
+          </Grid>
+          <Grid item xs>
+            <img
+              src="https://grubs.s3.amazonaws.com/icons/omnivore.png"
+              onClick={() => chooseDiet(3)}
+            />
+          </Grid>
+          <Grid item xs>
+            <img
+              src="https://grubs.s3.amazonaws.com/icons/vegan.png"
+              onClick={() => chooseDiet(4)}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs>
-          <img
-            onClick={() => chooseCourse("Dinner")}
-            src="https://grubs.s3.amazonaws.com/dinner-icon.png"
-          />
-        </Grid>
-      </Grid>
-      <h1>Choose a diet</h1>
-      <Grid container spacing={3}>
-        <Grid item xs>
-          <Paper onClick={() => chooseDiet(1)}>None</Paper>
-        </Grid>
-        <Grid item xs>
-          <Paper onClick={() => chooseDiet(2)}>Vegan</Paper>
-        </Grid>
-        <Grid item xs>
-          <Paper onClick={() => chooseDiet(3)}>Vegetarian</Paper>
-        </Grid>
-        <Grid item xs>
-          <Paper onClick={() => chooseDiet(4)}>Pescatarian</Paper>
-        </Grid>
-      </Grid>
+      </div>
       <button onClick={handleSubmitChoices}>Done</button>
     </div>
   ) : (

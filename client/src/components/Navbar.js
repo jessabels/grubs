@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
   navbar: {
     display: "flex",
     justifyContent: "space-between",
+    background: "black",
   },
   listItem: {
     borderTop: "1px solid #f2f2f2",
@@ -48,7 +49,7 @@ const Navbar = (props) => {
         <AppBar className={classes.navbar} position="static">
           <Toolbar className={classes.navbar}>
             <div className="logo-info">
-              {props.location.pathname === "/profile" ? (
+              {props.location.pathname === "/savedRecipes" ? (
                 <NavLink to="/">
                   <HomeIcon />
                 </NavLink>
@@ -85,7 +86,7 @@ const Navbar = (props) => {
             <ListItem className={classes.listItem}>
               <Link
                 style={{ textDecoration: "none", color: "black" }}
-                to="/profile"
+                to="/savedRecipes"
                 onClick={handleClose}
               >
                 Saved Recipes

@@ -360,6 +360,41 @@ export const createRecipeTip = (text, recipeId, course, dietId) => async (
   }
 };
 
+export const updateRecipeTip = (
+  text,
+  tipId,
+  recipeId,
+  course,
+  dietId
+) => async (dispatch) => {
+  const token = localStorage.getItem(TOKEN_KEY);
+  const userId = localStorage.getItem(USER_ID);
+  try {
+    const response = await fetch(`/api/recipes/${recipeId}/tips/${tipId}`, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ userId, recipeId, text }),
+    });
+    if (response.ok) {
+      const tips = await response.json();
+      dispatch(tipFormErrors([]));
+      course && dietId
+        ? dispatch(getRecipes(course, dietId))
+        : dispatch(getSavedRecipes());
+      dispatch(getRecipeTips());
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    const badRequest = await err.json();
+    const errors = badRequest.error.errors;
+    dispatch(tipFormErrors(errors));
+  }
+};
+
 export const removeRecipeTip = (tipId, recipeId, course, dietId) => async (
   dispatch
 ) => {
