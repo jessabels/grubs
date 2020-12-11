@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   navbar: {
     display: "flex",
     justifyContent: "space-between",
-    background: "black",
+    background: "#795",
   },
   listItem: {
     borderTop: "1px solid #f2f2f2",

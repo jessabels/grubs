@@ -23,6 +23,7 @@ import "./RecipeDetailModal.css";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
+    background: "#795",
   },
   title: {
     marginLeft: theme.spacing(2),
@@ -35,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
 
   listItem: {
     borderTop: "1px solid #ececec",
+  },
+
+  label: {
+    color: "white",
   },
 }));
 
@@ -51,8 +56,6 @@ const RecipeDetailModal = (props) => {
     users,
   } = props;
 
-  const [inputVisible, setInputVisible] = useState(false);
-  const [editText, setEditText] = useState("");
   const [tips, setTips] = useState(null);
   const classes = useStyles();
 
@@ -78,7 +81,7 @@ const RecipeDetailModal = (props) => {
         })
       );
     }
-  }, [currentRecipe]);
+  }, [currentRecipe, recipeTips]);
 
   const handleTipSubmit = (e) => {
     const currentRecipeCourse = currentRecipe.course;
@@ -118,34 +121,52 @@ const RecipeDetailModal = (props) => {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              {currentRecipe ? currentRecipe.title : null}
+              {currentRecipe && currentRecipe.title}
             </Typography>
             {userAlreadySaved ? (
-              <Button variant="contained" disabled>
+              <Button
+                classes={{
+                  label: classes.label,
+                }}
+                variant="contained"
+                disabled
+              >
                 Saved
               </Button>
             ) : (
-              <Button autoFocus color="inherit" onClick={handleSave}>
+              <Button
+                classes={{
+                  root: classes.root,
+                  label: classes.label,
+                }}
+                autoFocus
+                color="inherit"
+                onClick={handleSave}
+              >
                 Save
               </Button>
             )}
           </Toolbar>
         </AppBar>
-        <div className="recipe-image">
+        <div className="recipe-card">
           <Paper className={classes.paper}>
             <img
               style={{ width: "100%" }}
-              src={currentRecipe ? currentRecipe.imageUrl : null}
+              src={currentRecipe && currentRecipe.imageUrl}
             />
-            <RecipeLike
-              likes={currentRecipe ? currentRecipe.likes : null}
-              recipeId={currentRecipe ? currentRecipe.recipeId : null}
-            />
-            <p>{currentRecipe ? currentRecipe.description : null}</p>
-            <p>
-              Cook Time:
-              {currentRecipe ? `${currentRecipe.cookTime} min` : null}
-            </p>
+            <div className="recipe-info">
+              <div>
+                <RecipeLike
+                  likes={currentRecipe && currentRecipe.likes}
+                  recipeId={currentRecipe && currentRecipe.recipeId}
+                />
+              </div>
+              <div>{currentRecipe && currentRecipe.description}</div>
+              <div>
+                Cook Time:
+                {currentRecipe && `${currentRecipe.cookTime} min`}
+              </div>
+            </div>
           </Paper>
         </div>
         <Grid container spacing={1}>
@@ -178,17 +199,20 @@ const RecipeDetailModal = (props) => {
             </Paper>
           </Grid>
         </Grid>
-
-        {tips &&
-          tips.map((tip) => (
-            <RecipeTip
-              tip={tip}
-              tips={tips}
-              users={users}
-              currentUserId={currentUserId}
-              currentRecipe={currentRecipe}
-            />
-          ))}
+        <div className="tips">
+          <h3>Tips</h3>
+          {tips &&
+            tips.map((tip) => (
+              <RecipeTip
+                key={tip.id}
+                tip={tip}
+                tips={tips}
+                users={users}
+                currentUserId={currentUserId}
+                currentRecipe={currentRecipe}
+              />
+            ))}
+        </div>
         <RecipeTipForm
           handleTipSubmit={handleTipSubmit}
           text={text}

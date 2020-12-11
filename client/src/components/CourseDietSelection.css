@@ -1,5 +1,52 @@
 .title {
   margin: 20px 0;
   text-align: center;
-  font-family: cursive;
+}
+
+.food-selection-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 200px;
+}
+
+.choose-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 63px;
+  width: 100%;
+}
+
+.selection-type {
+  margin-top: 30px;
+}
+
+.homepage-wrapper {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.homepage-wrapper:before {
+  /* background-image: url("https://grubs.s3.amazonaws.com/vegetables.png"); */
+  background-image: url("https://assets.epicurious.com/photos/576052ffff66dde1456dfeaa/2:1/w_1260%2Ch_630/Green-Olive-Tapenade---Shutterstock.jpg");
+
+  background-size: cover;
+  height: 30vh;
+  content: "";
+  opacity: 0.6;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+h1 {
+  color: #795;
+  font-weight: bold;
 }

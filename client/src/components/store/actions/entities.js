@@ -1,4 +1,3 @@
-import merge from "lodash/merge";
 import { loginErrors, signupErrors, tipFormErrors } from "./errors";
 import { currentUserId, loadToken, removeToken } from "./session";
 
@@ -181,7 +180,7 @@ export const saveRecipe = (recipeId) => async (dispatch) => {
     });
 
     if (response.ok) {
-      const list = await response.json();
+      // const list = await response.json();
     } else {
       throw response;
     }
@@ -301,7 +300,7 @@ export const likeRecipe = (recipeId, course, dietId) => async (dispatch) => {
     body: JSON.stringify({ userId, recipeId }),
   });
   if (response.ok) {
-    const likes = await response.json();
+    // const likes = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
       : dispatch(getSavedRecipes());
@@ -321,7 +320,7 @@ export const unlikeRecipe = (recipeId, course, dietId) => async (dispatch) => {
     body: JSON.stringify({ userId, recipeId }),
   });
   if (response.ok) {
-    const likes = await response.json();
+    // const likes = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
       : dispatch(getSavedRecipes());
@@ -344,7 +343,7 @@ export const createRecipeTip = (text, recipeId, course, dietId) => async (
       body: JSON.stringify({ userId, recipeId, text }),
     });
     if (response.ok) {
-      const tips = await response.json();
+      // const tips = await response.json();
       dispatch(tipFormErrors([]));
       course && dietId
         ? dispatch(getRecipes(course, dietId))
@@ -379,7 +378,7 @@ export const updateRecipeTip = (
       body: JSON.stringify({ userId, recipeId, text }),
     });
     if (response.ok) {
-      const tips = await response.json();
+      // const tips = await response.json();
       dispatch(tipFormErrors([]));
       course && dietId
         ? dispatch(getRecipes(course, dietId))
@@ -409,7 +408,7 @@ export const removeRecipeTip = (tipId, recipeId, course, dietId) => async (
     body: JSON.stringify({ tipId, userId, recipeId }),
   });
   if (response.ok) {
-    const tips = await response.json();
+    // const tips = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
       : dispatch(getSavedRecipes());
@@ -431,7 +430,7 @@ export const likeRecipeTip = (tipId, recipeId, course, dietId) => async (
     body: JSON.stringify({ tipId, userId, recipeId }),
   });
   if (response.ok) {
-    const likes = await response.json();
+    // const likes = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
       : dispatch(getSavedRecipes());
@@ -454,7 +453,7 @@ export const unlikeRecipeTip = (tipId, recipeId, course, dietId) => async (
     body: JSON.stringify({ tipId, userId, recipeId }),
   });
   if (response.ok) {
-    const likes = await response.json();
+    // const likes = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
       : dispatch(getSavedRecipes());

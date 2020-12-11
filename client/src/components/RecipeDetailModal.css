@@ -1,8 +1,16 @@
-.recipe-image {
-  display: block;
-  margin: 5px auto;
+.recipe-card {
+  margin: 0 10px;
 }
 
-.tips-container form {
+form {
   display: flex;
+}
+
+.tips,
+.tip-form {
+  margin: 10px 20px;
+}
+
+.recipe-info {
+  margin: 10px;
 }

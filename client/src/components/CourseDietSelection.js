@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
+import { Paper, Grid, Button, Slide } from "@material-ui/core";
 import {
   createRecipeTip,
   getRecipeLikes,
@@ -14,7 +13,6 @@ import {
 import { currentRecipeId } from "./store/actions/session";
 import { useSelector, useDispatch } from "react-redux";
 import Carousel from "react-bootstrap/Carousel";
-import { Slide } from "@material-ui/core";
 import "./CourseDietSelection.css";
 import RecipeDetailModal from "./RecipeDetailModal";
 
@@ -22,7 +20,36 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: "90px",
+    width: "250px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    fontSize: "1.2em",
+    border: "1px solid #cac3c3",
+    textTransform: "uppercase",
+    cursor: "pointer",
+    "&:hover": {
+      background: "#795",
+      color: "white",
+    },
+  },
+
+  button: {
+    padding: "15px",
+    background: "#795",
+    color: "white",
+    "&:hover": {
+      background: "#5e7944",
+    },
+  },
+}));
+
 const CourseSelection = () => {
+  const classes = useStyles();
+
   const recipes = useSelector((state) => state.entities.recipes);
   const recipeTips = useSelector((state) => state.entities.recipeTips);
   const selectedRecipeId = useSelector((state) =>
@@ -95,62 +122,100 @@ const CourseSelection = () => {
   };
 
   return !hiddenOptions ? (
-    <div>
-      <div>{errors}</div>
-      <div className="courses-div">
-        <h1 className="title">Choose a course </h1>
-        <Grid container spacing={3}>
-          <Grid item xs>
-            <img
+    <>
+      <div className="homepage-wrapper">
+        <div>{errors}</div>
+        <div className="food-selection-container">
+          <div className="courses-div">
+            <h1 className="title">Choose a course </h1>
+            <Grid container spacing={1}>
+              <Grid item xs>
+                {/* <img
               src="https://grubs.s3.amazonaws.com/icons/breakfast.png"
               onClick={() => chooseCourse("Breakfast")}
-            />
-          </Grid>
-          <Grid item xs>
-            <img
+            /> */}
+                <Paper
+                  className={classes.root}
+                  onClick={() => chooseCourse("Breakfast")}
+                >
+                  <span className="selection-type">Breakfast</span>
+                </Paper>
+              </Grid>
+              <Grid item xs>
+                {/* <img
               src="https://grubs.s3.amazonaws.com/icons/lunch.png"
               onClick={() => chooseCourse("Lunch")}
-            />
-          </Grid>
-          <Grid item xs>
-            <img
+            /> */}{" "}
+                <Paper
+                  className={classes.root}
+                  onClick={() => chooseCourse("Lunch")}
+                >
+                  <span className="selection-type">Lunch</span>
+                </Paper>
+              </Grid>
+              <Grid item xs>
+                {/* <img
               src="https://grubs.s3.amazonaws.com/icons/dinner.png"
               onClick={() => chooseCourse("Dinner")}
-            />
-          </Grid>
-        </Grid>
-      </div>
-      <div className="diets-div">
-        <h1 className="title">Choose a diet</h1>
-        <Grid container spacing={3}>
-          <Grid item xs>
-            <img
+            /> */}
+                <Paper
+                  className={classes.root}
+                  onClick={() => chooseCourse("Dinner")}
+                >
+                  <span className="selection-type">Dinner</span>
+                </Paper>
+              </Grid>
+            </Grid>
+          </div>
+          <div className="diets-div">
+            <h1 className="title">Choose a diet</h1>
+            <Grid container spacing={3}>
+              <Grid item xs>
+                {/* <img
               src="https://grubs.s3.amazonaws.com/icons/omnivore.png"
               onClick={() => chooseDiet(1)}
-            />
-          </Grid>
-          <Grid item xs>
-            <img
+            /> */}{" "}
+                <Paper className={classes.root} onClick={() => chooseDiet(1)}>
+                  <span className="selection-type">Omnivore</span>
+                </Paper>
+              </Grid>
+              <Grid item xs>
+                {/* <img
               src="https://grubs.s3.amazonaws.com/icons/vegan.png"
               onClick={() => chooseDiet(2)}
-            />
-          </Grid>
-          <Grid item xs>
-            <img
+            /> */}{" "}
+                <Paper className={classes.root} onClick={() => chooseDiet(2)}>
+                  <span className="selection-type">Vegan</span>
+                </Paper>
+              </Grid>
+              <Grid item xs>
+                {/* <img
               src="https://grubs.s3.amazonaws.com/icons/omnivore.png"
               onClick={() => chooseDiet(3)}
-            />
-          </Grid>
-          <Grid item xs>
-            <img
+            /> */}{" "}
+                <Paper className={classes.root} onClick={() => chooseDiet(3)}>
+                  <span className="selection-type">Vegetarian</span>
+                </Paper>
+              </Grid>
+              <Grid item xs>
+                {/* <img
               src="https://grubs.s3.amazonaws.com/icons/vegan.png"
               onClick={() => chooseDiet(4)}
-            />
-          </Grid>
-        </Grid>
+            /> */}
+                <Paper className={classes.root} onClick={() => chooseDiet(4)}>
+                  <span className="selection-type">Pescatarian</span>
+                </Paper>
+              </Grid>
+            </Grid>
+          </div>
+        </div>
+        <div className="choose-btn">
+          <Button className={classes.button} onClick={handleSubmitChoices}>
+            Find recipes!
+          </Button>
+        </div>
       </div>
-      <button onClick={handleSubmitChoices}>Done</button>
-    </div>
+    </>
   ) : (
     <>
       <button onClick={handleChangeSelection}>Change Selection</button>

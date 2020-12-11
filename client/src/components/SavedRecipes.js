@@ -19,7 +19,6 @@ import {
   CardContent,
   IconButton,
   Typography,
-  colors,
   Grid,
 } from "@material-ui/core";
 
@@ -77,7 +76,7 @@ const SavedRecipes = () => {
     dispatch(getRecipeTips());
     dispatch(getTipLikes());
     dispatch(getUsers());
-  }, []);
+  }, [dispatch]);
 
   const handleSave = () => {
     dispatch(saveRecipe(selectedRecipeId));
@@ -108,7 +107,7 @@ const SavedRecipes = () => {
         {recipes ? (
           Object.values(recipes).map((recipe) => {
             return (
-              <Grid key={recipe.recipeId} item xs={6} sm={4}>
+              <Grid key={recipe.recipeId} item xs={6} sm={3}>
                 <Card className={classes.root}>
                   <CardHeader
                     title={recipe.title}

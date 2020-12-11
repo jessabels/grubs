@@ -1,13 +1,7 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 
-import {
-  Button,
-  Grid,
-  List,
-  TextField,
-  InputAdornment,
-} from "@material-ui/core";
+import { Button, TextField, InputAdornment } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 const RecipeTipForm = (props) => {
   const formErrors = useSelector((state) => state.errors.tipFormErrors);
@@ -15,7 +9,7 @@ const RecipeTipForm = (props) => {
   const { handleTipSubmit, text, setText } = props;
 
   return (
-    <>
+    <div className="tip-form">
       <div>{formErrors ? formErrors[0] : null}</div>
       <form noValidate autoComplete="off">
         <TextField
@@ -41,7 +35,7 @@ const RecipeTipForm = (props) => {
           Submit
         </Button>
       </form>
-    </>
+    </div>
   );
 };
 

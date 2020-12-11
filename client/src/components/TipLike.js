@@ -113,7 +113,7 @@ const TipLike = (props) => {
         </>
       )}
 
-      <span style={{ fontSize: ".5em", marginRight: "5px" }}>
+      <span style={{ fontSize: ".8em", marginRight: "8px" }}>
         {props.tip ? `Useful(${props.tip.likes.length})` : 0}
       </span>
     </>

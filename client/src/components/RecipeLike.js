@@ -39,7 +39,7 @@ const RecipeLike = (props) => {
   };
   return (
     <>
-      <span style={{ fontSize: ".5em", marginRight: "5px" }}>
+      <span style={{ fontSize: ".8em", margin: "5px" }}>
         {props.likes.length}
       </span>
       {userLiked ? (

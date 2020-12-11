@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
-import Homepage from "./components/Homepage";
 import Navbar from "./components/Navbar";
 import { ProtectedRoute, PrivateRoute } from "./util/route-util";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserId, loadToken } from "./components/store/actions/session";
-
 import CourseDietSelection from "./components/CourseDietSelection";
 import SavedRecipes from "./components/SavedRecipes";
+import "./index.css";
 
 function App({ needLogin, loadToken }) {
   const token = useSelector((state) => state.sessions.currentToken);
@@ -19,13 +18,13 @@ function App({ needLogin, loadToken }) {
   useEffect(() => {
     setLoaded(true);
     loadToken();
-  }, []);
+  }, [loadToken]);
 
   useEffect(() => {
     if (token) {
       dispatch(getUserId());
     }
-  }, [token]);
+  }, [token, dispatch]);
 
   if (!loaded) {
     return null;
@@ -49,12 +48,6 @@ function App({ needLogin, loadToken }) {
             component={Signup}
           />
 
-          <PrivateRoute
-            path="/home"
-            exact={true}
-            needLogin={needLogin}
-            component={Homepage}
-          />
           <PrivateRoute
             path="/"
             exact={true}
