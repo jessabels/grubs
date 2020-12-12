@@ -56,7 +56,7 @@ module.exports = {
         {
           title: "Whole-Wheat Vegan Waffles",
           description:
-            "These dairy- and egg-free waffles are both crisp and tender-and so simple to make. Be sure to use refrigerated soy milk instead of the shelf-stable kind: There are fewer additives, which can greatly affect the final texture and taste of a recipe",
+            "These dairy- and egg-free waffles are both crisp and tender-and so simple to make.",
           cookTime: 15,
           imageUrl: "https://grubs.s3.amazonaws.com/vegan-waffles.jpeg",
           course: "Breakfast",
@@ -81,6 +81,28 @@ module.exports = {
           cookTime: 5,
           imageUrl: "https://grubs.s3.amazonaws.com/green-goddess-sandwich.jpg",
           course: "Lunch",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+
+        {
+          title: "Vegan Pasta Puttanesca",
+          description:
+            "An easy vegan pasta puttanesca recipe, and low-fat, too!",
+          cookTime: 20,
+          imageUrl: "https://grubs.s3.amazonaws.com/vegan-pasta-puttanesca.png",
+          course: "Dinner",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          title: "Cranberry Pumpkin Muffins",
+          description:
+            "These are pure pumpkin perfection!!! These little beauties are moist and delicious and not too sweet.",
+          cookTime: 30,
+          imageUrl:
+            "https://grubs.s3.amazonaws.com/Cranberry-Pumpkin-Muffins.jpg",
+          course: "Breakfast",
           createdAt: new Date(),
           updatedAt: new Date(),
         },

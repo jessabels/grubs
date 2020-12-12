@@ -15,7 +15,7 @@ module.exports = {
         },
         {
           text:
-            "I reccomend reheating over low heat, stirring frequently, just until hot and ready. It gives the sauce the perfect consistency.",
+            "I reccomend reheating the sauce over low heat, stirring frequently, just until hot and ready. It gives the sauce the perfect consistency.",
           recipeId: 2,
           userId: 1,
           createdAt: new Date(),
@@ -46,7 +46,7 @@ module.exports = {
         },
         {
           text:
-            "Delicious! I used a silicone waffle mould and baked them in the oven, it worked perfectly.",
+            "Delicious! I used a silicone waffle mold and baked them in the oven, it worked perfectly.",
           recipeId: 6,
           userId: 5,
           createdAt: new Date(),
@@ -64,6 +64,22 @@ module.exports = {
           text: "I reccommend adding an extra slice of vegan cheese!",
           recipeId: 8,
           userId: 5,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          text:
+            "This pasta was delicious! I added some starchy pasta water to make the sauce thicker.",
+          recipeId: 9,
+          userId: 5,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          text:
+            "I would add a little more vanilla extract to make them sweeter!",
+          recipeId: 10,
+          userId: 2,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

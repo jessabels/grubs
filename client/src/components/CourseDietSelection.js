@@ -61,12 +61,14 @@ const CourseSelection = () => {
   const users = useSelector((state) => state.entities.users);
   const dispatch = useDispatch();
 
-  const [course, setCourse] = useState("");
+  const [selectedCourse, setSelectedCourse] = useState("");
   const [dietId, setDietId] = useState("");
   const [errors, setErrors] = useState("");
   const [hiddenOptions, setHiddenOptions] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [text, setText] = useState("");
+  const courses = ["Breakfast", "Lunch", "Dinner"];
+  const diets = ["Omnivore", "Vegan", "Vegetarian", "Pescatarian"];
 
   const handleSave = () => {
     dispatch(saveRecipe(selectedRecipeId));
@@ -77,7 +79,7 @@ const CourseSelection = () => {
   };
 
   const chooseCourse = (selectedCourse) => {
-    setCourse(selectedCourse);
+    setSelectedCourse(selectedCourse);
   };
 
   const chooseDiet = (selectedDiet) => {
@@ -85,9 +87,9 @@ const CourseSelection = () => {
   };
 
   const handleSubmitChoices = () => {
-    if (course && dietId) {
+    if (selectedCourse && dietId) {
       setErrors("");
-      dispatch(getRecipes(course, dietId));
+      dispatch(getRecipes(selectedCourse, dietId));
       dispatch(getRecipeLikes());
       dispatch(getRecipeTips());
       dispatch(getTipLikes());
@@ -130,115 +132,53 @@ const CourseSelection = () => {
           <div className="courses-div">
             <h1 className="title">Choose a course </h1>
             <Grid container spacing={1}>
-              <Grid item xs>
-                <Paper
-                  className={classes.root}
-                  style={
-                    course === "Breakfast"
-                      ? { background: "#795", color: "white" }
-                      : null
-                  }
-                  onClick={() => chooseCourse("Breakfast")}
-                >
-                  <span className="selection-type">Breakfast</span>
-                  <div className="food-icons">
-                    <img src="https://grubs.s3.amazonaws.com/icons/breakfast.png" />
-                  </div>
-                </Paper>
-              </Grid>
-              <Grid item xs>
-                <Paper
-                  className={classes.root}
-                  style={
-                    course === "Lunch"
-                      ? { background: "#795", color: "white" }
-                      : null
-                  }
-                  onClick={() => chooseCourse("Lunch")}
-                >
-                  <span className="selection-type">Lunch</span>
-                  <div className="food-icons">
-                    <img src="https://grubs.s3.amazonaws.com/icons/lunch.png" />
-                  </div>
-                </Paper>
-              </Grid>
-              <Grid item xs>
-                <Paper
-                  className={classes.root}
-                  style={
-                    course === "Dinner"
-                      ? { background: "#795", color: "white" }
-                      : null
-                  }
-                  onClick={() => chooseCourse("Dinner")}
-                >
-                  <span className="selection-type">Dinner</span>
-                  <div className="food-icons">
-                    <img src="https://grubs.s3.amazonaws.com/icons/dinner.png" />
-                  </div>
-                </Paper>
-              </Grid>
+              {courses.map((course) => (
+                <>
+                  <Grid item xs>
+                    <Paper
+                      className={classes.root}
+                      style={
+                        selectedCourse === course
+                          ? { background: "#795", color: "white" }
+                          : null
+                      }
+                      onClick={() => chooseCourse(course)}
+                    >
+                      <span className="selection-type">{course}</span>
+                      <div className="food-icons">
+                        <img
+                          src={`https://grubs.s3.amazonaws.com/icons/${course}.png`}
+                        />
+                      </div>
+                    </Paper>
+                  </Grid>
+                </>
+              ))}
             </Grid>
           </div>
           <div className="diets-div">
             <h1 className="title">Choose a diet</h1>
             <Grid container spacing={3}>
-              <Grid item xs>
-                <Paper
-                  className={classes.root}
-                  style={
-                    dietId === 1 ? { background: "#795", color: "white" } : null
-                  }
-                  onClick={() => chooseDiet(1)}
-                >
-                  <span className="selection-type">Omnivore</span>
-                  <div className="food-icons">
-                    <img src="https://grubs.s3.amazonaws.com/icons/omnivore.png" />
-                  </div>
-                </Paper>
-              </Grid>
-              <Grid item xs>
-                <Paper
-                  className={classes.root}
-                  style={
-                    dietId === 2 ? { background: "#795", color: "white" } : null
-                  }
-                  onClick={() => chooseDiet(2)}
-                >
-                  <span className="selection-type">Vegan</span>
-                  <div className="food-icons">
-                    <img src="https://grubs.s3.amazonaws.com/icons/vegan.png" />
-                  </div>
-                </Paper>
-              </Grid>
-              <Grid item xs>
-                <Paper
-                  className={classes.root}
-                  style={
-                    dietId === 3 ? { background: "#795", color: "white" } : null
-                  }
-                  onClick={() => chooseDiet(3)}
-                >
-                  <span className="selection-type">Vegetarian</span>
-                  <div className="food-icons">
-                    <img src="https://grubs.s3.amazonaws.com/icons/vegetarian.png" />
-                  </div>
-                </Paper>
-              </Grid>
-              <Grid item xs>
-                <Paper
-                  className={classes.root}
-                  style={
-                    dietId === 4 ? { background: "#795", color: "white" } : null
-                  }
-                  onClick={() => chooseDiet(4)}
-                >
-                  <span className="selection-type">Pescatarian</span>
-                  <div className="food-icons">
-                    <img src="https://grubs.s3.amazonaws.com/icons/pescatarian.png" />
-                  </div>
-                </Paper>
-              </Grid>
+              {diets.map((diet, i) => (
+                <Grid item xs>
+                  <Paper
+                    className={classes.root}
+                    style={
+                      dietId === i + 1
+                        ? { background: "#795", color: "white" }
+                        : null
+                    }
+                    onClick={() => chooseDiet(i + 1)}
+                  >
+                    <span className="selection-type">{diet}</span>
+                    <div className="food-icons">
+                      <img
+                        src={`https://grubs.s3.amazonaws.com/icons/${diet}.png`}
+                      />
+                    </div>
+                  </Paper>
+                </Grid>
+              ))}
             </Grid>
           </div>
         </div>

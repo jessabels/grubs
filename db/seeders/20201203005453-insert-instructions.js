@@ -228,7 +228,7 @@ module.exports = {
         },
         {
           specification:
-            "To make the pesto, add basil, pine nuts, garlic cloves, kal and olive oil to a blender and run until combined.",
+            "To make the pesto, add basil, pine nuts, garlic cloves, kale and olive oil to a blender and run until combined.",
           listOrder: 1,
           recipeId: 8,
           createdAt: new Date(),
@@ -276,6 +276,95 @@ module.exports = {
           specification: "Cut sandwich in half or in quarters.",
           listOrder: 7,
           recipeId: 8,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          specification: "Gather the ingredients.",
+          listOrder: 1,
+          recipeId: 9,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          specification: "Sauté the garlic in olive oil for a minute or two.",
+          listOrder: 2,
+          recipeId: 9,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          specification:
+            "Add the basil, capers, olives, and red pepper flakes, and cook for another two minutes.",
+          listOrder: 3,
+          recipeId: 9,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          specification: "Reduce heat to low, and add the brine and tomatoes.",
+          listOrder: 4,
+          recipeId: 9,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          specification: "Cover and simmer for at least 15 minutes.",
+          listOrder: 5,
+          recipeId: 9,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          specification: "Serve hot over cooked pasta.",
+          listOrder: 6,
+          recipeId: 9,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          specification: "Preheat oven to 350ºF.",
+          listOrder: 1,
+          recipeId: 10,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          specification:
+            "In a food processor fitted with the “S” blade, process bananas and OJ until smooth. Add pumpkin, date paste, extract, zest, flax seeds and spice and continue processing until smooth and creamy.",
+          listOrder: 2,
+          recipeId: 10,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          specification:
+            "Transfer batter to a large bowl and stir in the oats and dried cranberries.",
+          listOrder: 3,
+          recipeId: 10,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          specification:
+            "Spoon an equal amount of batter into a muffin tin lined with cupcake liners or silicone baking cups. You need to fill each muffin liner with about ½ cup of batter as these do not rise. A retractable ice cream scoop works well.",
+          listOrder: 4,
+          recipeId: 10,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          specification:
+            "In a separate bowl, mix the nuts and cinnamon and sprinkle evenly into each of the 12 muffin liners. A cheese grater or nut grinder works well for grinding the nuts.",
+          listOrder: 5,
+          recipeId: 10,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          specification: "Bake for 30 to 35 minutes.",
+          listOrder: 6,
+          recipeId: 10,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

@@ -167,6 +167,54 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          recipeId: 9,
+          dietId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 9,
+          dietId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 9,
+          dietId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 9,
+          dietId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 10,
+          dietId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 10,
+          dietId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 10,
+          dietId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          recipeId: 10,
+          dietId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
