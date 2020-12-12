@@ -2,7 +2,7 @@
   margin: 0 10px;
 }
 
-form {
+.tip-form form {
   display: flex;
 }
 
@@ -13,4 +13,15 @@ form {
 
 .recipe-info {
   margin: 10px;
+}
+
+.icon {
+  color: #795;
+  margin-right: 5px;
+}
+
+.number-step {
+  color: #795;
+  font-weight: bold;
+  margin-right: 5px;
 }

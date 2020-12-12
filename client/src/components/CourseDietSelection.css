@@ -19,10 +19,6 @@
   width: 100%;
 }
 
-.selection-type {
-  margin-top: 30px;
-}
-
 .homepage-wrapper {
   height: 100vh;
   position: relative;
@@ -31,7 +27,6 @@
 }
 
 .homepage-wrapper:before {
-  /* background-image: url("https://grubs.s3.amazonaws.com/vegetables.png"); */
   background-image: url("https://assets.epicurious.com/photos/576052ffff66dde1456dfeaa/2:1/w_1260%2Ch_630/Green-Olive-Tapenade---Shutterstock.jpg");
 
   background-size: cover;
@@ -44,6 +39,10 @@
   right: 0;
   position: absolute;
   z-index: -1;
+}
+
+.food-icons img {
+  width: 30px;
 }
 
 h1 {

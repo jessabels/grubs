@@ -22,11 +22,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "90px",
+    height: "100px",
     width: "250px",
     display: "flex",
     justifyContent: "center",
-    alignItems: "flex-start",
+    alignItems: "center",
+    flexDirection: "column",
     fontSize: "1.2em",
     border: "1px solid #cac3c3",
     textTransform: "uppercase",
@@ -130,39 +131,51 @@ const CourseSelection = () => {
             <h1 className="title">Choose a course </h1>
             <Grid container spacing={1}>
               <Grid item xs>
-                {/* <img
-              src="https://grubs.s3.amazonaws.com/icons/breakfast.png"
-              onClick={() => chooseCourse("Breakfast")}
-            /> */}
                 <Paper
                   className={classes.root}
+                  style={
+                    course === "Breakfast"
+                      ? { background: "#795", color: "white" }
+                      : null
+                  }
                   onClick={() => chooseCourse("Breakfast")}
                 >
                   <span className="selection-type">Breakfast</span>
+                  <div className="food-icons">
+                    <img src="https://grubs.s3.amazonaws.com/icons/breakfast.png" />
+                  </div>
                 </Paper>
               </Grid>
               <Grid item xs>
-                {/* <img
-              src="https://grubs.s3.amazonaws.com/icons/lunch.png"
-              onClick={() => chooseCourse("Lunch")}
-            /> */}{" "}
                 <Paper
                   className={classes.root}
+                  style={
+                    course === "Lunch"
+                      ? { background: "#795", color: "white" }
+                      : null
+                  }
                   onClick={() => chooseCourse("Lunch")}
                 >
                   <span className="selection-type">Lunch</span>
+                  <div className="food-icons">
+                    <img src="https://grubs.s3.amazonaws.com/icons/lunch.png" />
+                  </div>
                 </Paper>
               </Grid>
               <Grid item xs>
-                {/* <img
-              src="https://grubs.s3.amazonaws.com/icons/dinner.png"
-              onClick={() => chooseCourse("Dinner")}
-            /> */}
                 <Paper
                   className={classes.root}
+                  style={
+                    course === "Dinner"
+                      ? { background: "#795", color: "white" }
+                      : null
+                  }
                   onClick={() => chooseCourse("Dinner")}
                 >
                   <span className="selection-type">Dinner</span>
+                  <div className="food-icons">
+                    <img src="https://grubs.s3.amazonaws.com/icons/dinner.png" />
+                  </div>
                 </Paper>
               </Grid>
             </Grid>
@@ -171,39 +184,59 @@ const CourseSelection = () => {
             <h1 className="title">Choose a diet</h1>
             <Grid container spacing={3}>
               <Grid item xs>
-                {/* <img
-              src="https://grubs.s3.amazonaws.com/icons/omnivore.png"
-              onClick={() => chooseDiet(1)}
-            /> */}{" "}
-                <Paper className={classes.root} onClick={() => chooseDiet(1)}>
+                <Paper
+                  className={classes.root}
+                  style={
+                    dietId === 1 ? { background: "#795", color: "white" } : null
+                  }
+                  onClick={() => chooseDiet(1)}
+                >
                   <span className="selection-type">Omnivore</span>
+                  <div className="food-icons">
+                    <img src="https://grubs.s3.amazonaws.com/icons/omnivore.png" />
+                  </div>
                 </Paper>
               </Grid>
               <Grid item xs>
-                {/* <img
-              src="https://grubs.s3.amazonaws.com/icons/vegan.png"
-              onClick={() => chooseDiet(2)}
-            /> */}{" "}
-                <Paper className={classes.root} onClick={() => chooseDiet(2)}>
+                <Paper
+                  className={classes.root}
+                  style={
+                    dietId === 2 ? { background: "#795", color: "white" } : null
+                  }
+                  onClick={() => chooseDiet(2)}
+                >
                   <span className="selection-type">Vegan</span>
+                  <div className="food-icons">
+                    <img src="https://grubs.s3.amazonaws.com/icons/vegan.png" />
+                  </div>
                 </Paper>
               </Grid>
               <Grid item xs>
-                {/* <img
-              src="https://grubs.s3.amazonaws.com/icons/omnivore.png"
-              onClick={() => chooseDiet(3)}
-            /> */}{" "}
-                <Paper className={classes.root} onClick={() => chooseDiet(3)}>
+                <Paper
+                  className={classes.root}
+                  style={
+                    dietId === 3 ? { background: "#795", color: "white" } : null
+                  }
+                  onClick={() => chooseDiet(3)}
+                >
                   <span className="selection-type">Vegetarian</span>
+                  <div className="food-icons">
+                    <img src="https://grubs.s3.amazonaws.com/icons/vegetarian.png" />
+                  </div>
                 </Paper>
               </Grid>
               <Grid item xs>
-                {/* <img
-              src="https://grubs.s3.amazonaws.com/icons/vegan.png"
-              onClick={() => chooseDiet(4)}
-            /> */}
-                <Paper className={classes.root} onClick={() => chooseDiet(4)}>
+                <Paper
+                  className={classes.root}
+                  style={
+                    dietId === 4 ? { background: "#795", color: "white" } : null
+                  }
+                  onClick={() => chooseDiet(4)}
+                >
                   <span className="selection-type">Pescatarian</span>
+                  <div className="food-icons">
+                    <img src="https://grubs.s3.amazonaws.com/icons/pescatarian.png" />
+                  </div>
                 </Paper>
               </Grid>
             </Grid>

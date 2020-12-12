@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
     marginBottom: "50px",
+    fontFamily: theme.typography.fontFamily,
   },
   media: {
     height: 0,
@@ -104,7 +105,7 @@ const SavedRecipes = () => {
     <>
       <h1>Saved Recipes</h1>
       <Grid container>
-        {recipes ? (
+        {Object.values(recipes).length ? (
           Object.values(recipes).map((recipe) => {
             return (
               <Grid key={recipe.recipeId} item xs={6} sm={3}>
@@ -113,7 +114,7 @@ const SavedRecipes = () => {
                     title={recipe.title}
                     action={
                       <IconButton onClick={() => handleDelete(recipe.recipeId)}>
-                        <DeleteIcon />
+                        <DeleteIcon className="icon" />
                       </IconButton>
                     }
                   />

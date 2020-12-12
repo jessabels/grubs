@@ -84,11 +84,13 @@ const TipLike = (props) => {
     <>
       {!userPosted && userLiked ? (
         <FontAwesomeIcon
+          className="icon"
           icon={solidThumbsUp}
           onClick={() => handleLike(props.tip.id)}
         />
       ) : !userPosted && !userLiked ? (
         <FontAwesomeIcon
+          className="icon"
           icon={outlinedThumbsUp}
           onClick={() => handleLike(props.tip.id)}
         />
@@ -97,24 +99,34 @@ const TipLike = (props) => {
           {!props.inputVisible ? (
             <>
               <CreateIcon
+                className="icon"
                 onClick={() => {
                   props.setInputVisible(true);
                   props.setEditText(props.tip.text);
                 }}
               />
-              <DeleteIcon onClick={() => handleRemoveTip(props.tip.id)} />
+              <DeleteIcon
+                className="icon"
+                onClick={() => handleRemoveTip(props.tip.id)}
+              />
             </>
           ) : (
             <>
-              <CheckIcon onClick={() => handleUpdateTip(props.tip.id)} />
-              <ClearIcon onClick={() => props.setInputVisible(false)} />
+              <CheckIcon
+                className="icon"
+                onClick={() => handleUpdateTip(props.tip.id)}
+              />
+              <ClearIcon
+                className="icon"
+                onClick={() => props.setInputVisible(false)}
+              />
             </>
           )}
         </>
       )}
 
-      <span style={{ fontSize: ".8em", marginRight: "8px" }}>
-        {props.tip ? `Useful(${props.tip.likes.length})` : 0}
+      <span style={{ fontSize: ".8em", marginRight: "8px", width: "100px" }}>
+        {props.tip ? `Useful (${props.tip.likes.length})` : 0}
       </span>
     </>
   );

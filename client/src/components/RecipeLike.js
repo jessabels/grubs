@@ -43,9 +43,15 @@ const RecipeLike = (props) => {
         {props.likes.length}
       </span>
       {userLiked ? (
-        <FavoriteIcon onClick={() => handleLike(props.recipeId)} />
+        <FavoriteIcon
+          className="icon"
+          onClick={() => handleLike(props.recipeId)}
+        />
       ) : (
-        <FavoriteBorderIcon onClick={() => handleLike(props.recipeId)} />
+        <FavoriteBorderIcon
+          className="icon"
+          onClick={() => handleLike(props.recipeId)}
+        />
       )}
     </>
   );

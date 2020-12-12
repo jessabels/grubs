@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUserId, loadToken } from "./components/store/actions/session";
 import CourseDietSelection from "./components/CourseDietSelection";
 import SavedRecipes from "./components/SavedRecipes";
+import Theme from "./components/Theme";
 import "./index.css";
 
 function App({ needLogin, loadToken }) {
@@ -69,7 +70,11 @@ function App({ needLogin, loadToken }) {
 const AppContainer = () => {
   const needLogin = useSelector((state) => !state.sessions.currentToken);
   const dispatch = useDispatch();
-  return <App needLogin={needLogin} loadToken={() => dispatch(loadToken())} />;
+  return (
+    <Theme>
+      <App needLogin={needLogin} loadToken={() => dispatch(loadToken())} />
+    </Theme>
+  );
 };
 
 export default AppContainer;

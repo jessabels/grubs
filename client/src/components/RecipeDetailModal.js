@@ -36,10 +36,16 @@ const useStyles = makeStyles((theme) => ({
 
   listItem: {
     borderTop: "1px solid #ececec",
+    display: "flex",
+    alignItems: "flex-start",
   },
 
   label: {
     color: "white",
+  },
+
+  icon: {
+    color: theme.palette.primary,
   },
 }));
 
@@ -163,7 +169,9 @@ const RecipeDetailModal = (props) => {
               </div>
               <div>{currentRecipe && currentRecipe.description}</div>
               <div>
-                Cook Time:
+                <span style={{ fontWeight: "bold", marginRight: "5px" }}>
+                  Cook Time:
+                </span>
                 {currentRecipe && `${currentRecipe.cookTime} min`}
               </div>
             </div>
@@ -177,7 +185,7 @@ const RecipeDetailModal = (props) => {
                 {currentRecipe
                   ? currentRecipe.ingredients.map((ingredient) => (
                       <ListItem className={classes.listItem} key={ingredient}>
-                        {ingredient}{" "}
+                        {ingredient}
                       </ListItem>
                     ))
                   : null}
@@ -191,7 +199,8 @@ const RecipeDetailModal = (props) => {
                 {currentRecipe
                   ? currentRecipe.instructions.map((instruction, i) => (
                       <ListItem className={classes.listItem} key={instruction}>
-                        {i + 1}. {instruction}
+                        <span className="number-step">{i + 1}.</span>
+                        <span>{instruction}</span>
                       </ListItem>
                     ))
                   : null}

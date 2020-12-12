@@ -20,11 +20,21 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
 
     "&:hover": {
-      background: "#e5e5e5",
+      background: theme.palette.primary.main,
+      color: "white",
     },
   },
   avatar: {
     cursor: "pointer",
+  },
+
+  link: {
+    textDecoration: "none",
+    color: "black",
+    "&:hover": {
+      color: "white",
+      textDecoration: "none",
+    },
   },
 }));
 
@@ -85,7 +95,7 @@ const Navbar = (props) => {
           <List>
             <ListItem className={classes.listItem}>
               <Link
-                style={{ textDecoration: "none", color: "black" }}
+                className={classes.link}
                 to="/savedRecipes"
                 onClick={handleClose}
               >

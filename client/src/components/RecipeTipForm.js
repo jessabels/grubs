@@ -26,7 +26,7 @@ const RecipeTipForm = (props) => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <AccountCircle />
+                <AccountCircle className="icon" />
               </InputAdornment>
             ),
           }}
