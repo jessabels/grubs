@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -45,9 +46,18 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
   const classes = useStyles();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("demo@demo.com");
+  const [password, setPassword] = useState("123");
   const dispatch = useDispatch();
+  const errors = useSelector((state) => state.errors.loginErrors);
+
+  const listOfErrors = errors
+    ? errors.map((error) => (
+        <li key={error} style={{ color: "red" }}>
+          {error}
+        </li>
+      ))
+    : null;
 
   const updateProperty = (callback) => (e) => {
     callback(e.target.value);
@@ -70,6 +80,7 @@ const Login = () => {
             Sign in
           </Typography>
           <form className={classes.form} noValidate>
+            <ul>{listOfErrors}</ul>
             <TextField
               variant="outlined"
               margin="normal"
@@ -107,6 +118,7 @@ const Login = () => {
             >
               Sign In
             </Button>
+
             <Grid container>
               <Grid item>
                 <Link href="/signup" variant="body2">

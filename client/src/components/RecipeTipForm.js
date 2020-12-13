@@ -1,16 +1,13 @@
 import React from "react";
-import { useSelector } from "react-redux";
 
 import { Button, TextField, InputAdornment } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-const RecipeTipForm = (props) => {
-  const formErrors = useSelector((state) => state.errors.tipFormErrors);
 
+const RecipeTipForm = (props) => {
   const { handleTipSubmit, text, setText } = props;
 
   return (
     <div className="tip-form">
-      <div>{formErrors ? formErrors[0] : null}</div>
       <form onSubmit={handleTipSubmit}>
         <TextField
           rowsMax={4}

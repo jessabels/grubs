@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -51,6 +52,15 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const dispatch = useDispatch();
+  const errors = useSelector((state) => state.errors.signupErrors);
+
+  const listOfErrors = errors
+    ? errors.map((error) => (
+        <li key={error} style={{ color: "red" }}>
+          {error}
+        </li>
+      ))
+    : null;
 
   const updateProperty = (callback) => (e) => {
     callback(e.target.value);
@@ -72,6 +82,7 @@ const Signup = () => {
             Sign Up
           </Typography>
           <form className={classes.form} noValidate>
+            <ul>{listOfErrors}</ul>
             <TextField
               variant="outlined"
               margin="normal"
@@ -144,6 +155,7 @@ const Signup = () => {
             >
               Sign Up
             </Button>
+
             <Grid container>
               <Grid item>
                 <Link href="/login" variant="body2">

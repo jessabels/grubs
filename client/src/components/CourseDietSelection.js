@@ -128,9 +128,9 @@ const CourseSelection = () => {
   return !hiddenOptions ? (
     <>
       <div className="homepage-wrapper">
-        <div>{errors}</div>
         <div className="food-selection-container">
           <div className="courses-div">
+            <div style={{ color: "red", textAlign: "center" }}>{errors}</div>
             <h1 className="title">Choose a course </h1>
             <Grid container spacing={1}>
               <>
