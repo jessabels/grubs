@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   paper: {
-    margin: "30px",
+    margin: "20px",
+    textAlign: "center",
   },
 
   listItem: {

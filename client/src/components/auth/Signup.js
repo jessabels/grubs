@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
         : theme.palette.grey[900],
     backgroundSize: "cover",
     backgroundPosition: "center",
+    backgroundImage: "url('https://grubs.s3.amazonaws.com/vegetables.png')",
   },
   paper: {
     margin: theme.spacing(8, 4),

@@ -11,7 +11,7 @@ const RecipeTipForm = (props) => {
   return (
     <div className="tip-form">
       <div>{formErrors ? formErrors[0] : null}</div>
-      <form noValidate autoComplete="off">
+      <form onSubmit={handleTipSubmit}>
         <TextField
           rowsMax={4}
           required
@@ -31,7 +31,7 @@ const RecipeTipForm = (props) => {
             ),
           }}
         />
-        <Button variant="contained" color="primary" onClick={handleTipSubmit}>
+        <Button type="submit" variant="contained" color="primary">
           Submit
         </Button>
       </form>

@@ -6,7 +6,7 @@
 - User can like/dislike a recipe
 - User can view tips from other users on recipe
 - User can mark/unmark tip as useful
-- User can add/remove tip to/from recipe
+- User can add, edit and remove tip to/from recipe
 
 ## Stretch Goals
 

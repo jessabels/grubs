@@ -20,33 +20,33 @@ import {
   IconButton,
   Typography,
   Grid,
+  Slide,
 } from "@material-ui/core";
 
 import DeleteIcon from "@material-ui/icons/Delete";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import RecipeDetailModal from "./RecipeDetailModal";
-import { Slide } from "@material-ui/core";
-
 import { currentRecipeId } from "./store/actions/session";
+import "./SavedRecipes.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
     marginBottom: "50px",
-    fontFamily: theme.typography.fontFamily,
+  },
+
+  headerRoot: {
+    height: "100px",
+    alignItems: "flex-start",
   },
   media: {
     height: 0,
     paddingTop: "56.25%", // 16:9
+    cursor: "pointer",
   },
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: "rotate(180deg)",
+
+  icon: {
+    cursor: "pointer",
   },
 }));
 
@@ -101,8 +101,11 @@ const SavedRecipes = () => {
     setText("");
   };
 
+  const truncateText = (text) =>
+    text.length > 46 ? `${text.substring(0, 46)}...` : text;
+
   return (
-    <>
+    <div className="savedRecipes-container">
       <h1>Saved Recipes</h1>
       <Grid container>
         {Object.values(recipes).length ? (
@@ -111,7 +114,17 @@ const SavedRecipes = () => {
               <Grid key={recipe.recipeId} item xs={6} sm={3}>
                 <Card className={classes.root}>
                   <CardHeader
-                    title={recipe.title}
+                    className={classes.headerRoot}
+                    // title={recipe.title}
+                    title={
+                      <Typography
+                        variant="h5"
+                        className={classes.headerRoot}
+                        style={{ fontFamily: "Cormorant Garamont" }}
+                      >
+                        {recipe.title}
+                      </Typography>
+                    }
                     action={
                       <IconButton onClick={() => handleDelete(recipe.recipeId)}>
                         <DeleteIcon className="icon" />
@@ -129,8 +142,13 @@ const SavedRecipes = () => {
                       variant="body2"
                       color="textSecondary"
                       component="p"
+                      style={{ fontFamily: "Cormorant Garamont" }}
                     >
-                      {recipe.description}
+                      {truncateText(recipe.description)}
+                      <MoreHorizIcon
+                        className={classes.icon}
+                        onClick={() => handleRecipeCardClick(recipe.recipeId)}
+                      />
                     </Typography>
                   </CardContent>
                 </Card>
@@ -153,7 +171,7 @@ const SavedRecipes = () => {
           handleTipSubmit={handleTipSubmit}
         />
       </Grid>
-    </>
+    </div>
   );
 };
 

@@ -49,3 +49,7 @@ h1 {
   color: #795;
   font-weight: bold;
 }
+
+.carousel-caption {
+  background: #779955e0;
+}

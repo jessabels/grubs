@@ -17,7 +17,7 @@ import {
   updateRecipeTip,
 } from "./store/actions/entities";
 
-const TipLike = (props) => {
+const TipActions = (props) => {
   const dispatch = useDispatch();
   const recipes = useSelector((state) => state.entities.recipes);
   const currentRecipeId = useSelector(
@@ -132,4 +132,4 @@ const TipLike = (props) => {
   );
 };
 
-export default TipLike;
+export default TipActions;

@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Carousel from "react-bootstrap/Carousel";
 import "./CourseDietSelection.css";
 import RecipeDetailModal from "./RecipeDetailModal";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -110,9 +111,9 @@ const CourseSelection = () => {
   };
 
   const handleTipSubmit = (e) => {
+    e.preventDefault();
     const currentRecipeCourse = currentRecipe.course;
     const currentRecipeDietId = currentRecipe.dietId;
-    e.preventDefault();
     dispatch(
       createRecipeTip(
         text,
@@ -132,9 +133,9 @@ const CourseSelection = () => {
           <div className="courses-div">
             <h1 className="title">Choose a course </h1>
             <Grid container spacing={1}>
-              {courses.map((course) => (
-                <>
-                  <Grid item xs>
+              <>
+                {courses.map((course) => (
+                  <Grid key={course} item xs>
                     <Paper
                       className={classes.root}
                       style={
@@ -152,15 +153,15 @@ const CourseSelection = () => {
                       </div>
                     </Paper>
                   </Grid>
-                </>
-              ))}
+                ))}
+              </>
             </Grid>
           </div>
           <div className="diets-div">
             <h1 className="title">Choose a diet</h1>
             <Grid container spacing={3}>
               {diets.map((diet, i) => (
-                <Grid item xs>
+                <Grid key={diet} item xs>
                   <Paper
                     className={classes.root}
                     style={
@@ -191,7 +192,9 @@ const CourseSelection = () => {
     </>
   ) : (
     <>
-      <button onClick={handleChangeSelection}>Change Selection</button>
+      <Button onClick={handleChangeSelection} startIcon={<ArrowBackIcon />}>
+        Change Selection
+      </Button>
       <div style={{ width: "70%", display: "block", margin: "0 auto" }}>
         <Carousel>
           {recipes

@@ -61,7 +61,7 @@ const Navbar = (props) => {
             <div className="logo-info">
               {props.location.pathname === "/savedRecipes" ? (
                 <NavLink to="/">
-                  <HomeIcon />
+                  <HomeIcon style={{ color: "white" }} />
                 </NavLink>
               ) : null}
             </div>

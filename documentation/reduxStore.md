@@ -1,6 +1,6 @@
 ```
 entities: {
-  user: {
+  users: {
     userId: {
       id,
       firstName,
@@ -50,12 +50,10 @@ session: {
   currentUser: userId
 }
 
-ui: {
-  modal: false
-}
 
 errors: {
-  authenticationErrors: []
+  authenticationErrors: [],
+  tipFormErrors: []
 }
 
 ```

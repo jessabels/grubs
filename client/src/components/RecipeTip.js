@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 import { ListItem, TextField } from "@material-ui/core";
-import TipLike from "./TipLike";
+import TipActions from "./TipActions";
 
-const RecipeTip = ({ tip, tips, users, currentUserId, currentRecipe }) => {
+const RecipeTip = ({ tip, tips, users, currentUserId }) => {
   const userPosted = tip.userId === currentUserId;
   const [inputVisible, setInputVisible] = useState(false);
   const [editText, setEditText] = useState("");
@@ -21,7 +21,7 @@ const RecipeTip = ({ tip, tips, users, currentUserId, currentRecipe }) => {
             }}
           />
 
-          <TipLike
+          <TipActions
             tips={tips}
             tip={tip}
             setInputVisible={setInputVisible}
@@ -35,7 +35,7 @@ const RecipeTip = ({ tip, tips, users, currentUserId, currentRecipe }) => {
           {`${tip.text} posted by ${users[tip.userId].firstName} ${
             users[tip.userId].lastName
           }`}
-          <TipLike
+          <TipActions
             tips={tips}
             tip={tip}
             setInputVisible={setInputVisible}

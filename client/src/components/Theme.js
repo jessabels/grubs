@@ -7,7 +7,7 @@ const theme = createMuiTheme({
       main: "#795",
     },
     typography: {
-      fontFamily: ["Cormorant Garamond"].join(","),
+      fontFamily: "Cormorant Garamond",
     },
   },
 });
