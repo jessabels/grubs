@@ -148,6 +148,7 @@ const CourseSelection = () => {
                       <span className="selection-type">{course}</span>
                       <div className="food-icons">
                         <img
+                          alt={`${course}`}
                           src={`https://grubs.s3.amazonaws.com/icons/${course}.png`}
                         />
                       </div>
@@ -174,6 +175,7 @@ const CourseSelection = () => {
                     <span className="selection-type">{diet}</span>
                     <div className="food-icons">
                       <img
+                        alt={`${diet}`}
                         src={`https://grubs.s3.amazonaws.com/icons/${diet}.png`}
                       />
                     </div>
@@ -201,6 +203,7 @@ const CourseSelection = () => {
             ? Object.values(recipes).map((recipe) => (
                 <Carousel.Item key={recipe.recipeId}>
                   <img
+                    alt={recipe.title}
                     style={{ height: "650px" }}
                     className="d-block w-100"
                     key={recipe.title}

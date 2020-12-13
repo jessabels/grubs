@@ -158,6 +158,7 @@ const RecipeDetailModal = (props) => {
         <div className="recipe-card">
           <Paper className={classes.paper}>
             <img
+              alt={currentRecipe && currentRecipe.description}
               style={{ width: "100%" }}
               src={currentRecipe && currentRecipe.imageUrl}
             />
