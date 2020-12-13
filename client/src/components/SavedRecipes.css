@@ -1,4 +1,6 @@
 .savedRecipes-container {
   margin: 20px;
+  width: 100vw;
+  height: 100vh;
   background-image: url("https://grubs.s3.amazonaws.com/polkadot-background.png");
 }
