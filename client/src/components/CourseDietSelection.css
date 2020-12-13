@@ -8,14 +8,14 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 200px;
+  margin-top: 210px;
+  flex-direction: column;
 }
 
 .choose-btn {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 63px;
   width: 100%;
 }
 
@@ -24,6 +24,8 @@
   position: relative;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .homepage-wrapper:before {

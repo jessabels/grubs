@@ -3,3 +3,7 @@
 * {
   font-family: "Cormorant Garamond", serif;
 }
+
+body {
+  overflow-x: hidden;
+}

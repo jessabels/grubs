@@ -21,6 +21,10 @@ import { createRecipeTip } from "./store/actions/entities";
 import "./RecipeDetailModal.css";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    overflowX: "hidden",
+  },
+
   appBar: {
     position: "relative",
     background: "#795",
@@ -113,6 +117,7 @@ const RecipeDetailModal = (props) => {
   return (
     <>
       <Dialog
+        className={classes.root}
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}

@@ -30,6 +30,10 @@ import { currentRecipeId } from "./store/actions/session";
 import "./SavedRecipes.css";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    backgroundImage:
+      "url('https://grubs.s3.amazonaws.com/polkadot-background.png')",
+  },
   root: {
     maxWidth: 345,
     marginBottom: "50px",
@@ -107,15 +111,14 @@ const SavedRecipes = () => {
   return (
     <div className="savedRecipes-container">
       <h1>Saved Recipes</h1>
-      <Grid container>
+      <Grid className={classes.container} container>
         {Object.values(recipes).length ? (
           Object.values(recipes).map((recipe) => {
             return (
-              <Grid key={recipe.recipeId} item xs={6} sm={3}>
+              <Grid key={recipe.recipeId} item xs={6} sm={4}>
                 <Card className={classes.root}>
                   <CardHeader
                     className={classes.headerRoot}
-                    // title={recipe.title}
                     title={
                       <Typography
                         variant="h5"
