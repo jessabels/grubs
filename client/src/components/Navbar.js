@@ -112,15 +112,14 @@ const Navbar = (props) => {
           }}
         >
           <List>
-            <ListItem className={classes.listItem}>
-              <Link
-                className={classes.link}
-                to="/savedRecipes"
-                onClick={handleClose}
-              >
-                Saved Recipes
-              </Link>
-            </ListItem>
+            <Link
+              className={classes.link}
+              to="/savedRecipes"
+              onClick={handleClose}
+            >
+              <ListItem className={classes.listItem}>Saved Recipes</ListItem>
+            </Link>
+
             <ListItem className={classes.listItem}>
               <Logout handleClose={handleClose} />
             </ListItem>

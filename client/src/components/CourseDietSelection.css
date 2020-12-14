@@ -43,12 +43,13 @@
   z-index: -1;
 }
 
-.food-icons img {
-  width: 30px;
+.food-icons {
+  color: #dcb14e;
+  font-size: 1.3em;
 }
 
 h1 {
-  color: #dcb14e;
+  color: #779955e0;
   font-weight: bold;
 }
 

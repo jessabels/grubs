@@ -160,12 +160,13 @@ const CourseSelection = () => {
                     >
                       <span className="selection-type">{course}</span>
                       <div className="food-icons">
-                        <img
-                          alt={`${course}`}
-                          src={`https://grubs.s3.amazonaws.com/icons/${course}.png`}
-                        />
-                        {/* 
-                        <FontAwesomeIcon icon={course} /> */}
+                        {course === "Breakfast" ? (
+                          <FontAwesomeIcon icon={Breakfast} />
+                        ) : course === "Lunch" ? (
+                          <FontAwesomeIcon icon={Lunch} />
+                        ) : (
+                          <FontAwesomeIcon icon={Dinner} />
+                        )}
                       </div>
                     </Paper>
                   </Grid>
@@ -189,10 +190,15 @@ const CourseSelection = () => {
                   >
                     <span className="selection-type">{diet}</span>
                     <div className="food-icons">
-                      <img
-                        alt={`${diet}`}
-                        src={`https://grubs.s3.amazonaws.com/icons/${diet}.png`}
-                      />
+                      {diet === "Omnivore" ? (
+                        <FontAwesomeIcon icon={Omnivore} />
+                      ) : diet === "Vegan" ? (
+                        <FontAwesomeIcon icon={Vegan} />
+                      ) : diet === "Vegetarian" ? (
+                        <FontAwesomeIcon icon={Vegetarian} />
+                      ) : (
+                        <FontAwesomeIcon icon={Pescatarian} />
+                      )}
                     </div>
                   </Paper>
                 </Grid>
