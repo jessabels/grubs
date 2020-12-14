@@ -77,8 +77,19 @@ const Signup = () => {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
+          <Typography
+            style={{ fontFamily: "Cormorant Garamont" }}
+            component="h1"
+            variant="h5"
+          >
+            Welcome to Grubs
+          </Typography>
           <Avatar className={classes.avatar}></Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography
+            component="h1"
+            variant="h5"
+            style={{ fontFamily: "Cormorant Garamont", color: "black" }}
+          >
             Sign Up
           </Typography>
           <form className={classes.form} noValidate>

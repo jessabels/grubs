@@ -9,6 +9,7 @@ import {
   getTipLikes,
   getUsers,
   saveRecipe,
+  getSavedRecipes,
 } from "./store/actions/entities";
 import { currentRecipeId } from "./store/actions/session";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,6 +17,16 @@ import Carousel from "react-bootstrap/Carousel";
 import "./CourseDietSelection.css";
 import RecipeDetailModal from "./RecipeDetailModal";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSeedling as Vegan,
+  faBacon as Breakfast,
+  faFish as Pescatarian,
+  faCarrot as Vegetarian,
+  faHamburger as Lunch,
+  faDrumstickBite as Omnivore,
+  faWineGlass as Dinner,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -47,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
       background: "#5e7944",
     },
   },
+  carouselItem: {
+    cursor: "pointer",
+  },
 }));
 
 const CourseSelection = () => {
@@ -73,7 +87,6 @@ const CourseSelection = () => {
 
   const handleSave = () => {
     dispatch(saveRecipe(selectedRecipeId));
-    setOpen(false);
   };
   const handleClose = () => {
     setOpen(false);
@@ -151,6 +164,8 @@ const CourseSelection = () => {
                           alt={`${course}`}
                           src={`https://grubs.s3.amazonaws.com/icons/${course}.png`}
                         />
+                        {/* 
+                        <FontAwesomeIcon icon={course} /> */}
                       </div>
                     </Paper>
                   </Grid>
@@ -201,13 +216,16 @@ const CourseSelection = () => {
         <Carousel>
           {recipes
             ? Object.values(recipes).map((recipe) => (
-                <Carousel.Item key={recipe.recipeId}>
+                <Carousel.Item
+                  key={recipe.recipeId}
+                  onClick={() => openRecipePage(recipe.recipeId)}
+                  className={classes.carouselItem}
+                >
                   <img
                     alt={recipe.title}
                     style={{ height: "650px" }}
                     className="d-block w-100"
                     key={recipe.title}
-                    onClick={() => openRecipePage(recipe.recipeId)}
                     src={recipe.imageUrl}
                   />
                   <Carousel.Caption>

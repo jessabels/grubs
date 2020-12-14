@@ -30,10 +30,6 @@ import { currentRecipeId } from "./store/actions/session";
 import "./SavedRecipes.css";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    backgroundImage:
-      "url('https://grubs.s3.amazonaws.com/polkadot-background.png')",
-  },
   root: {
     maxWidth: 345,
     marginBottom: "50px",
@@ -85,7 +81,6 @@ const SavedRecipes = () => {
 
   const handleSave = () => {
     dispatch(saveRecipe(selectedRecipeId));
-    setOpen(false);
   };
   const handleClose = () => {
     setOpen(false);
@@ -106,12 +101,12 @@ const SavedRecipes = () => {
   };
 
   const truncateText = (text) =>
-    text.length > 46 ? `${text.substring(0, 46)}...` : text;
+    text.length > 44 ? `${text.substring(0, 44)}...` : text;
 
   return (
     <div className="savedRecipes-container">
       <h1>Saved Recipes</h1>
-      <Grid className={classes.container} container>
+      <Grid container>
         {Object.values(recipes).length ? (
           Object.values(recipes).map((recipe) => {
             return (

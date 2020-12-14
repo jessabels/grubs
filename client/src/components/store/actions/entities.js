@@ -180,6 +180,7 @@ export const saveRecipe = (recipeId) => async (dispatch) => {
     });
 
     if (response.ok) {
+      dispatch(getUsers());
       // const list = await response.json();
     } else {
       throw response;

@@ -65,15 +65,34 @@ const Navbar = (props) => {
                 </NavLink>
               ) : null}
             </div>
+
             {!props.needLogin ? (
-              <div className="user-info" style={{ display: "flex" }}>
-                <Avatar
-                  className={classes.avatar}
-                  onClick={handleClick}
-                  alt="user avatar"
-                ></Avatar>
+              <>
+                <div>
+                  <NavLink to="/">
+                    <img
+                      alt="grubs-logo"
+                      src="https://grubs.s3.amazonaws.com/grubs-logo.png"
+                    />
+                  </NavLink>
+                </div>
+                <div className="user-info" style={{ display: "flex" }}>
+                  <Avatar
+                    className={classes.avatar}
+                    onClick={handleClick}
+                    alt="user avatar"
+                    style={{ backgroundColor: "#dcb14e" }}
+                  ></Avatar>
+                </div>
+              </>
+            ) : (
+              <div className="grubs-logo">
+                <img
+                  alt="logo"
+                  src="https://grubs.s3.amazonaws.com/grubs-logo.png"
+                />
               </div>
-            ) : null}
+            )}
           </Toolbar>
         </AppBar>
       </div>
