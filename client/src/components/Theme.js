@@ -6,9 +6,12 @@ const theme = createMuiTheme({
     primary: {
       main: "#795",
     },
-    typography: {
-      fontFamily: "Cormorant Garamond",
+    secondary: {
+      main: "#dcb14e",
     },
+  },
+  typography: {
+    fontFamily: "Cormorant Garamond",
   },
 });
 

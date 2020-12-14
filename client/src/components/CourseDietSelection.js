@@ -58,6 +58,13 @@ const useStyles = makeStyles((theme) => ({
       background: "#5e7944",
     },
   },
+  secondaryButton: {
+    margin: "10px 0",
+    background: "white",
+    "&:hover": {
+      background: "rgb(220 177 78 / 41%)",
+    },
+  },
   carouselItem: {
     cursor: "pointer",
   },
@@ -215,7 +222,11 @@ const CourseSelection = () => {
     </>
   ) : (
     <>
-      <Button onClick={handleChangeSelection} startIcon={<ArrowBackIcon />}>
+      <Button
+        className={classes.secondaryButton}
+        onClick={handleChangeSelection}
+        startIcon={<ArrowBackIcon />}
+      >
         Change Selection
       </Button>
       <div style={{ width: "70%", display: "block", margin: "0 auto" }}>
