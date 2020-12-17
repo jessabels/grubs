@@ -8,6 +8,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUserId, loadToken } from "./components/store/actions/session";
 import CourseDietSelection from "./components/CourseDietSelection";
 import SavedRecipes from "./components/SavedRecipes";
+import RecipeForm from "./components/RecipeForm";
+import RecipeEditForm from "./components/RecipeEditForm";
+import MyRecipes from "./components/MyRecipes";
 import Theme from "./components/Theme";
 import "./index.css";
 
@@ -55,11 +58,29 @@ function App({ needLogin, loadToken }) {
             needLogin={needLogin}
             component={CourseDietSelection}
           />
-          <PrivateRoute
+          {/* <PrivateRoute
             path="/savedRecipes"
             exact={true}
             needLogin={needLogin}
             component={SavedRecipes}
+          /> */}
+          <PrivateRoute
+            path="/myRecipes"
+            exact={true}
+            needLogin={needLogin}
+            component={MyRecipes}
+          />
+          <PrivateRoute
+            path="/recipeForm"
+            exact={true}
+            needLogin={needLogin}
+            component={RecipeForm}
+          />
+          <PrivateRoute
+            path="/recipeEditForm"
+            exact={true}
+            needLogin={needLogin}
+            component={RecipeEditForm}
           />
         </Switch>
       </BrowserRouter>

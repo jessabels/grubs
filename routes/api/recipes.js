@@ -10,6 +10,31 @@ const {
 } = require("../../utils");
 const { requireAuth } = require("../../auth");
 
+// create a recipe
+router.post(
+  "/",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const recipe = await Recipe.create({
+      userId: req.user.id,
+      title: req.body.title,
+      description: req.body.description,
+      cookTime: req.body.cookTime,
+      imageUrl: req.body.imageUrl,
+      course: req.body.course,
+    });
+
+    req.body.diet.map(async (dietId) => {
+      await RecipeDiet.create({
+        recipeId: recipe.id,
+        dietId: dietId,
+      });
+    });
+
+    res.json({ recipe });
+  })
+);
+
 router.get(
   "/:course/:dietId(\\d+)",
   asyncHandler(async (req, res) => {

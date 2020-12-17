@@ -1,5 +1,10 @@
 import { loginErrors, signupErrors, tipFormErrors } from "./errors";
-import { currentUserId, loadToken, removeToken } from "./session";
+import {
+  currentRecipeId,
+  currentUserId,
+  loadToken,
+  removeToken,
+} from "./session";
 
 export const GET_RECIPES = "GET_RECIPES";
 export const GET_RECIPE_LIKES = "GET_RECIPE_LIKES";
@@ -123,6 +128,98 @@ export const signup = (
 export const logout = () => async (dispatch, getState) => {
   window.localStorage.removeItem(TOKEN_KEY);
   dispatch(removeToken());
+};
+
+export const createRecipe = (
+  title,
+  description,
+  cookTime,
+  imageUrl,
+  course,
+  diet
+) => async (dispatch) => {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const response = await fetch(`/api/recipes`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        cookTime,
+        imageUrl,
+        course,
+        diet,
+      }),
+    });
+
+    if (response.ok) {
+      const recipe = await response.json();
+      dispatch(getSavedRecipes());
+      dispatch(currentRecipeId(recipe.recipe.id));
+      window.localStorage.setItem("CURRENT_RECIPE_ID", recipe.recipe.id);
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const createIngredient = (amount, product, recipeId) => async (
+  dispatch
+) => {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const response = await fetch(`/api/ingredients/${recipeId}`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        amount,
+        product,
+      }),
+    });
+
+    if (response.ok) {
+      dispatch(getSavedRecipes());
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const createInstruction = (specification, recipeId) => async (
+  dispatch
+) => {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const response = await fetch(`/api/instructions/${recipeId}`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        specification,
+      }),
+    });
+
+    if (response.ok) {
+      dispatch(getSavedRecipes());
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const getRecipes = (course, dietId) => async (dispatch) => {

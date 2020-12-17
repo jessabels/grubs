@@ -11,9 +11,7 @@ const initialState = {
     recipeLikes: {},
     tipLikes: {},
     recipeTips: {},
-    users: {
-      savedRecipes: [],
-    },
+    users: {},
   },
   errors: {
     loginErrors: [],
