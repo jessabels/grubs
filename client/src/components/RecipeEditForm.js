@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, NavLink, withRouter } from "react-router-dom";
-import { TextField, Button, List, ListItem } from "@material-ui/core";
-import "./RecipeForm.css";
+import { TextField, Button, List, ListItem, Grid } from "@material-ui/core";
+import "./RecipeEditForm.css";
 import {
   getSavedRecipes,
   createInstruction,
@@ -42,99 +42,108 @@ const RecipeEditForm = () => {
   };
 
   return (
-    <div>
+    <>
       <Link to="/myRecipes">Back to my recipes</Link>
       <h1>{currentRecipe && currentRecipe.title}</h1>
-      <img
-        alt={currentRecipe && currentRecipe.description}
-        src={currentRecipe && currentRecipe.imageUrl}
-      />
-      <div className="recipe-ingredients-list">
-        {/* get all ingredients for new recipe and list them here */}
-        <List>
-          {currentRecipe && currentRecipe.ingredients.length
-            ? currentRecipe.ingredients.map((ingredient) => (
-                <ListItem key={ingredient}>{ingredient}</ListItem>
-              ))
-            : "No ingredients added!"}
-        </List>
-      </div>
-      <div className="ingredients-form">
-        <form noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            id="amount"
-            label="Amount"
-            name="amount"
-            autoFocus
-            value={amount}
-            onChange={updateProperty(setAmount)}
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <img
+            alt={currentRecipe && currentRecipe.description}
+            src={currentRecipe && currentRecipe.imageUrl}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            id="product"
-            label="Product"
-            name="product"
-            autoFocus
-            value={product}
-            onChange={updateProperty(setProduct)}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={handleAddIngredient}
-          >
-            Add
-          </Button>
-        </form>
+        </Grid>
+        <Grid item xs={4}>
+          <div className="recipe-ingredients-list">
+            {/* get all ingredients for new recipe and list them here */}
+            <h3>Ingredients</h3>
+            <List>
+              {currentRecipe && currentRecipe.ingredients.length
+                ? currentRecipe.ingredients.map((ingredient) => (
+                    <ListItem key={ingredient}>{ingredient}</ListItem>
+                  ))
+                : "No ingredients added!"}
+            </List>
+          </div>
+          <div className="ingredients-form">
+            <form noValidate>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                id="amount"
+                label="Amount"
+                name="amount"
+                autoFocus
+                value={amount}
+                onChange={updateProperty(setAmount)}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                id="product"
+                label="Product"
+                name="product"
+                autoFocus
+                value={product}
+                onChange={updateProperty(setProduct)}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={handleAddIngredient}
+              >
+                Add
+              </Button>
+            </form>
+          </div>
+        </Grid>
+        <Grid item xs={4}>
+          <div className="recipe-instructions-list">
+            {/* get all ingredients for new recipe and list them here */}
+            <h3>Instructions</h3>
+            <List>
+              {currentRecipe && currentRecipe.instructions.length
+                ? currentRecipe.instructions.map((instruction, i) => (
+                    <>
+                      <span className="number-step">{i + 1}.</span>
+                      <ListItem key={instruction}>{instruction}</ListItem>
+                    </>
+                  ))
+                : "No Instructions added!"}
+            </List>
+          </div>
+          <div className="instructions-form">
+            <form>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="specification"
+                label="Instruction Text"
+                name="speciciation"
+                autoFocus
+                value={specification}
+                onChange={updateProperty(setSpecification)}
+              />
 
-        <div className="recipe-instructions-list">
-          {/* get all ingredients for new recipe and list them here */}
-          <List>
-            {currentRecipe && currentRecipe.instructions.length
-              ? currentRecipe.instructions.map((instruction, i) => (
-                  <>
-                    <span className="number-step">{i + 1}.</span>
-                    <ListItem key={instruction}>{instruction}</ListItem>
-                  </>
-                ))
-              : "No Instructions added!"}
-          </List>
-        </div>
-        <div className="instructions-form">
-          <form>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="specification"
-              label="Instruction Text"
-              name="speciciation"
-              autoFocus
-              value={specification}
-              onChange={updateProperty(setSpecification)}
-            />
-
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={handleAddInstruction}
-            >
-              Add
-            </Button>
-          </form>
-        </div>
-      </div>
-    </div>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={handleAddInstruction}
+              >
+                Add
+              </Button>
+            </form>
+          </div>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 

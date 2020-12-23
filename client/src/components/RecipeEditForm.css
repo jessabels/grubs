@@ -1,0 +1,12 @@
+.ingredients-form,
+.instructions-form {
+  background: white;
+}
+
+.recipe-edit-container {
+  margin: 20px;
+}
+
+img {
+  width: 100%;
+}
