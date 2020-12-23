@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -7,15 +7,16 @@ import {
   Select,
   InputLabel,
   Input,
-  //   MenuProps,
   MenuItem,
   Checkbox,
   ListItemText,
 } from "@material-ui/core";
 import "./RecipeForm.css";
 import { createRecipe } from "./store/actions/entities";
+import { recipeFormErrors } from "./store/actions/errors";
 
 const RecipeForm = () => {
+  const errors = useSelector((state) => state.errors.recipeFormErrors);
   const history = useHistory();
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
@@ -25,6 +26,9 @@ const RecipeForm = () => {
   const [course, setCourse] = useState("");
   const [diet, setDiet] = useState([]);
 
+  useEffect(() => {
+    dispatch(recipeFormErrors([]));
+  }, []);
   const diets = [
     { type: "Omnivore", id: 1 },
     { type: "Vegan", id: 2 },
@@ -41,21 +45,33 @@ const RecipeForm = () => {
     callback(e.target.value);
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    dispatch(
+
+    await dispatch(
       createRecipe(title, description, cookTime, imageUrl, course, dietIds)
     );
-    history.push({
-      pathname: "/recipeEditForm",
-    });
+    console.log("errors", !!errors);
+    if (title && description && imageUrl) {
+      history.push({
+        pathname: "/recipeEditForm",
+      });
+    }
   };
 
+  const listOfErrors = errors
+    ? errors.map((error) => (
+        <li key={error} style={{ color: "red" }}>
+          {error}
+        </li>
+      ))
+    : null;
   return (
     <div>
       <h1>Recipe Form</h1>
       <div className="recipe-form">
         <form noValidate>
+          <ul>{listOfErrors}</ul>
           <TextField
             variant="outlined"
             margin="normal"
@@ -130,7 +146,6 @@ const RecipeForm = () => {
               onChange={updateProperty(setDiet)}
               input={<Input />}
               renderValue={(selected) => selected.join(", ")}
-              //   MenuProps={MenuProps}
             >
               {diets.map((currentDiet, index) => (
                 <MenuItem key={currentDiet.type} value={currentDiet.type}>

@@ -1,4 +1,9 @@
-import { loginErrors, signupErrors, tipFormErrors } from "./errors";
+import {
+  loginErrors,
+  signupErrors,
+  tipFormErrors,
+  recipeFormErrors,
+} from "./errors";
 import {
   currentRecipeId,
   currentUserId,
@@ -161,11 +166,14 @@ export const createRecipe = (
       dispatch(getSavedRecipes());
       dispatch(currentRecipeId(recipe.recipe.id));
       window.localStorage.setItem("CURRENT_RECIPE_ID", recipe.recipe.id);
+      dispatch(recipeFormErrors([]));
     } else {
       throw response;
     }
   } catch (err) {
-    console.log(err);
+    const badRequest = await err.json();
+    const errors = badRequest.error.errors;
+    dispatch(recipeFormErrors(errors));
   }
 };
 

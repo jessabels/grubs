@@ -107,10 +107,10 @@ const RecipeEditForm = () => {
             <List>
               {currentRecipe && currentRecipe.instructions.length
                 ? currentRecipe.instructions.map((instruction, i) => (
-                    <>
+                    <div key={instruction}>
                       <span className="number-step">{i + 1}.</span>
                       <ListItem key={instruction}>{instruction}</ListItem>
-                    </>
+                    </div>
                   ))
                 : "No Instructions added!"}
             </List>

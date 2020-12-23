@@ -16,6 +16,7 @@ const initialState = {
   errors: {
     loginErrors: [],
     signupErrors: [],
+    tipFormErrors: [],
   },
   sessions: {
     currentRecipeId: null,

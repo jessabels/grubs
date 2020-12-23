@@ -1,6 +1,7 @@
 export const LOGIN_ERRORS = "LOGIN_ERRORS";
 export const SIGNUP_ERRORS = "SIGNUP_ERRORS";
 export const TIP_FORM_ERRORS = "TIP_FORM_ERRORS";
+export const RECIPE_FORM_ERRORS = "RECIPE_FORM_ERRORS";
 
 export const loginErrors = (errors) => {
   return {
@@ -23,6 +24,12 @@ export const tipFormErrors = (errors) => {
   };
 };
 
+export const recipeFormErrors = (errors) => {
+  return {
+    type: RECIPE_FORM_ERRORS,
+    errors,
+  };
+};
 export default function reducer(state = {}, action) {
   Object.freeze(state);
   let newState = Object.assign({}, state);
@@ -35,6 +42,9 @@ export default function reducer(state = {}, action) {
       return newState;
     case TIP_FORM_ERRORS:
       newState["tipFormErrors"] = action.errors;
+      return newState;
+    case RECIPE_FORM_ERRORS:
+      newState["recipeFormErrors"] = action.errors;
       return newState;
     default:
       return state;

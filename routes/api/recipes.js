@@ -7,13 +7,14 @@ const {
   asyncHandler,
   handleValidationErrors,
   validateText,
+  validateRecipe,
 } = require("../../utils");
 const { requireAuth } = require("../../auth");
 
 // create a recipe
 router.post(
   "/",
-  requireAuth,
+  [requireAuth, validateRecipe, handleValidationErrors],
   asyncHandler(async (req, res) => {
     const recipe = await Recipe.create({
       userId: req.user.id,
