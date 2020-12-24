@@ -8,6 +8,8 @@ import {
   getLikedRecipes,
   createRecipeTip,
   getAllRecipes,
+  unlikeRecipe,
+  likeRecipe,
 } from "./store/actions/entities";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,7 +25,8 @@ import {
   Slide,
   Button,
 } from "@material-ui/core";
-
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import RecipeDetailModal from "./RecipeDetailModal";
@@ -64,7 +67,7 @@ const LikedRecipes = () => {
     parseInt(state.sessions.currentUserId)
   );
   const recipes = useSelector((state) => state.entities.recipes);
-
+  let userLiked;
   const userLikes =
     likes &&
     Object.values(likes).filter((like) => like.userId === currentUserId);
@@ -114,6 +117,14 @@ const LikedRecipes = () => {
     setText("");
   };
 
+  const handleLike = (recipeId) => {
+    if (userLiked) {
+      dispatch(unlikeRecipe(recipeId));
+    } else {
+      dispatch(likeRecipe(recipeId));
+    }
+  };
+
   const truncateText = (text) =>
     text.length > 44 ? `${text.substring(0, 44)}...` : text;
 
@@ -123,6 +134,15 @@ const LikedRecipes = () => {
       <Grid container>
         {likedRecipes && Object.values(likedRecipes).length ? (
           Object.values(likedRecipes).map((recipe) => {
+            userLiked = likes
+              ? Object.values(likes).some((recipeLike) => {
+                  return (
+                    recipeLike.userId === parseInt(currentUserId) &&
+                    recipeLike.recipeId === recipe.recipeId
+                  );
+                })
+              : null;
+
             return (
               <Grid key={recipe.recipeId} item xs={6} sm={4}>
                 <Card className={classes.root}>
@@ -139,7 +159,10 @@ const LikedRecipes = () => {
                     }
                     action={
                       <IconButton>
-                        <DeleteIcon className="icon" />
+                        <FavoriteIcon
+                          className="icon"
+                          onClick={() => handleLike(recipe.recipeId)}
+                        />
                       </IconButton>
                     }
                   ></CardHeader>
