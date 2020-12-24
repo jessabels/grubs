@@ -17,7 +17,6 @@ const RecipeEditForm = () => {
 
   const recipes = useSelector((state) => state.entities.recipes);
   const currentRecipeId = parseInt(localStorage.getItem("CURRENT_RECIPE_ID"));
-  console.log("current recipe Id", currentRecipeId);
   const currentRecipe = Object.values(recipes).length
     ? recipes[currentRecipeId]
     : null;

@@ -59,7 +59,7 @@ router.post(
     });
   })
 );
-
+//get all recipes owned by user
 router.get(
   "/:userId/recipes",
   asyncHandler(async function (req, res) {
@@ -107,6 +107,7 @@ router.get(
 
       return {
         recipeId: userRecipe.id,
+        userId: userRecipe.userId,
         dietId: userRecipe.dietId,
         title: userRecipe.title,
         description: userRecipe.description,
@@ -123,6 +124,77 @@ router.get(
   })
 );
 
+router.get(
+  "/:userId/recipes/likes",
+  asyncHandler(async function (req, res) {
+    const userLikedRecipes = await Like.findAll({
+      include: Recipe,
+      where: {
+        userId: req.params.userId,
+        likeableType: "Recipe",
+      },
+    });
+
+    const likedRecipeIds = userLikedRecipes.map((recipe) => recipe.likeableId);
+    console.log("user liked", likedRecipeIds);
+
+    const allRecipes = await Recipe.findAll();
+    const likedRecipes = allRecipes.filter((recipe) =>
+      likedRecipeIds.includes(recipe.id)
+    );
+    const recipeLikes = await Like.findAll({
+      where: {
+        likeableType: "Recipe",
+      },
+    });
+
+    const recipeTips = await Tip.findAll();
+    const recipeInstructions = await Instruction.findAll();
+    const recipeIngredients = await Ingredient.findAll();
+
+    const userLikedRecipeData = likedRecipes.map((likedRecipe) => {
+      const instructions = recipeInstructions
+        .filter((instruction) => {
+          return instruction.recipeId === likedRecipe.id;
+        })
+        .map((instruction) => instruction.specification);
+
+      const ingredients = recipeIngredients
+        .filter((ingredient) => {
+          return ingredient.recipeId === likedRecipe.id;
+        })
+        .map((ingredient) => `${ingredient.amount} ${ingredient.product}`);
+
+      const likes = recipeLikes
+        .filter((like) => {
+          return like.likeableId == likedRecipe.id;
+        })
+        .map((like) => like.id);
+
+      const tips = recipeTips
+        .filter((tip) => {
+          return tip.recipeId == likedRecipe.id;
+        })
+        .map((tip) => tip.id);
+
+      return {
+        recipeId: likedRecipe.id,
+        userId: likedRecipe.userId,
+        dietId: likedRecipe.dietId,
+        title: likedRecipe.title,
+        description: likedRecipe.description,
+        cookTime: likedRecipe.cookTime,
+        imageUrl: likedRecipe.imageUrl,
+        course: likedRecipe.course,
+        likes,
+        tips,
+        instructions,
+        ingredients,
+      };
+    });
+    res.json(userLikedRecipeData);
+  })
+);
 //save a recipe
 
 // router.post(

@@ -51,7 +51,6 @@ const RecipeForm = () => {
     await dispatch(
       createRecipe(title, description, cookTime, imageUrl, course, dietIds)
     );
-    console.log("errors", !!errors);
     if (title && description && imageUrl) {
       history.push({
         pathname: "/recipeEditForm",

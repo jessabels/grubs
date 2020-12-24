@@ -11,6 +11,7 @@ import SavedRecipes from "./components/SavedRecipes";
 import RecipeForm from "./components/RecipeForm";
 import RecipeEditForm from "./components/RecipeEditForm";
 import MyRecipes from "./components/MyRecipes";
+import LikedRecipes from "./components/LikedRecipes";
 import Theme from "./components/Theme";
 import "./index.css";
 
@@ -69,6 +70,12 @@ function App({ needLogin, loadToken }) {
             exact={true}
             needLogin={needLogin}
             component={MyRecipes}
+          />
+          <PrivateRoute
+            path="/likedRecipes"
+            exact={true}
+            needLogin={needLogin}
+            component={LikedRecipes}
           />
           <PrivateRoute
             path="/recipeForm"

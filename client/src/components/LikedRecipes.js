@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, withRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getRecipeLikes,
   getRecipeTips,
   getTipLikes,
   getUsers,
-  getSavedRecipes,
-  saveRecipe,
-  deleteRecipe,
+  getLikedRecipes,
   createRecipeTip,
   getAllRecipes,
 } from "./store/actions/entities";
@@ -58,22 +55,35 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const MyRecipes = () => {
+const LikedRecipes = () => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
-  const recipes = useSelector((state) => state.entities.recipes);
-  const recipeTips = useSelector((state) => state.entities.recipeTips);
   const users = useSelector((state) => state.entities.users);
+  const likes = useSelector((state) => state.entities.recipeLikes);
   const currentUserId = useSelector((state) =>
     parseInt(state.sessions.currentUserId)
   );
+  const recipes = useSelector((state) => state.entities.recipes);
+
+  const userLikes =
+    likes &&
+    Object.values(likes).filter((like) => like.userId === currentUserId);
+
+  let likedRecipes = [];
+  userLikes.forEach((userLike) => {
+    Object.values(recipes).forEach((recipe) => {
+      if (userLike.recipeId === recipe.recipeId) {
+        likedRecipes.push(recipe);
+      }
+    });
+  });
+
+  const recipeTips = useSelector((state) => state.entities.recipeTips);
+
   const selectedRecipeId = useSelector((state) =>
     recipes ? state.sessions.currentRecipeId : null
   );
 
-  const myRecipes = Object.values(recipes).filter(
-    (recipe) => recipe.userId == currentUserId
-  );
   const currentRecipe = Object.values(recipes).length
     ? recipes[selectedRecipeId]
     : null;
@@ -89,9 +99,6 @@ const MyRecipes = () => {
     dispatch(getUsers());
   }, [dispatch]);
 
-  const handleSave = () => {
-    dispatch(saveRecipe(selectedRecipeId));
-  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -99,9 +106,6 @@ const MyRecipes = () => {
   const handleRecipeCardClick = (recipeId) => {
     setOpen(true);
     dispatch(currentRecipeId(recipeId));
-  };
-  const handleDelete = (recipeId) => {
-    dispatch(deleteRecipe(recipeId));
   };
 
   const handleTipSubmit = (e) => {
@@ -115,11 +119,10 @@ const MyRecipes = () => {
 
   return (
     <div className="savedRecipes-container">
-      <h1>My Recipes</h1>
-      <Link to="/recipeForm"> New Recipe </Link>
+      <h1>Liked Recipes</h1>
       <Grid container>
-        {Object.values(myRecipes).length ? (
-          Object.values(myRecipes).map((recipe) => {
+        {likedRecipes && Object.values(likedRecipes).length ? (
+          Object.values(likedRecipes).map((recipe) => {
             return (
               <Grid key={recipe.recipeId} item xs={6} sm={4}>
                 <Card className={classes.root}>
@@ -135,7 +138,7 @@ const MyRecipes = () => {
                       </Typography>
                     }
                     action={
-                      <IconButton onClick={() => handleDelete(recipe.recipeId)}>
+                      <IconButton>
                         <DeleteIcon className="icon" />
                       </IconButton>
                     }
@@ -165,14 +168,13 @@ const MyRecipes = () => {
             );
           })
         ) : (
-          <h3>No saved recipes!</h3>
+          <h3>No liked recipes!</h3>
         )}
         <RecipeDetailModal
           open={open}
           handleClose={handleClose}
           Transition={Transition}
           currentRecipe={currentRecipe}
-          handleSave={handleSave}
           recipeTips={recipeTips}
           users={users}
           text={text}
@@ -184,4 +186,4 @@ const MyRecipes = () => {
   );
 };
 
-export default MyRecipes;
+export default LikedRecipes;

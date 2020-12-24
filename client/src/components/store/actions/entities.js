@@ -230,6 +230,25 @@ export const createInstruction = (specification, recipeId) => async (
   }
 };
 
+export const getAllRecipes = () => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/recipes`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const list = await response.json();
+      dispatch(loadRecipes(list));
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getRecipes = (course, dietId) => async (dispatch) => {
   try {
     const response = await fetch(`/api/recipes/${course}/${dietId}`, {
@@ -254,6 +273,29 @@ export const getSavedRecipes = () => async (dispatch) => {
     const token = localStorage.getItem(TOKEN_KEY);
     const userId = localStorage.getItem(USER_ID);
     const response = await fetch(`/api/users/${userId}/recipes`, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      const list = await response.json();
+      dispatch(loadRecipes(list));
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getLikedRecipes = () => async (dispatch) => {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const userId = localStorage.getItem(USER_ID);
+    const response = await fetch(`/api/users/${userId}/recipes/likes`, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -410,7 +452,7 @@ export const likeRecipe = (recipeId, course, dietId) => async (dispatch) => {
     // const likes = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
-      : dispatch(getSavedRecipes());
+      : dispatch(getAllRecipes());
     dispatch(getRecipeLikes());
   }
 };
@@ -430,14 +472,18 @@ export const unlikeRecipe = (recipeId, course, dietId) => async (dispatch) => {
     // const likes = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
-      : dispatch(getSavedRecipes());
+      : dispatch(getAllRecipes());
     dispatch(getRecipeLikes());
   }
 };
 
-export const createRecipeTip = (text, recipeId, course, dietId) => async (
-  dispatch
-) => {
+export const createRecipeTip = (
+  text,
+  recipeId,
+  course,
+  dietId,
+  liked
+) => async (dispatch) => {
   const token = localStorage.getItem(TOKEN_KEY);
   const userId = localStorage.getItem(USER_ID);
   try {
@@ -454,7 +500,7 @@ export const createRecipeTip = (text, recipeId, course, dietId) => async (
       dispatch(tipFormErrors([]));
       course && dietId
         ? dispatch(getRecipes(course, dietId))
-        : dispatch(getSavedRecipes());
+        : dispatch(getAllRecipes());
       dispatch(getRecipeTips());
     } else {
       throw response;
@@ -489,7 +535,7 @@ export const updateRecipeTip = (
       dispatch(tipFormErrors([]));
       course && dietId
         ? dispatch(getRecipes(course, dietId))
-        : dispatch(getSavedRecipes());
+        : dispatch(getAllRecipes());
       dispatch(getRecipeTips());
     } else {
       throw response;
@@ -518,7 +564,7 @@ export const removeRecipeTip = (tipId, recipeId, course, dietId) => async (
     // const tips = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
-      : dispatch(getSavedRecipes());
+      : dispatch(getAllRecipes());
     dispatch(getRecipeTips());
   }
 };
@@ -540,7 +586,7 @@ export const likeRecipeTip = (tipId, recipeId, course, dietId) => async (
     // const likes = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
-      : dispatch(getSavedRecipes());
+      : dispatch(getAllRecipes());
     dispatch(getRecipeTips());
     dispatch(getTipLikes());
   }
@@ -563,7 +609,7 @@ export const unlikeRecipeTip = (tipId, recipeId, course, dietId) => async (
     // const likes = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
-      : dispatch(getSavedRecipes());
+      : dispatch(getAllRecipes());
     dispatch(getRecipeTips());
     dispatch(getTipLikes());
   }
@@ -591,6 +637,7 @@ export default function reducer(state = {}, action) {
       newState["recipes"] = {};
       const recipes = action.list.map((recipe) => ({
         recipeId: recipe.recipeId,
+        userId: recipe.userId,
         dietId: recipe.dietId,
         title: recipe.title,
         description: recipe.description,
