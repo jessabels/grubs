@@ -116,7 +116,9 @@ const MyRecipes = () => {
   return (
     <div className="savedRecipes-container">
       <h1>My Recipes</h1>
-      <Link to="/recipeForm"> New Recipe </Link>
+      <Button>
+        <Link to="/recipeForm"> Add Recipe </Link>
+      </Button>
       <Grid container>
         {Object.values(myRecipes).length ? (
           Object.values(myRecipes).map((recipe) => {

@@ -1,6 +1,7 @@
 .ingredients-form,
 .instructions-form {
   background: white;
+  margin-bottom: 20px;
 }
 
 .recipe-edit-container {
@@ -9,4 +10,13 @@
 
 img {
   width: 100%;
+}
+
+.ingredients-instructions {
+  background-color: white;
+  padding: 10px;
+}
+
+.recipe-edit {
+  margin: 40px;
 }
