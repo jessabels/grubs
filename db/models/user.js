@@ -13,14 +13,15 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   User.associate = function (models) {
-    const columnMapping = {
-      through: "UserRecipe",
-      otherKey: "recipeId",
-      foreignKey: "userId",
-    };
-    User.belongsToMany(models.Recipe, columnMapping);
+    // const columnMapping = {
+    //   through: "UserRecipe",
+    //   otherKey: "recipeId",
+    //   foreignKey: "userId",
+    // };
+    // User.belongsToMany(models.Recipe, columnMapping);
     User.hasMany(models.Tip, { foreignKey: "userId" });
     User.hasMany(models.Like, { foreignKey: "userId" });
+    User.hasMany(models.Recipe, { foreignKey: "userId" });
   };
 
   User.prototype.validatePassword = function (password) {

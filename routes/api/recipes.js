@@ -7,8 +7,98 @@ const {
   asyncHandler,
   handleValidationErrors,
   validateText,
+  validateRecipe,
 } = require("../../utils");
 const { requireAuth } = require("../../auth");
+
+// create a recipe
+router.post(
+  "/",
+  [requireAuth, validateRecipe, handleValidationErrors],
+  asyncHandler(async (req, res) => {
+    const recipe = await Recipe.create({
+      userId: req.user.id,
+      title: req.body.title,
+      description: req.body.description,
+      cookTime: req.body.cookTime,
+      imageUrl: req.body.imageUrl,
+      course: req.body.course,
+    });
+
+    req.body.diet.map(async (dietId) => {
+      await RecipeDiet.create({
+        recipeId: recipe.id,
+        dietId: dietId,
+      });
+    });
+
+    res.json({ recipe });
+  })
+);
+
+//get all recipes
+
+router.get(
+  "/",
+  asyncHandler(async (req, res) => {
+    const recipes = await Recipe.findAll();
+
+    const recipeLikes = await Like.findAll({
+      where: {
+        likeableType: "Recipe",
+      },
+    });
+
+    const recipeTips = await Tip.findAll();
+
+    const recipeInstructions = await Instruction.findAll();
+
+    const recipeIngredients = await Ingredient.findAll();
+
+    const recipeData = recipes.map((recipe) => {
+      const instructions = recipeInstructions
+        .filter((instruction) => {
+          return instruction.recipeId === recipe.id;
+        })
+        .map((instruction) => instruction.specification);
+
+      const ingredients = recipeIngredients
+        .filter((ingredient) => {
+          return ingredient.recipeId === recipe.id;
+        })
+        .map((ingredient) => `${ingredient.amount} ${ingredient.product}`);
+
+      const likes = recipeLikes
+        .filter((like) => {
+          return like.likeableId == recipe.id;
+        })
+        .map((like) => like.id);
+
+      const tips = recipeTips
+        .filter((tip) => {
+          return tip.recipeId == recipe.id;
+        })
+        .map((tip) => tip.id);
+
+      return {
+        recipeId: recipe.id,
+        userId: recipe.userId,
+        dietId: recipe.dietId,
+        title: recipe.title,
+        description: recipe.description,
+        cookTime: recipe.cookTime,
+        imageUrl: recipe.imageUrl,
+        course: recipe.course,
+        likes,
+        tips,
+        instructions,
+        ingredients,
+      };
+    });
+
+    res.json(recipeData);
+  })
+);
 
 router.get(
   "/:course/:dietId(\\d+)",
@@ -64,8 +154,9 @@ router.get(
 
       return {
         recipeId: recipe.recipeId,
+        userId: recipe.userId,
         dietId: recipe.dietId,
-        title: recipe.Recipe.title,
+        title: recipe.title,
         description: recipe.Recipe.description,
         cookTime: recipe.Recipe.cookTime,
         imageUrl: recipe.Recipe.imageUrl,
@@ -129,6 +220,7 @@ router.get(
 
     const recipeData = {
       id: recipe.id,
+      userId: recipe.userId,
       title: recipe.title,
       description: recipe.description,
       cookTime: recipe.cookTime,

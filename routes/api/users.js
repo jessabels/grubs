@@ -19,13 +19,13 @@ router.get(
     });
 
     const userData = users.map((user) => {
-      const savedRecipeIds = user.Recipes.map((recipe) => recipe.id);
+      const recipeIds = user.Recipes.map((recipe) => recipe.id);
       return {
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        savedRecipes: savedRecipeIds,
+        recipes: recipeIds,
       };
     });
     res.json(userData);
@@ -59,11 +59,11 @@ router.post(
     });
   })
 );
-
+//get all recipes owned by user
 router.get(
   "/:userId/recipes",
   asyncHandler(async function (req, res) {
-    const savedRecipes = await User.findOne({
+    const userRecipes = await User.findOne({
       where: {
         id: req.params.userId,
       },
@@ -80,73 +80,162 @@ router.get(
     const recipeInstructions = await Instruction.findAll();
     const recipeIngredients = await Ingredient.findAll();
 
-    const savedRecipeData = savedRecipes.Recipes.map((savedRecipe) => {
+    const userRecipeData = userRecipes.Recipes.map((userRecipe) => {
       const instructions = recipeInstructions
         .filter((instruction) => {
-          return instruction.recipeId === savedRecipe.id;
+          return instruction.recipeId === userRecipe.id;
         })
         .map((instruction) => instruction.specification);
 
       const ingredients = recipeIngredients
         .filter((ingredient) => {
-          return ingredient.recipeId === savedRecipe.id;
+          return ingredient.recipeId === userRecipe.id;
         })
         .map((ingredient) => `${ingredient.amount} ${ingredient.product}`);
 
       const likes = recipeLikes
         .filter((like) => {
-          return like.likeableId == savedRecipe.id;
+          return like.likeableId == userRecipe.id;
         })
         .map((like) => like.id);
 
       const tips = recipeTips
         .filter((tip) => {
-          return tip.recipeId == savedRecipe.id;
+          return tip.recipeId == userRecipe.id;
         })
         .map((tip) => tip.id);
 
       return {
-        recipeId: savedRecipe.id,
-        dietId: savedRecipe.dietId,
-        title: savedRecipe.title,
-        description: savedRecipe.description,
-        cookTime: savedRecipe.cookTime,
-        imageUrl: savedRecipe.imageUrl,
-        course: savedRecipe.course,
+        recipeId: userRecipe.id,
+        userId: userRecipe.userId,
+        dietId: userRecipe.dietId,
+        title: userRecipe.title,
+        description: userRecipe.description,
+        cookTime: userRecipe.cookTime,
+        imageUrl: userRecipe.imageUrl,
+        course: userRecipe.course,
         likes,
         tips,
         instructions,
         ingredients,
       };
     });
-    res.json(savedRecipeData);
+    res.json(userRecipeData);
   })
 );
 
-//save a recipe
-
-router.post(
-  "/:userId/recipes/:recipeId",
-  requireAuth,
-  asyncHandler(async (req, res) => {
-    const savedRecipe = await UserRecipe.create({
-      userId: req.user.id,
-      recipeId: req.params.recipeId,
+router.get(
+  "/:userId/recipes/likes",
+  asyncHandler(async function (req, res) {
+    const userLikedRecipes = await Like.findAll({
+      include: Recipe,
+      where: {
+        userId: req.params.userId,
+        likeableType: "Recipe",
+      },
     });
 
-    res.json({ savedRecipe });
+    const likedRecipeIds = userLikedRecipes.map((recipe) => recipe.likeableId);
+    console.log("user liked", likedRecipeIds);
+
+    const allRecipes = await Recipe.findAll();
+    const likedRecipes = allRecipes.filter((recipe) =>
+      likedRecipeIds.includes(recipe.id)
+    );
+    const recipeLikes = await Like.findAll({
+      where: {
+        likeableType: "Recipe",
+      },
+    });
+
+    const recipeTips = await Tip.findAll();
+    const recipeInstructions = await Instruction.findAll();
+    const recipeIngredients = await Ingredient.findAll();
+
+    const userLikedRecipeData = likedRecipes.map((likedRecipe) => {
+      const instructions = recipeInstructions
+        .filter((instruction) => {
+          return instruction.recipeId === likedRecipe.id;
+        })
+        .map((instruction) => instruction.specification);
+
+      const ingredients = recipeIngredients
+        .filter((ingredient) => {
+          return ingredient.recipeId === likedRecipe.id;
+        })
+        .map((ingredient) => `${ingredient.amount} ${ingredient.product}`);
+
+      const likes = recipeLikes
+        .filter((like) => {
+          return like.likeableId == likedRecipe.id;
+        })
+        .map((like) => like.id);
+
+      const tips = recipeTips
+        .filter((tip) => {
+          return tip.recipeId == likedRecipe.id;
+        })
+        .map((tip) => tip.id);
+
+      return {
+        recipeId: likedRecipe.id,
+        userId: likedRecipe.userId,
+        dietId: likedRecipe.dietId,
+        title: likedRecipe.title,
+        description: likedRecipe.description,
+        cookTime: likedRecipe.cookTime,
+        imageUrl: likedRecipe.imageUrl,
+        course: likedRecipe.course,
+        likes,
+        tips,
+        instructions,
+        ingredients,
+      };
+    });
+    res.json(userLikedRecipeData);
   })
 );
+//save a recipe
 
-//delete a saved recipe
+// router.post(
+//   "/:userId/recipes/:recipeId",
+//   requireAuth,
+//   asyncHandler(async (req, res) => {
+//     const savedRecipe = await UserRecipe.create({
+//       userId: req.user.id,
+//       recipeId: req.params.recipeId,
+//     });
+
+//     res.json({ savedRecipe });
+//   })
+// );
+
+// //delete a saved recipe
+// router.delete(
+//   "/:userId/recipes/:recipeId",
+//   requireAuth,
+//   asyncHandler(async (req, res) => {
+//     const deletedRecipe = await UserRecipe.findOne({
+//       where: {
+//         userId: req.user.id,
+//         recipeId: req.params.recipeId,
+//       },
+//     });
+//     deletedRecipe.destroy();
+
+//     res.json({ deletedRecipe });
+//   })
+// );
+
+//delete a recipe
 router.delete(
   "/:userId/recipes/:recipeId",
   requireAuth,
   asyncHandler(async (req, res) => {
-    const deletedRecipe = await UserRecipe.findOne({
+    const deletedRecipe = await Recipe.findOne({
       where: {
         userId: req.user.id,
-        recipeId: req.params.recipeId,
+        id: req.params.recipeId,
       },
     });
     deletedRecipe.destroy();

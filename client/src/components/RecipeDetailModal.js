@@ -135,7 +135,7 @@ const RecipeDetailModal = (props) => {
             <Typography variant="h6" className={classes.title}>
               {currentRecipe && currentRecipe.title}
             </Typography>
-            {userAlreadySaved ? (
+            {/* {userAlreadySaved ? (
               <Button
                 classes={{
                   label: classes.label,
@@ -157,7 +157,7 @@ const RecipeDetailModal = (props) => {
               >
                 Save
               </Button>
-            )}
+            )} */}
           </Toolbar>
         </AppBar>
         <div className="recipe-card">

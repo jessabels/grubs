@@ -12,6 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: { model: "Recipes" },
+        onDelete: "CASCADE",
       },
       dietId: {
         type: Sequelize.INTEGER,

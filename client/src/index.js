@@ -11,13 +11,12 @@ const initialState = {
     recipeLikes: {},
     tipLikes: {},
     recipeTips: {},
-    users: {
-      savedRecipes: [],
-    },
+    users: {},
   },
   errors: {
     loginErrors: [],
     signupErrors: [],
+    tipFormErrors: [],
   },
   sessions: {
     currentRecipeId: null,

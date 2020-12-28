@@ -1,5 +1,15 @@
-import { loginErrors, signupErrors, tipFormErrors } from "./errors";
-import { currentUserId, loadToken, removeToken } from "./session";
+import {
+  loginErrors,
+  signupErrors,
+  tipFormErrors,
+  recipeFormErrors,
+} from "./errors";
+import {
+  currentRecipeId,
+  currentUserId,
+  loadToken,
+  removeToken,
+} from "./session";
 
 export const GET_RECIPES = "GET_RECIPES";
 export const GET_RECIPE_LIKES = "GET_RECIPE_LIKES";
@@ -125,6 +135,120 @@ export const logout = () => async (dispatch, getState) => {
   dispatch(removeToken());
 };
 
+export const createRecipe = (
+  title,
+  description,
+  cookTime,
+  imageUrl,
+  course,
+  diet
+) => async (dispatch) => {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const response = await fetch(`/api/recipes`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        cookTime,
+        imageUrl,
+        course,
+        diet,
+      }),
+    });
+
+    if (response.ok) {
+      const recipe = await response.json();
+      dispatch(getSavedRecipes());
+      dispatch(currentRecipeId(recipe.recipe.id));
+      window.localStorage.setItem("CURRENT_RECIPE_ID", recipe.recipe.id);
+      dispatch(recipeFormErrors([]));
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    const badRequest = await err.json();
+    const errors = badRequest.error.errors;
+    dispatch(recipeFormErrors(errors));
+  }
+};
+
+export const createIngredient = (amount, product, recipeId) => async (
+  dispatch
+) => {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const response = await fetch(`/api/ingredients/${recipeId}`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        amount,
+        product,
+      }),
+    });
+
+    if (response.ok) {
+      dispatch(getSavedRecipes());
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const createInstruction = (specification, recipeId) => async (
+  dispatch
+) => {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const response = await fetch(`/api/instructions/${recipeId}`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        specification,
+      }),
+    });
+
+    if (response.ok) {
+      dispatch(getSavedRecipes());
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getAllRecipes = () => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/recipes`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const list = await response.json();
+      dispatch(loadRecipes(list));
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getRecipes = (course, dietId) => async (dispatch) => {
   try {
     const response = await fetch(`/api/recipes/${course}/${dietId}`, {
@@ -149,6 +273,29 @@ export const getSavedRecipes = () => async (dispatch) => {
     const token = localStorage.getItem(TOKEN_KEY);
     const userId = localStorage.getItem(USER_ID);
     const response = await fetch(`/api/users/${userId}/recipes`, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      const list = await response.json();
+      dispatch(loadRecipes(list));
+    } else {
+      throw response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getLikedRecipes = () => async (dispatch) => {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const userId = localStorage.getItem(USER_ID);
+    const response = await fetch(`/api/users/${userId}/recipes/likes`, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -204,7 +351,8 @@ export const deleteRecipe = (recipeId) => async (dispatch) => {
 
     if (response.ok) {
       const recipe = await response.json();
-      dispatch(remove(recipe.deletedRecipe.recipeId));
+      console.log(recipe);
+      dispatch(remove(recipe.deletedRecipe.id));
     } else {
       throw response;
     }
@@ -304,7 +452,7 @@ export const likeRecipe = (recipeId, course, dietId) => async (dispatch) => {
     // const likes = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
-      : dispatch(getSavedRecipes());
+      : dispatch(getAllRecipes());
     dispatch(getRecipeLikes());
   }
 };
@@ -324,14 +472,18 @@ export const unlikeRecipe = (recipeId, course, dietId) => async (dispatch) => {
     // const likes = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
-      : dispatch(getSavedRecipes());
+      : dispatch(getAllRecipes());
     dispatch(getRecipeLikes());
   }
 };
 
-export const createRecipeTip = (text, recipeId, course, dietId) => async (
-  dispatch
-) => {
+export const createRecipeTip = (
+  text,
+  recipeId,
+  course,
+  dietId,
+  liked
+) => async (dispatch) => {
   const token = localStorage.getItem(TOKEN_KEY);
   const userId = localStorage.getItem(USER_ID);
   try {
@@ -348,7 +500,7 @@ export const createRecipeTip = (text, recipeId, course, dietId) => async (
       dispatch(tipFormErrors([]));
       course && dietId
         ? dispatch(getRecipes(course, dietId))
-        : dispatch(getSavedRecipes());
+        : dispatch(getAllRecipes());
       dispatch(getRecipeTips());
     } else {
       throw response;
@@ -383,7 +535,7 @@ export const updateRecipeTip = (
       dispatch(tipFormErrors([]));
       course && dietId
         ? dispatch(getRecipes(course, dietId))
-        : dispatch(getSavedRecipes());
+        : dispatch(getAllRecipes());
       dispatch(getRecipeTips());
     } else {
       throw response;
@@ -412,7 +564,7 @@ export const removeRecipeTip = (tipId, recipeId, course, dietId) => async (
     // const tips = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
-      : dispatch(getSavedRecipes());
+      : dispatch(getAllRecipes());
     dispatch(getRecipeTips());
   }
 };
@@ -434,7 +586,7 @@ export const likeRecipeTip = (tipId, recipeId, course, dietId) => async (
     // const likes = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
-      : dispatch(getSavedRecipes());
+      : dispatch(getAllRecipes());
     dispatch(getRecipeTips());
     dispatch(getTipLikes());
   }
@@ -457,7 +609,7 @@ export const unlikeRecipeTip = (tipId, recipeId, course, dietId) => async (
     // const likes = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
-      : dispatch(getSavedRecipes());
+      : dispatch(getAllRecipes());
     dispatch(getRecipeTips());
     dispatch(getTipLikes());
   }
@@ -485,6 +637,7 @@ export default function reducer(state = {}, action) {
       newState["recipes"] = {};
       const recipes = action.list.map((recipe) => ({
         recipeId: recipe.recipeId,
+        userId: recipe.userId,
         dietId: recipe.dietId,
         title: recipe.title,
         description: recipe.description,
