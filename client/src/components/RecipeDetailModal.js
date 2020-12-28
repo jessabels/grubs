@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import {
-  Button,
   Dialog,
   ListItem,
   List,
@@ -60,7 +59,6 @@ const RecipeDetailModal = (props) => {
     handleClose,
     Transition,
     currentRecipe,
-    handleSave,
     recipeTips,
     text,
     setText,
@@ -79,8 +77,6 @@ const RecipeDetailModal = (props) => {
   const currentUserId = useSelector((state) =>
     parseInt(state.sessions.currentUserId)
   );
-
-  const currentUser = users ? users[currentUserId] : null;
 
   const dispatch = useDispatch();
 
@@ -108,11 +104,6 @@ const RecipeDetailModal = (props) => {
     );
     setText("");
   };
-
-  const userAlreadySaved =
-    currentUser && currentUser.savedRecipes
-      ? currentUser.savedRecipes.includes(currentRecipeId)
-      : null;
 
   return (
     <>

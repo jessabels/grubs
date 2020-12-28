@@ -76,7 +76,7 @@ const MyRecipes = () => {
   );
 
   const myRecipes = Object.values(recipes).filter(
-    (recipe) => recipe.userId == currentUserId
+    (recipe) => recipe.userId === currentUserId
   );
   const currentRecipe = Object.values(recipes).length
     ? recipes[selectedRecipeId]

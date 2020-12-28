@@ -99,7 +99,7 @@ router.get(
     res.json(recipeData);
   })
 );
-
+//get recipes of specific diet and course
 router.get(
   "/:course/:dietId(\\d+)",
   asyncHandler(async (req, res) => {
@@ -173,70 +173,6 @@ router.get(
 );
 
 router.get(
-  "/:recipeId(\\d+)",
-  asyncHandler(async (req, res) => {
-    const recipe = await Recipe.findByPk(req.params.recipeId, {});
-    const recipeInstructions = await Instruction.findAll({
-      where: {
-        recipeId: recipe.id,
-      },
-    });
-
-    const instructions = recipeInstructions.map((instruction) => {
-      return instruction.specification;
-    });
-    const recipeLikes = await Like.findAll({
-      where: {
-        likeableType: "Recipe",
-        likeableId: recipe.id,
-      },
-    });
-
-    const likes = recipeLikes
-      .filter((like) => {
-        return like.likeableId == recipe.id;
-      })
-      .map((like) => like.id);
-
-    const recipeTips = await Tip.findAll({
-      where: {
-        recipeId: recipe.id,
-      },
-    });
-    const tips = recipeTips
-      .filter((tip) => {
-        return tip.recipeId == recipe.id;
-      })
-      .map((tip) => tip.id);
-
-    const recipeIngredients = await Ingredient.findAll({
-      where: {
-        recipeId: recipe.id,
-      },
-    });
-    const ingredients = recipeIngredients.map(
-      (ingredient) => `${ingredient.amount} ${ingredient.product}`
-    );
-
-    const recipeData = {
-      id: recipe.id,
-      userId: recipe.userId,
-      title: recipe.title,
-      description: recipe.description,
-      cookTime: recipe.cookTime,
-      imageUrl: recipe.imageUrl,
-      course: recipe.course,
-      likes,
-      tips,
-      instructions,
-      ingredients,
-    };
-
-    res.json(recipeData);
-  })
-);
-
-router.get(
   "/likes",
   asyncHandler(async (req, res) => {
     const likes = await Like.findAll({
@@ -302,36 +238,30 @@ router.get(
   })
 );
 
-//like a recipe
-router.post(
+//like/unlike a recipe
+router.put(
   "/:recipeId/likes",
   requireAuth,
   asyncHandler(async (req, res) => {
-    const like = await Like.create({
-      userId: req.user.id,
-      likeableId: req.params.recipeId,
-      likeableType: "Recipe",
-    });
-
-    res.json({ like });
-  })
-);
-
-//unlike a recipe
-router.delete(
-  "/:recipeId/likes",
-  requireAuth,
-  asyncHandler(async (req, res) => {
-    const like = await Like.findOne({
+    const userAlreadyLiked = await Like.findAll({
       where: {
         userId: req.user.id,
         likeableId: req.params.recipeId,
         likeableType: "Recipe",
       },
     });
-    like.destroy();
-    const likes = await Like.findAll();
-    res.json({ likes });
+    if (userAlreadyLiked.length) {
+      await userAlreadyLiked[0].destroy();
+      const likes = await Like.findAll();
+      res.json({ likes });
+    } else {
+      const like = await Like.create({
+        userId: req.user.id,
+        likeableId: req.params.recipeId,
+        likeableType: "Recipe",
+      });
+      res.json({ like });
+    }
   })
 );
 
@@ -393,36 +323,31 @@ router.delete(
   })
 );
 
-//like a recipe tip
-router.post(
+//like/unlike a recipe tip
+
+router.put(
   "/:recipeId/tips/:tipId/likes",
   requireAuth,
   asyncHandler(async (req, res) => {
-    const like = await Like.create({
-      userId: req.user.id,
-      likeableId: req.params.tipId,
-      likeableType: "Tip",
-    });
-
-    res.json({ like });
-  })
-);
-
-//unlike a recipe tip
-router.delete(
-  "/:recipeId/tips/:tipId/likes",
-  requireAuth,
-  asyncHandler(async (req, res) => {
-    const like = await Like.findOne({
+    const userAlreadyLiked = await Like.findAll({
       where: {
         userId: req.user.id,
         likeableId: req.params.tipId,
         likeableType: "Tip",
       },
     });
-    like.destroy();
-    const likes = await Like.findAll();
-    res.json({ likes });
+    if (userAlreadyLiked.length) {
+      await userAlreadyLiked[0].destroy();
+      const likes = await Like.findAll();
+      res.json({ likes });
+    } else {
+      const like = await Like.create({
+        userId: req.user.id,
+        likeableId: req.params.tipId,
+        likeableType: "Tip",
+      });
+      res.json({ like });
+    }
   })
 );
 

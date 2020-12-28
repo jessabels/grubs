@@ -14,12 +14,6 @@ export const loadToken = () => async (dispatch) => {
   }
 };
 
-// export const saveToken = (tokenData) => async (dispatch) => {
-//   const token = window.localStorage.setItem(TOKEN_KEY, tokenData);
-//   if (token) {
-//     dispatch(setToken(token));
-//   }
-// };
 export const getUserId = () => async (dispatch) => {
   const userId = window.localStorage.getItem("USER_ID");
   if (userId) {

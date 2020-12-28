@@ -47,7 +47,7 @@ const RecipeForm = () => {
 
   useEffect(() => {
     dispatch(recipeFormErrors([]));
-  }, []);
+  }, [dispatch]);
   const diets = [
     { type: "Omnivore", id: 1 },
     { type: "Vegan", id: 2 },

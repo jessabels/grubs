@@ -7,7 +7,6 @@ import {
   getUsers,
   createRecipeTip,
   getAllRecipes,
-  unlikeRecipe,
   likeRecipe,
 } from "./store/actions/entities";
 
@@ -128,12 +127,8 @@ const LikedRecipes = () => {
   };
 
   const handleLike = (recipeId) => {
-    if (userLiked) {
-      dispatch(unlikeRecipe(recipeId));
-      handleDeleteConfirmationClose();
-    } else {
-      dispatch(likeRecipe(recipeId));
-    }
+    dispatch(likeRecipe(recipeId));
+    handleDeleteConfirmationClose();
   };
 
   const truncateText = (text) =>
@@ -155,8 +150,8 @@ const LikedRecipes = () => {
               : null;
 
             return (
-              <>
-                <Grid key={recipe.recipeId} item xs={6} sm={4}>
+              <React.Fragment key={recipe.recipeId}>
+                <Grid item xs={6} sm={4}>
                   <Card className={classes.root}>
                     <CardHeader
                       className={classes.headerRoot}
@@ -170,11 +165,8 @@ const LikedRecipes = () => {
                         </Typography>
                       }
                       action={
-                        <IconButton>
-                          <FavoriteIcon
-                            className="icon"
-                            onClick={handleDeleteConfirmationOpen}
-                          />
+                        <IconButton onClick={handleDeleteConfirmationOpen}>
+                          <FavoriteIcon className="icon" />
                         </IconButton>
                       }
                     ></CardHeader>
@@ -226,7 +218,7 @@ const LikedRecipes = () => {
                     </Button>
                   </DialogActions>
                 </Dialog>
-              </>
+              </React.Fragment>
             );
           })
         ) : (

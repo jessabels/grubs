@@ -12,7 +12,6 @@ import { faThumbsUp as solidThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {
   likeRecipeTip,
-  unlikeRecipeTip,
   removeRecipeTip,
   updateRecipeTip,
 } from "./store/actions/entities";
@@ -32,27 +31,14 @@ const TipActions = (props) => {
   const userPosted = props.tip.userId === parseInt(currentUserId);
 
   const handleLike = (tipId) => {
-    if (userLiked) {
-      // unlike a tip
-      dispatch(
-        unlikeRecipeTip(
-          tipId,
-          currentRecipeId,
-          currentRecipeCourse,
-          currentRecipeDietId
-        )
-      );
-    } else {
-      // like a tip
-      dispatch(
-        likeRecipeTip(
-          tipId,
-          currentRecipeId,
-          currentRecipeCourse,
-          currentRecipeDietId
-        )
-      );
-    }
+    dispatch(
+      likeRecipeTip(
+        tipId,
+        currentRecipeId,
+        currentRecipeCourse,
+        currentRecipeDietId
+      )
+    );
   };
 
   const handleRemoveTip = (tipId) => {

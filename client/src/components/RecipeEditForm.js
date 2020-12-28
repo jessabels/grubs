@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, NavLink, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { TextField, Button, List, ListItem, Grid } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import "./RecipeEditForm.css";

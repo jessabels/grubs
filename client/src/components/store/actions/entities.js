@@ -441,27 +441,7 @@ export const likeRecipe = (recipeId, course, dietId) => async (dispatch) => {
   const token = localStorage.getItem(TOKEN_KEY);
   const userId = localStorage.getItem(USER_ID);
   const response = await fetch(`/api/recipes/${recipeId}/likes`, {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ userId, recipeId }),
-  });
-  if (response.ok) {
-    // const likes = await response.json();
-    course && dietId
-      ? dispatch(getRecipes(course, dietId))
-      : dispatch(getAllRecipes());
-    dispatch(getRecipeLikes());
-  }
-};
-
-export const unlikeRecipe = (recipeId, course, dietId) => async (dispatch) => {
-  const token = localStorage.getItem(TOKEN_KEY);
-  const userId = localStorage.getItem(USER_ID);
-  const response = await fetch(`/api/recipes/${recipeId}/likes`, {
-    method: "delete",
+    method: "put",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -496,7 +476,6 @@ export const createRecipeTip = (
       body: JSON.stringify({ userId, recipeId, text }),
     });
     if (response.ok) {
-      // const tips = await response.json();
       dispatch(tipFormErrors([]));
       course && dietId
         ? dispatch(getRecipes(course, dietId))
@@ -531,7 +510,6 @@ export const updateRecipeTip = (
       body: JSON.stringify({ userId, recipeId, text }),
     });
     if (response.ok) {
-      // const tips = await response.json();
       dispatch(tipFormErrors([]));
       course && dietId
         ? dispatch(getRecipes(course, dietId))
@@ -561,7 +539,6 @@ export const removeRecipeTip = (tipId, recipeId, course, dietId) => async (
     body: JSON.stringify({ tipId, userId, recipeId }),
   });
   if (response.ok) {
-    // const tips = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
       : dispatch(getAllRecipes());
@@ -575,7 +552,7 @@ export const likeRecipeTip = (tipId, recipeId, course, dietId) => async (
   const token = localStorage.getItem(TOKEN_KEY);
   const userId = localStorage.getItem(USER_ID);
   const response = await fetch(`/api/recipes/${recipeId}/tips/${tipId}/likes`, {
-    method: "post",
+    method: "put",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -583,30 +560,6 @@ export const likeRecipeTip = (tipId, recipeId, course, dietId) => async (
     body: JSON.stringify({ tipId, userId, recipeId }),
   });
   if (response.ok) {
-    // const likes = await response.json();
-    course && dietId
-      ? dispatch(getRecipes(course, dietId))
-      : dispatch(getAllRecipes());
-    dispatch(getRecipeTips());
-    dispatch(getTipLikes());
-  }
-};
-
-export const unlikeRecipeTip = (tipId, recipeId, course, dietId) => async (
-  dispatch
-) => {
-  const token = localStorage.getItem(TOKEN_KEY);
-  const userId = localStorage.getItem(USER_ID);
-  const response = await fetch(`/api/recipes/${recipeId}/tips/${tipId}/likes`, {
-    method: "delete",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ tipId, userId, recipeId }),
-  });
-  if (response.ok) {
-    // const likes = await response.json();
     course && dietId
       ? dispatch(getRecipes(course, dietId))
       : dispatch(getAllRecipes());
