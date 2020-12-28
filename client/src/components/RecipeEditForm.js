@@ -66,7 +66,10 @@ const RecipeEditForm = () => {
           Back to my recipes
         </Button>
       </Link>
-      <h1>{currentRecipe && currentRecipe.title}</h1>
+      <div className="recipe-header">
+        <h1>{currentRecipe && currentRecipe.title}</h1>
+        <p>{currentRecipe && currentRecipe.description} </p>
+      </div>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <img
@@ -77,7 +80,6 @@ const RecipeEditForm = () => {
         <Grid item xs={6}>
           <div className="ingredients-instructions">
             <div className="recipe-ingredients-list">
-              {/* get all ingredients for new recipe and list them here */}
               <h3 style={{ color: "#dcb14e" }}>Ingredients</h3>
               <List>
                 {currentRecipe && currentRecipe.ingredients.length
@@ -124,13 +126,11 @@ const RecipeEditForm = () => {
             </div>
 
             <div className="recipe-instructions-list">
-              {/* get all ingredients for new recipe and list them here */}
               <h3 style={{ color: "#dcb14e" }}>Instructions</h3>
               <List>
                 {currentRecipe && currentRecipe.instructions.length
                   ? currentRecipe.instructions.map((instruction, i) => (
                       <div key={instruction}>
-                        {/* <span className="number-step">{i + 1}.</span> */}
                         <ListItem key={instruction}>
                           {`${i + 1}. ${instruction}`}
                         </ListItem>

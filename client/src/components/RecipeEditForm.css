@@ -20,3 +20,12 @@ img {
 .recipe-edit {
   margin: 40px;
 }
+
+.recipe-header {
+  background-color: white;
+  padding-left: 20px;
+}
+
+.recipe-header h1 {
+  color: #dcb14e;
+}

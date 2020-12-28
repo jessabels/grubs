@@ -1,7 +1,15 @@
 .recipe-form {
   margin: 20px;
-  background: white;
   padding: 20px;
   display: flex;
   justify-content: center;
+}
+
+.recipe-form form {
+  background: white;
+}
+
+.recipe-form-container h1 {
+  margin-top: 20px;
+  color: rgb(220, 177, 78);
 }

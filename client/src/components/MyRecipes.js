@@ -55,6 +55,14 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     cursor: "pointer",
   },
+  button: {
+    padding: "15px",
+    background: "#795",
+    color: "white",
+    "&:hover": {
+      background: "#5e7944",
+    },
+  },
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -130,16 +138,20 @@ const MyRecipes = () => {
     <div className="savedRecipes-container">
       <div className="savedRecipes-header">
         <h1>My Recipes</h1>
-        <Button>
-          <Link to="/recipeForm"> Add Recipe </Link>
-        </Button>
+
+        <Link
+          style={{ textDecoration: "none", color: "white" }}
+          to="/recipeForm"
+        >
+          <Button className={classes.button}>Add Recipe</Button>
+        </Link>
       </div>
       <Grid container>
         {Object.values(myRecipes).length ? (
           Object.values(myRecipes).map((recipe) => {
             return (
-              <>
-                <Grid key={recipe.recipeId} item xs={6} sm={4}>
+              <React.Fragment key={recipe.recipeId}>
+                <Grid item xs={6} sm={4}>
                   <Card className={classes.root}>
                     <CardHeader
                       className={classes.headerRoot}
@@ -206,7 +218,7 @@ const MyRecipes = () => {
                     </Button>
                   </DialogActions>
                 </Dialog>
-              </>
+              </React.Fragment>
             );
           })
         ) : (

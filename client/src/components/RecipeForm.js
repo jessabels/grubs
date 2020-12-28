@@ -85,7 +85,7 @@ const RecipeForm = () => {
       ))
     : null;
   return (
-    <div>
+    <div className="recipe-form-container">
       <h1 style={{ textAlign: "center" }}>Recipe Form</h1>
       <div className="recipe-form">
         <form noValidate>

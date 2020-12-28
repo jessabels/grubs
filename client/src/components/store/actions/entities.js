@@ -351,7 +351,6 @@ export const deleteRecipe = (recipeId) => async (dispatch) => {
 
     if (response.ok) {
       const recipe = await response.json();
-      console.log(recipe);
       dispatch(remove(recipe.deletedRecipe.id));
     } else {
       throw response;
