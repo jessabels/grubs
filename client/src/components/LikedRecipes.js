@@ -5,7 +5,6 @@ import {
   getRecipeTips,
   getTipLikes,
   getUsers,
-  getLikedRecipes,
   createRecipeTip,
   getAllRecipes,
   unlikeRecipe,
@@ -23,15 +22,17 @@ import {
   Typography,
   Grid,
   Slide,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
   Button,
 } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import RecipeDetailModal from "./RecipeDetailModal";
 import { currentRecipeId } from "./store/actions/session";
-import "./SavedRecipes.css";
+import "./MyRecipes.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,7 +60,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const LikedRecipes = () => {
-  const [open, setOpen] = useState(false);
+  const [openRecipeCard, setOpenRecipeCard] = useState(false);
+  const [openConfirmationMsg, setOpenConfirmationMsg] = useState(false);
   const [text, setText] = useState("");
   const users = useSelector((state) => state.entities.users);
   const likes = useSelector((state) => state.entities.recipeLikes);
@@ -103,12 +105,20 @@ const LikedRecipes = () => {
   }, [dispatch]);
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenRecipeCard(false);
   };
 
   const handleRecipeCardClick = (recipeId) => {
-    setOpen(true);
+    setOpenRecipeCard(true);
     dispatch(currentRecipeId(recipeId));
+  };
+
+  const handleDeleteConfirmationOpen = () => {
+    setOpenConfirmationMsg(true);
+  };
+
+  const handleDeleteConfirmationClose = () => {
+    setOpenConfirmationMsg(false);
   };
 
   const handleTipSubmit = (e) => {
@@ -120,6 +130,7 @@ const LikedRecipes = () => {
   const handleLike = (recipeId) => {
     if (userLiked) {
       dispatch(unlikeRecipe(recipeId));
+      handleDeleteConfirmationClose();
     } else {
       dispatch(likeRecipe(recipeId));
     }
@@ -144,57 +155,85 @@ const LikedRecipes = () => {
               : null;
 
             return (
-              <Grid key={recipe.recipeId} item xs={6} sm={4}>
-                <Card className={classes.root}>
-                  <CardHeader
-                    className={classes.headerRoot}
-                    title={
+              <>
+                <Grid key={recipe.recipeId} item xs={6} sm={4}>
+                  <Card className={classes.root}>
+                    <CardHeader
+                      className={classes.headerRoot}
+                      title={
+                        <Typography
+                          variant="h5"
+                          className={classes.headerRoot}
+                          style={{ fontFamily: "Cormorant Garamont" }}
+                        >
+                          {recipe.title}
+                        </Typography>
+                      }
+                      action={
+                        <IconButton>
+                          <FavoriteIcon
+                            className="icon"
+                            onClick={handleDeleteConfirmationOpen}
+                          />
+                        </IconButton>
+                      }
+                    ></CardHeader>
+                    <CardMedia
+                      onClick={() => handleRecipeCardClick(recipe.recipeId)}
+                      className={classes.media}
+                      image={recipe.imageUrl}
+                      title={recipe.title}
+                    />
+                    <CardContent>
                       <Typography
-                        variant="h5"
-                        className={classes.headerRoot}
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
                         style={{ fontFamily: "Cormorant Garamont" }}
                       >
-                        {recipe.title}
-                      </Typography>
-                    }
-                    action={
-                      <IconButton>
-                        <FavoriteIcon
-                          className="icon"
-                          onClick={() => handleLike(recipe.recipeId)}
+                        {truncateText(recipe.description)}
+                        <MoreHorizIcon
+                          className={classes.icon}
+                          onClick={() => handleRecipeCardClick(recipe.recipeId)}
                         />
-                      </IconButton>
-                    }
-                  ></CardHeader>
-                  <CardMedia
-                    onClick={() => handleRecipeCardClick(recipe.recipeId)}
-                    className={classes.media}
-                    image={recipe.imageUrl}
-                    title={recipe.title}
-                  />
-                  <CardContent>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                      style={{ fontFamily: "Cormorant Garamont" }}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Dialog
+                  open={openConfirmationMsg}
+                  onClose={handleDeleteConfirmationClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Are you sure you want to unlike this recipe?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={() => handleLike(recipe.recipeId)}
+                      color="primary"
                     >
-                      {truncateText(recipe.description)}
-                      <MoreHorizIcon
-                        className={classes.icon}
-                        onClick={() => handleRecipeCardClick(recipe.recipeId)}
-                      />
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+                      Yes
+                    </Button>
+                    <Button
+                      onClick={handleDeleteConfirmationClose}
+                      color="primary"
+                    >
+                      No
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </>
             );
           })
         ) : (
           <h3>No liked recipes!</h3>
         )}
         <RecipeDetailModal
-          open={open}
+          open={openRecipeCard}
           handleClose={handleClose}
           Transition={Transition}
           currentRecipe={currentRecipe}

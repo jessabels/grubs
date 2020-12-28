@@ -7,7 +7,6 @@ import { ProtectedRoute, PrivateRoute } from "./util/route-util";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserId, loadToken } from "./components/store/actions/session";
 import CourseDietSelection from "./components/CourseDietSelection";
-import SavedRecipes from "./components/SavedRecipes";
 import RecipeForm from "./components/RecipeForm";
 import RecipeEditForm from "./components/RecipeEditForm";
 import MyRecipes from "./components/MyRecipes";
@@ -59,12 +58,6 @@ function App({ needLogin, loadToken }) {
             needLogin={needLogin}
             component={CourseDietSelection}
           />
-          {/* <PrivateRoute
-            path="/savedRecipes"
-            exact={true}
-            needLogin={needLogin}
-            component={SavedRecipes}
-          /> */}
           <PrivateRoute
             path="/myRecipes"
             exact={true}

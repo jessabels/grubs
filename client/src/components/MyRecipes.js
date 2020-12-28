@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getRecipeLikes,
   getRecipeTips,
   getTipLikes,
   getUsers,
-  getSavedRecipes,
   saveRecipe,
   deleteRecipe,
   createRecipeTip,
@@ -25,13 +24,17 @@ import {
   Grid,
   Slide,
   Button,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@material-ui/core";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import RecipeDetailModal from "./RecipeDetailModal";
 import { currentRecipeId } from "./store/actions/session";
-import "./SavedRecipes.css";
+import "./MyRecipes.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,7 +62,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const MyRecipes = () => {
-  const [open, setOpen] = useState(false);
+  const [openRecipeCard, setOpenRecipeCard] = useState(false);
+  const [openConfirmationMsg, setOpenConfirmationMsg] = useState(false);
   const [text, setText] = useState("");
   const recipes = useSelector((state) => state.entities.recipes);
   const recipeTips = useSelector((state) => state.entities.recipeTips);
@@ -92,16 +96,25 @@ const MyRecipes = () => {
   const handleSave = () => {
     dispatch(saveRecipe(selectedRecipeId));
   };
-  const handleClose = () => {
-    setOpen(false);
+  const handleRecipeCardClose = () => {
+    setOpenRecipeCard(false);
   };
 
   const handleRecipeCardClick = (recipeId) => {
-    setOpen(true);
+    setOpenRecipeCard(true);
     dispatch(currentRecipeId(recipeId));
+  };
+
+  const handleDeleteConfirmationOpen = () => {
+    setOpenConfirmationMsg(true);
+  };
+
+  const handleDeleteConfirmationClose = () => {
+    setOpenConfirmationMsg(false);
   };
   const handleDelete = (recipeId) => {
     dispatch(deleteRecipe(recipeId));
+    handleDeleteConfirmationClose();
   };
 
   const handleTipSubmit = (e) => {
@@ -115,63 +128,93 @@ const MyRecipes = () => {
 
   return (
     <div className="savedRecipes-container">
-      <h1>My Recipes</h1>
-      <Button>
-        <Link to="/recipeForm"> Add Recipe </Link>
-      </Button>
+      <div className="savedRecipes-header">
+        <h1>My Recipes</h1>
+        <Button>
+          <Link to="/recipeForm"> Add Recipe </Link>
+        </Button>
+      </div>
       <Grid container>
         {Object.values(myRecipes).length ? (
           Object.values(myRecipes).map((recipe) => {
             return (
-              <Grid key={recipe.recipeId} item xs={6} sm={4}>
-                <Card className={classes.root}>
-                  <CardHeader
-                    className={classes.headerRoot}
-                    title={
+              <>
+                <Grid key={recipe.recipeId} item xs={6} sm={4}>
+                  <Card className={classes.root}>
+                    <CardHeader
+                      className={classes.headerRoot}
+                      title={
+                        <Typography
+                          variant="h5"
+                          className={classes.headerRoot}
+                          style={{ fontFamily: "Cormorant Garamont" }}
+                        >
+                          {recipe.title}
+                        </Typography>
+                      }
+                      action={
+                        <IconButton onClick={handleDeleteConfirmationOpen}>
+                          <DeleteIcon className="icon" />
+                        </IconButton>
+                      }
+                    ></CardHeader>
+                    <CardMedia
+                      onClick={() => handleRecipeCardClick(recipe.recipeId)}
+                      className={classes.media}
+                      image={recipe.imageUrl}
+                      title={recipe.title}
+                    />
+                    <CardContent>
                       <Typography
-                        variant="h5"
-                        className={classes.headerRoot}
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
                         style={{ fontFamily: "Cormorant Garamont" }}
                       >
-                        {recipe.title}
+                        {truncateText(recipe.description)}
+                        <MoreHorizIcon
+                          className={classes.icon}
+                          onClick={() => handleRecipeCardClick(recipe.recipeId)}
+                        />
                       </Typography>
-                    }
-                    action={
-                      <IconButton onClick={() => handleDelete(recipe.recipeId)}>
-                        <DeleteIcon className="icon" />
-                      </IconButton>
-                    }
-                  ></CardHeader>
-                  <CardMedia
-                    onClick={() => handleRecipeCardClick(recipe.recipeId)}
-                    className={classes.media}
-                    image={recipe.imageUrl}
-                    title={recipe.title}
-                  />
-                  <CardContent>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                      style={{ fontFamily: "Cormorant Garamont" }}
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Dialog
+                  open={openConfirmationMsg}
+                  onClose={handleDeleteConfirmationClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Are you sure you want to delete this recipe?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={() => handleDelete(recipe.recipeId)}
+                      color="primary"
                     >
-                      {truncateText(recipe.description)}
-                      <MoreHorizIcon
-                        className={classes.icon}
-                        onClick={() => handleRecipeCardClick(recipe.recipeId)}
-                      />
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+                      Yes
+                    </Button>
+                    <Button
+                      onClick={handleDeleteConfirmationClose}
+                      color="primary"
+                    >
+                      No
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </>
             );
           })
         ) : (
           <h3>No saved recipes!</h3>
         )}
         <RecipeDetailModal
-          open={open}
-          handleClose={handleClose}
+          open={openRecipeCard}
+          handleClose={handleRecipeCardClose}
           Transition={Transition}
           currentRecipe={currentRecipe}
           handleSave={handleSave}

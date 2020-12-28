@@ -1,9 +1,13 @@
 .savedRecipes-container {
   margin: 20px;
-  width: 100vw;
   height: 100vh;
 }
 
 .savedRecipes-container h1 {
   color: #dcb14e;
+}
+
+.savedRecipes-header {
+  display: flex;
+  justify-content: space-between;
 }
