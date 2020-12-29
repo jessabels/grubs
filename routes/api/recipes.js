@@ -197,9 +197,9 @@ router.get(
 
       return {
         recipeId: recipe.recipeId,
-        userId: recipe.userId,
+        userId: recipe.Recipe.userId,
         dietId: recipe.dietId,
-        title: recipe.title,
+        title: recipe.Recipe.title,
         description: recipe.Recipe.description,
         cookTime: recipe.Recipe.cookTime,
         imageUrl: recipe.Recipe.imageUrl,
