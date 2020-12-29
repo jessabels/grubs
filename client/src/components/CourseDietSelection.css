@@ -1,15 +1,17 @@
 .title {
-  margin: 20px 0;
+  margin: 15px 0;
   text-align: center;
 }
 
 .food-selection-container {
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 210px;
+  margin-top: 170px;
   flex-direction: column;
+  padding-bottom: 25px;
 }
 
 .choose-btn {
@@ -17,6 +19,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin-top: 20px;
 }
 
 .homepage-wrapper {

@@ -211,11 +211,11 @@ const CourseSelection = () => {
               ))}
             </Grid>
           </div>
-        </div>
-        <div className="choose-btn">
-          <Button className={classes.button} onClick={handleSubmitChoices}>
-            Find recipes!
-          </Button>
+          <div className="choose-btn">
+            <Button className={classes.button} onClick={handleSubmitChoices}>
+              Find recipes!
+            </Button>
+          </div>
         </div>
       </div>
     </>

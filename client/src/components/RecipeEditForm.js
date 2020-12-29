@@ -66,108 +66,113 @@ const RecipeEditForm = () => {
           Back to my recipes
         </Button>
       </Link>
-      <div className="recipe-header">
-        <h1>{currentRecipe && currentRecipe.title}</h1>
-        <p>{currentRecipe && currentRecipe.description} </p>
+      <div className="recipe-edit-container">
+        <div className="recipe-header">
+          <h1>{currentRecipe && currentRecipe.title}</h1>
+        </div>
+
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <img
+              alt={currentRecipe && currentRecipe.description}
+              src={currentRecipe && currentRecipe.imageUrl}
+            />
+            <p className="recipe-description">
+              {currentRecipe && currentRecipe.description}{" "}
+            </p>
+          </Grid>
+          <Grid item xs={6}>
+            <div className="ingredients-instructions">
+              <div className="recipe-ingredients-list">
+                <h3 style={{ color: "#dcb14e" }}>Ingredients</h3>
+                <List>
+                  {currentRecipe && currentRecipe.ingredients.length
+                    ? currentRecipe.ingredients.map((ingredient) => (
+                        <ListItem key={ingredient}>{ingredient}</ListItem>
+                      ))
+                    : "No ingredients added!"}
+                </List>
+              </div>
+              <div className="ingredients-form">
+                <form noValidate>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    id="amount"
+                    label="Amount"
+                    name="amount"
+                    autoFocus
+                    value={amount}
+                    onChange={updateProperty(setAmount)}
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    id="product"
+                    label="Product"
+                    name="product"
+                    autoFocus
+                    value={product}
+                    onChange={updateProperty(setProduct)}
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    onClick={handleAddIngredient}
+                  >
+                    Add
+                  </Button>
+                </form>
+              </div>
+
+              <div className="recipe-instructions-list">
+                <h3 style={{ color: "#dcb14e" }}>Instructions</h3>
+                <List>
+                  {currentRecipe && currentRecipe.instructions.length
+                    ? currentRecipe.instructions.map((instruction, i) => (
+                        <div key={instruction}>
+                          <ListItem key={instruction}>
+                            {`${i + 1}. ${instruction}`}
+                          </ListItem>
+                        </div>
+                      ))
+                    : "No Instructions added!"}
+                </List>
+              </div>
+              <div className="instructions-form">
+                <form>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="specification"
+                    label="Instruction Text"
+                    name="speciciation"
+                    autoFocus
+                    value={specification}
+                    onChange={updateProperty(setSpecification)}
+                  />
+
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    onClick={handleAddInstruction}
+                  >
+                    Add
+                  </Button>
+                </form>
+              </div>
+            </div>
+          </Grid>
+        </Grid>
       </div>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <img
-            alt={currentRecipe && currentRecipe.description}
-            src={currentRecipe && currentRecipe.imageUrl}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <div className="ingredients-instructions">
-            <div className="recipe-ingredients-list">
-              <h3 style={{ color: "#dcb14e" }}>Ingredients</h3>
-              <List>
-                {currentRecipe && currentRecipe.ingredients.length
-                  ? currentRecipe.ingredients.map((ingredient) => (
-                      <ListItem key={ingredient}>{ingredient}</ListItem>
-                    ))
-                  : "No ingredients added!"}
-              </List>
-            </div>
-            <div className="ingredients-form">
-              <form noValidate>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  id="amount"
-                  label="Amount"
-                  name="amount"
-                  autoFocus
-                  value={amount}
-                  onChange={updateProperty(setAmount)}
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  id="product"
-                  label="Product"
-                  name="product"
-                  autoFocus
-                  value={product}
-                  onChange={updateProperty(setProduct)}
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  onClick={handleAddIngredient}
-                >
-                  Add
-                </Button>
-              </form>
-            </div>
-
-            <div className="recipe-instructions-list">
-              <h3 style={{ color: "#dcb14e" }}>Instructions</h3>
-              <List>
-                {currentRecipe && currentRecipe.instructions.length
-                  ? currentRecipe.instructions.map((instruction, i) => (
-                      <div key={instruction}>
-                        <ListItem key={instruction}>
-                          {`${i + 1}. ${instruction}`}
-                        </ListItem>
-                      </div>
-                    ))
-                  : "No Instructions added!"}
-              </List>
-            </div>
-            <div className="instructions-form">
-              <form>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="specification"
-                  label="Instruction Text"
-                  name="speciciation"
-                  autoFocus
-                  value={specification}
-                  onChange={updateProperty(setSpecification)}
-                />
-
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  onClick={handleAddInstruction}
-                >
-                  Add
-                </Button>
-              </form>
-            </div>
-          </div>
-        </Grid>
-      </Grid>
     </div>
   );
 };

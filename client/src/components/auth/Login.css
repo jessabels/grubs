@@ -1,0 +1,20 @@
+.welcome-text {
+  position: fixed;
+  top: 55%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  background: white;
+  width: 500px;
+  text-align: center;
+  border: 1px solid #e7cf9330;
+}
+
+.welcome-text h2 {
+  margin-top: 20px;
+  color: #779955;
+}
+
+.welcome-text p {
+  width: 357px;
+  margin: 20px auto;
+}

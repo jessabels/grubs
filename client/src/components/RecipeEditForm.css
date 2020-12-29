@@ -21,11 +21,23 @@ img {
   margin: 40px;
 }
 
-.recipe-header {
+.recipe-edit-container {
   background-color: white;
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+}
+.recipe-header {
   padding-left: 20px;
 }
 
 .recipe-header h1 {
   color: #dcb14e;
+}
+
+.recipe-description {
+  text-align: center;
+  margin-top: 10px;
 }

@@ -12,6 +12,7 @@ import {
   Checkbox,
   ListItemText,
   FormControl,
+  CircularProgress,
 } from "@material-ui/core";
 import "./RecipeForm.css";
 import { createRecipe } from "./store/actions/entities";
@@ -32,6 +33,14 @@ const useStyles = makeStyles((theme) => ({
   noLabel: {
     marginTop: theme.spacing(3),
   },
+  circularProgress: {
+    display: "block",
+    margin: "20px auto",
+  },
+
+  btn: {
+    marginTop: "20px",
+  },
 }));
 const RecipeForm = () => {
   const classes = useStyles();
@@ -42,6 +51,7 @@ const RecipeForm = () => {
   const [description, setDescription] = useState("");
   const [cookTime, setCookTime] = useState(0);
   const [image, setImage] = useState("");
+  const [loading, setLoading] = useState(false);
   const [course, setCourse] = useState("");
   const [diet, setDiet] = useState([]);
 
@@ -65,6 +75,7 @@ const RecipeForm = () => {
   };
 
   const handleSave = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const data = new FormData();
     console.log("IMAGE", image);
@@ -74,10 +85,9 @@ const RecipeForm = () => {
     data.append("cookTime", cookTime);
     data.append("course", course);
     data.append("dietIds", dietIds);
-    // await dispatch(
-    //   createRecipe(title, description, cookTime, imageUrl, course, dietIds)
-    // );
+
     await dispatch(createRecipe(data));
+    setLoading(false);
     if (title && description && image) {
       history.push({
         pathname: "/recipeEditForm",
@@ -94,9 +104,9 @@ const RecipeForm = () => {
     : null;
   return (
     <div className="recipe-form-container">
-      <h1 style={{ textAlign: "center" }}>Recipe Form</h1>
       <div className="recipe-form">
         <form noValidate>
+          <h1 style={{ textAlign: "center" }}>Recipe Form</h1>
           <ul>{listOfErrors}</ul>
           <TextField
             variant="outlined"
@@ -138,7 +148,7 @@ const RecipeForm = () => {
             required
             fullWidth
             name="cookTime"
-            label="Cook Time"
+            label="Cook Time (minutes)"
             type="number"
             id="cookTime"
             value={cookTime}
@@ -187,6 +197,7 @@ const RecipeForm = () => {
             </FormControl>
           </div>
           <Button
+            className={classes.btn}
             type="submit"
             fullWidth
             variant="contained"
@@ -195,6 +206,9 @@ const RecipeForm = () => {
           >
             Continue
           </Button>
+          {loading ? (
+            <CircularProgress className={classes.circularProgress} />
+          ) : null}
         </form>
       </div>
     </div>
