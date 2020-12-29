@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
-
+const multer = require("multer");
+const upload = multer();
+const AWS = require("aws-sdk");
+const { awsKeys } = require("../../config");
 const db = require("../../db/models");
 const { RecipeDiet, Recipe, Like, Tip, Instruction, Ingredient } = db;
 const {
@@ -11,27 +14,67 @@ const {
 } = require("../../utils");
 const { requireAuth } = require("../../auth");
 
+//AWS
+
+AWS.config.update({
+  secretAccessKey: awsKeys.secretAccessKey,
+  accessKeyId: awsKeys.accessKeyId,
+  region: awsKeys.region,
+});
+
+const s3 = new AWS.S3();
+
+const fileFilter = (req, res, next) => {
+  // CUSTOM CHECK FOR THE MIME TYPES
+  const file = req.files[0];
+  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    next();
+  } else {
+    next({ status: 422, errors: ["Invalid Mime Type, only JPEG and PNG"] });
+  }
+};
 // create a recipe
 router.post(
   "/",
-  [requireAuth, validateRecipe, handleValidationErrors],
+  [
+    upload.any(),
+    requireAuth,
+    validateRecipe,
+    handleValidationErrors,
+    fileFilter,
+  ],
   asyncHandler(async (req, res) => {
+    const file = req.files[0];
+
+    const params = {
+      Bucket: "grubs",
+      Key: Date.now().toString() + file.originalname, // UNIQUELY IDENTIFIES AN OBJECT IN THE BUCKET
+      Body: file.buffer,
+      ACL: "public-read",
+      ContentType: file.mimetype,
+    };
+
+    const promise = s3.upload(params).promise();
+
+    const uploadedImage = await promise;
+
     const recipe = await Recipe.create({
       userId: req.user.id,
       title: req.body.title,
       description: req.body.description,
       cookTime: req.body.cookTime,
-      imageUrl: req.body.imageUrl,
+      imageUrl: uploadedImage.Location,
       course: req.body.course,
     });
 
-    req.body.diet.map(async (dietId) => {
-      await RecipeDiet.create({
-        recipeId: recipe.id,
-        dietId: dietId,
+    if (req.body.diet) {
+      req.body.diet.map(async (dietId) => {
+        await RecipeDiet.create({
+          recipeId: recipe.id,
+          dietId: dietId,
+        });
       });
-    });
-
+    }
     res.json({ recipe });
   })
 );

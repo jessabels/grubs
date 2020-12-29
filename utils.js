@@ -24,9 +24,6 @@ const validateRecipe = [
   check("description")
     .exists({ checkFalsy: true })
     .withMessage("Please provide a description"),
-  check("imageUrl")
-    .exists({ checkFalsy: true })
-    .withMessage("Please upload an image"),
 ];
 
 const validateText = [

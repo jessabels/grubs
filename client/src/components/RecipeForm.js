@@ -41,7 +41,7 @@ const RecipeForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [cookTime, setCookTime] = useState(0);
-  const [imageUrl, setImageUrl] = useState("");
+  const [image, setImage] = useState("");
   const [course, setCourse] = useState("");
   const [diet, setDiet] = useState([]);
 
@@ -66,11 +66,19 @@ const RecipeForm = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-
-    await dispatch(
-      createRecipe(title, description, cookTime, imageUrl, course, dietIds)
-    );
-    if (title && description && imageUrl) {
+    const data = new FormData();
+    console.log("IMAGE", image);
+    data.append("file", image);
+    data.append("title", title);
+    data.append("description", description);
+    data.append("cookTime", cookTime);
+    data.append("course", course);
+    data.append("dietIds", dietIds);
+    // await dispatch(
+    //   createRecipe(title, description, cookTime, imageUrl, course, dietIds)
+    // );
+    await dispatch(createRecipe(data));
+    if (title && description && image) {
       history.push({
         pathname: "/recipeEditForm",
       });
@@ -119,11 +127,10 @@ const RecipeForm = () => {
             margin="normal"
             required
             fullWidth
-            name="imageUrl"
-            label="Image Url"
-            id="imageUrl"
-            value={imageUrl}
-            onChange={updateProperty(setImageUrl)}
+            name="file"
+            id="fileUpload"
+            type="file"
+            onChange={(e) => setImage(e.target.files[0])}
           />
           <TextField
             variant="outlined"

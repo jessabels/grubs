@@ -136,7 +136,6 @@ router.get(
     });
 
     const likedRecipeIds = userLikedRecipes.map((recipe) => recipe.likeableId);
-    console.log("user liked", likedRecipeIds);
 
     const allRecipes = await Recipe.findAll();
     const likedRecipes = allRecipes.filter((recipe) =>

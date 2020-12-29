@@ -126,29 +126,6 @@ const RecipeDetailModal = (props) => {
             <Typography variant="h6" className={classes.title}>
               {currentRecipe && currentRecipe.title}
             </Typography>
-            {/* {userAlreadySaved ? (
-              <Button
-                classes={{
-                  label: classes.label,
-                }}
-                variant="contained"
-                disabled
-              >
-                Saved
-              </Button>
-            ) : (
-              <Button
-                classes={{
-                  root: classes.root,
-                  label: classes.label,
-                }}
-                autoFocus
-                color="inherit"
-                onClick={handleSave}
-              >
-                Save
-              </Button>
-            )} */}
           </Toolbar>
         </AppBar>
         <div className="recipe-card">
