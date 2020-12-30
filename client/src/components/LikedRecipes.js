@@ -193,6 +193,9 @@ const LikedRecipes = () => {
                   </Card>
                 </Grid>
                 <Dialog
+                  BackdropProps={{
+                    style: { backgroundColor: "rgb(0 0 0 / 15%)" },
+                  }}
                   open={openConfirmationMsg}
                   onClose={handleDeleteConfirmationClose}
                   aria-labelledby="alert-dialog-title"

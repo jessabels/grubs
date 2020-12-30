@@ -8,13 +8,6 @@ module.exports = {
         {
           userId: 1,
           likeableId: 1,
-          likeableType: "Recipe",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          userId: 1,
-          likeableId: 1,
           likeableType: "Tip",
           createdAt: new Date(),
           updatedAt: new Date(),

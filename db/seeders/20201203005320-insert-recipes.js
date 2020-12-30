@@ -28,7 +28,7 @@ module.exports = {
         },
         {
           title: "3-ingredient Pancakes",
-          userId: 3,
+          userId: 1,
           description: "Yummy and easy to make pancakes! Only 3 ingredients!",
           cookTime: 25,
           imageUrl: "https://grubs.s3.amazonaws.com/pancakes.jpg",
@@ -38,7 +38,7 @@ module.exports = {
         },
         {
           title: "Vegan Grilled Cheese Sandwich",
-          userId: 4,
+          userId: 1,
           description:
             "These easy cheezy sandwiches are perfect for anyone who’s dairy-intolerant, allergic, vegan, or simply living a healthy lifestyle",
           cookTime: 10,
