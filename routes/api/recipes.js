@@ -58,6 +58,8 @@ router.post(
 
     const uploadedImage = await promise;
 
+    const dietIds = req.body.dietIds.split(",");
+    const convertedDietIdNums = dietIds.map((dietId) => parseInt(dietId));
     const recipe = await Recipe.create({
       userId: req.user.id,
       title: req.body.title,
@@ -67,8 +69,8 @@ router.post(
       course: req.body.course,
     });
 
-    if (req.body.diet) {
-      req.body.diet.map(async (dietId) => {
+    if (req.body.dietIds) {
+      convertedDietIdNums.map(async (dietId) => {
         await RecipeDiet.create({
           recipeId: recipe.id,
           dietId: dietId,

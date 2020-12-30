@@ -32,9 +32,8 @@ const RecipeTip = ({ tip, tips, users, currentUserId }) => {
         </ListItem>
       ) : (
         <ListItem key={tip.id}>
-          {`${tip.text} posted by ${users[tip.userId].firstName} ${
-            users[tip.userId].lastName
-          }`}
+          {`${tip.text}`} -{" "}
+          {`${users[tip.userId].firstName} ${users[tip.userId].lastName}`}
           <TipActions
             tips={tips}
             tip={tip}
