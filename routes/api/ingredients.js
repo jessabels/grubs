@@ -3,14 +3,10 @@ const router = express.Router();
 
 const db = require("../../db/models");
 const { RecipeDiet, Recipe, Like, Tip, Instruction, Ingredient } = db;
-const {
-  asyncHandler,
-  handleValidationErrors,
-  validateText,
-} = require("../../utils");
+const { asyncHandler } = require("../../utils");
 const { requireAuth } = require("../../auth");
 
-// create a recipe
+// create a recipe ingredient
 router.post(
   "/:recipeId",
   requireAuth,

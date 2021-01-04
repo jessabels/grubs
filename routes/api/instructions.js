@@ -2,15 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 const db = require("../../db/models");
-const { RecipeDiet, Recipe, Like, Tip, Instruction, Ingredient } = db;
-const {
-  asyncHandler,
-  handleValidationErrors,
-  validateText,
-} = require("../../utils");
+const { Instruction } = db;
+const { asyncHandler } = require("../../utils");
 const { requireAuth } = require("../../auth");
 
-// create an instruction
+// create instructions
 router.post(
   "/:recipeId",
   requireAuth,

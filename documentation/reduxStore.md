@@ -46,13 +46,15 @@ entities: {
 }
 
 session: {
-  currentRecipe: recipeId,
-  currentUser: userId
+  currentRecipeId: recipeId,
+  currentUserId: userId,
+  currentToken: tokenId
 }
 
 
 errors: {
-  authenticationErrors: [],
+  loginErrors: [],
+  signupErrors: [],
   tipFormErrors: []
 }
 

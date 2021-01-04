@@ -3,4 +3,5 @@
 - /login
 - /signup
 - /
-- /savedRecipes
+- /myRecipes
+- /likedRecipes

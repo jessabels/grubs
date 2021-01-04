@@ -194,37 +194,6 @@ router.get(
     res.json(userLikedRecipeData);
   })
 );
-//save a recipe
-
-// router.post(
-//   "/:userId/recipes/:recipeId",
-//   requireAuth,
-//   asyncHandler(async (req, res) => {
-//     const savedRecipe = await UserRecipe.create({
-//       userId: req.user.id,
-//       recipeId: req.params.recipeId,
-//     });
-
-//     res.json({ savedRecipe });
-//   })
-// );
-
-// //delete a saved recipe
-// router.delete(
-//   "/:userId/recipes/:recipeId",
-//   requireAuth,
-//   asyncHandler(async (req, res) => {
-//     const deletedRecipe = await UserRecipe.findOne({
-//       where: {
-//         userId: req.user.id,
-//         recipeId: req.params.recipeId,
-//       },
-//     });
-//     deletedRecipe.destroy();
-
-//     res.json({ deletedRecipe });
-//   })
-// );
 
 //delete a recipe
 router.delete(
