@@ -153,7 +153,7 @@ const RecipeDetailModal = (props) => {
           </Paper>
         </div>
         <Grid container spacing={1}>
-          <Grid item xs={6}>
+          <Grid item s={6} xs={12}>
             <Paper className={classes.paper}>
               <h3>Ingredients</h3>
               <List>
@@ -167,7 +167,7 @@ const RecipeDetailModal = (props) => {
               </List>
             </Paper>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} s={6}>
             <Paper className={classes.paper}>
               <h3>Instructions</h3>
               <List>

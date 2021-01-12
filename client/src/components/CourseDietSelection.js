@@ -47,6 +47,14 @@ const useStyles = makeStyles((theme) => ({
       background: "#795",
       color: "white",
     },
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
+  },
+  courseSelection: {
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
   },
 
   button: {
@@ -151,7 +159,7 @@ const CourseSelection = () => {
           <div className="courses-div">
             <div style={{ color: "red", textAlign: "center" }}>{errors}</div>
             <h1 className="title">Choose a course </h1>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} className={classes.courseSelection}>
               <>
                 {courses.map((course) => (
                   <Grid key={course} item xs>
@@ -228,7 +236,7 @@ const CourseSelection = () => {
       >
         Change Selection
       </Button>
-      <div style={{ width: "70%", display: "block", margin: "0 auto" }}>
+      <div className="carousel-container">
         <Carousel>
           {recipes
             ? Object.values(recipes).map((recipe) => (
@@ -239,14 +247,15 @@ const CourseSelection = () => {
                 >
                   <img
                     alt={recipe.title}
-                    style={{ height: "650px" }}
-                    className="d-block w-100"
+                    className="d-block w-100 slideshow-image"
                     key={recipe.title}
                     src={recipe.imageUrl}
                   />
                   <Carousel.Caption>
-                    <h3>{recipe.title}</h3>
-                    <p>{recipe.description}</p>
+                    <h3 className="recipe-image-title">{recipe.title}</h3>
+                    <p className="recipe-image-description">
+                      {recipe.description}
+                    </p>
                   </Carousel.Caption>
                 </Carousel.Item>
               ))
