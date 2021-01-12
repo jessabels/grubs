@@ -1,4 +1,5 @@
-.welcome-text {
+.welcome-text-login,
+.welcome-text-signup {
   position: fixed;
   top: 55%;
   left: 30%;
@@ -9,12 +10,33 @@
   border: 1px solid #e7cf9330;
 }
 
-.welcome-text h2 {
+.welcome-text-login h2,
+.welcome-text-signup h2 {
   margin-top: 20px;
   color: #779955;
 }
 
-.welcome-text p {
+.welcome-text-login p,
+.welcome-text-signup p {
   width: 357px;
   margin: 20px auto;
+}
+
+@media (max-width: 1024px) {
+  .welcome-text-login {
+    display: none;
+  }
+  .welcome-text-signup {
+    position: unset;
+    top: unset;
+    left: unset;
+    transform: unset;
+    background: white;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #e7cf9330;
+  }
+  .welcome-text-signup p {
+    width: 100%;
+  }
 }

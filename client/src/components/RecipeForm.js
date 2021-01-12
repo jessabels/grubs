@@ -78,7 +78,6 @@ const RecipeForm = () => {
     setLoading(true);
     e.preventDefault();
     const data = new FormData();
-    console.log("IMAGE", image);
     data.append("file", image);
     data.append("title", title);
     data.append("description", description);

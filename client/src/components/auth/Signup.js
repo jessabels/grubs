@@ -82,7 +82,7 @@ const Signup = () => {
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image}>
         {" "}
-        <div className="welcome-text">
+        <div className="welcome-text-signup">
           <h2>Welcome to Grubs!</h2>
           <p>
             Feeling hungry but not sure what to cook? Grubs makes it easy to

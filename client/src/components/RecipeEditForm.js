@@ -72,7 +72,7 @@ const RecipeEditForm = () => {
         </div>
 
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={6}>
             <img
               alt={currentRecipe && currentRecipe.description}
               src={currentRecipe && currentRecipe.imageUrl}
@@ -81,7 +81,7 @@ const RecipeEditForm = () => {
               {currentRecipe && currentRecipe.description}{" "}
             </p>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={6}>
             <div className="ingredients-instructions">
               <div className="recipe-ingredients-list">
                 <h3 style={{ color: "#dcb14e" }}>Ingredients</h3>

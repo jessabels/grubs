@@ -80,8 +80,8 @@ const Login = () => {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image}>
-        <div className="welcome-text">
+      <Grid item xs={12} sm={4} md={7} className={classes.image}>
+        <div className="welcome-text-login">
           <h2>Welcome to Grubs!</h2>
           <p>
             Feeling hungry but not sure what to cook? Grubs makes it easy to

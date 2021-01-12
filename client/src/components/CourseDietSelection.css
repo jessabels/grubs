@@ -59,3 +59,29 @@ h1 {
 .carousel-caption {
   background: #779955e0;
 }
+
+.slideshow-image {
+  height: 650px;
+}
+
+.carousel-container {
+  width: 70%;
+  display: block;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .recipe-image-description {
+    display: none;
+  }
+  .slideshow-image {
+    height: 300px;
+  }
+
+  .recipe-image-title {
+    font-size: 0.8em;
+  }
+
+  .carousel-container {
+    margin: 20px auto;
+  }
+}

@@ -135,7 +135,6 @@ export const logout = () => async (dispatch, getState) => {
 };
 
 export const createRecipe = (data) => async (dispatch) => {
-  console.log("DATAAA", data);
   try {
     const token = localStorage.getItem(TOKEN_KEY);
     const response = await fetch(`/api/recipes`, {
@@ -148,7 +147,6 @@ export const createRecipe = (data) => async (dispatch) => {
 
     if (response.ok) {
       const recipe = await response.json();
-      console.log("RECIPEEEEE", recipe);
       dispatch(getSavedRecipes());
       dispatch(currentRecipeId(recipe.recipe.id));
       window.localStorage.setItem("CURRENT_RECIPE_ID", recipe.recipe.id);
