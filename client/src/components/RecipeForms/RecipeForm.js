@@ -15,8 +15,8 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import "./RecipeForm.css";
-import { createRecipe } from "./store/actions/entities";
-import { recipeFormErrors } from "./store/actions/errors";
+import { createRecipe } from "../store/actions/entities";
+import { recipeFormErrors } from "../store/actions/errors";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),

@@ -7,7 +7,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import { Avatar, Popover, List, ListItem } from "@material-ui/core";
 
 import "./Navbar.css";
-import Logout from "./auth/Logout";
+import Logout from "../auth/Logout";
 
 const useStyles = makeStyles((theme) => ({
   navbar: {

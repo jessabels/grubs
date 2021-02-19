@@ -16,7 +16,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import RecipeLike from "./RecipeLike";
 import RecipeTip from "./RecipeTip";
 import RecipeTipForm from "./RecipeTipForm";
-import { createRecipeTip } from "./store/actions/entities";
+import { createRecipeTip } from "../store/actions/entities";
 import "./RecipeDetailModal.css";
 
 const useStyles = makeStyles((theme) => ({

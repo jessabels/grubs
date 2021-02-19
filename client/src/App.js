@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/NavBar/Navbar";
 import { ProtectedRoute, PrivateRoute } from "./util/route-util";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserId, loadToken } from "./components/store/actions/session";
-import CourseDietSelection from "./components/CourseDietSelection";
-import RecipeForm from "./components/RecipeForm";
-import RecipeEditForm from "./components/RecipeEditForm";
-import MyRecipes from "./components/MyRecipes";
-import LikedRecipes from "./components/LikedRecipes";
+import RecipeGenerator from "./components/RecipeGenerator/RecipeGenerator";
+import RecipeForm from "./components/RecipeForms/RecipeForm";
+import RecipeEditForm from "./components/RecipeForms/RecipeEditForm";
+import MyRecipes from "./components/UserRecipes/MyRecipes";
+import LikedRecipes from "./components/UserRecipes/LikedRecipes";
 import Theme from "./components/Theme";
 import "./index.css";
 
@@ -56,7 +56,7 @@ function App({ needLogin, loadToken }) {
             path="/"
             exact={true}
             needLogin={needLogin}
-            component={CourseDietSelection}
+            component={RecipeGenerator}
           />
           <PrivateRoute
             path="/myRecipes"

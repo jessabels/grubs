@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { likeRecipe } from "./store/actions/entities";
+import { likeRecipe } from "../store/actions/entities";
 
 const RecipeLike = (props) => {
   const recipes = useSelector((state) => state.entities.recipes);

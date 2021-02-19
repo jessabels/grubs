@@ -8,7 +8,7 @@ import {
   createRecipeTip,
   getAllRecipes,
   likeRecipe,
-} from "./store/actions/entities";
+} from "../store/actions/entities";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -29,8 +29,8 @@ import {
 } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import RecipeDetailModal from "./RecipeDetailModal";
-import { currentRecipeId } from "./store/actions/session";
+import RecipeDetailModal from "../RecipeCard/RecipeDetailModal";
+import { currentRecipeId } from "../store/actions/session";
 import "./MyRecipes.css";
 
 const useStyles = makeStyles((theme) => ({

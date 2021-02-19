@@ -9,12 +9,12 @@ import {
   getTipLikes,
   getUsers,
   saveRecipe,
-} from "./store/actions/entities";
-import { currentRecipeId } from "./store/actions/session";
+} from "../store/actions/entities";
+import { currentRecipeId } from "../store/actions/session";
 import { useSelector, useDispatch } from "react-redux";
 import Carousel from "react-bootstrap/Carousel";
-import "./CourseDietSelection.css";
-import RecipeDetailModal from "./RecipeDetailModal";
+import "./RecipeGenerator.css";
+import RecipeDetailModal from "../RecipeCard/RecipeDetailModal";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

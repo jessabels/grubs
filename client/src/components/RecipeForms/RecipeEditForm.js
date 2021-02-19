@@ -9,7 +9,7 @@ import {
   getSavedRecipes,
   createInstruction,
   createIngredient,
-} from "./store/actions/entities";
+} from "../store/actions/entities";
 
 const useStyles = makeStyles((theme) => ({
   secondaryButton: {

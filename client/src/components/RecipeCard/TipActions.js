@@ -14,7 +14,7 @@ import {
   likeRecipeTip,
   removeRecipeTip,
   updateRecipeTip,
-} from "./store/actions/entities";
+} from "../store/actions/entities";
 
 const TipActions = (props) => {
   const dispatch = useDispatch();
